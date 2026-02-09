@@ -1,0 +1,232 @@
+{
+    "apple-emoji": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "apple-emoji",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-pP0He9EUN7SUDYzwj0CE4e39SuNZ+SVz7FdmUviF6r0=",
+            "type": "url",
+            "url": "https://github.com/samuelngs/apple-emoji-linux/releases/download/v18.4/AppleColorEmoji.ttf"
+        },
+        "version": "v18.4"
+    },
+    "base16-schemes": {
+        "cargoLock": null,
+        "date": "2026-01-15",
+        "extract": null,
+        "name": "base16-schemes",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "rev": "43dd14f6466a782bd57419fdfb5f398c74d6ac53",
+            "sha256": "sha256-AWTIYZ1tZab0YwAQwgt5yO4ucqZoc4iXX002Byy7pRY=",
+            "sparseCheckout": [],
+            "type": "git",
+            "url": "https://github.com/tinted-theming/schemes.git"
+        },
+        "version": "43dd14f6466a782bd57419fdfb5f398c74d6ac53"
+    },
+    "equibop-bin": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "equibop-bin",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-DvXMVEvI/sQA1ktxJSXE0C1j2cpoXcRo3ZCwbhKoczk=",
+            "type": "url",
+            "url": "https://github.com/Equicord/Equibop/releases/download/v3.1.7/Equibop-3.1.7-universal.dmg"
+        },
+        "version": "3.1.7"
+    },
+    "helium-dmg": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "helium-dmg",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-erlRR3QTHvzNCSXcGtpR27d2ElNrrRvS7ZLHEnZK0wI=",
+            "type": "url",
+            "url": "https://github.com/imputnet/helium-macos/releases/download/0.8.5.1/helium_0.8.5.1_arm64-macos.dmg"
+        },
+        "version": "0.8.5.1"
+    },
+    "helium-tarball": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "helium-tarball",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-/cp201tiw2N+xsj89Ms06efJyYnfgc04uoJnvsjDUog=",
+            "type": "url",
+            "url": "https://github.com/imputnet/helium-linux/releases/download/0.8.5.1/helium-0.8.5.1-x86_64_linux.tar.xz"
+        },
+        "version": "0.8.5.1"
+    },
+    "liga-sf-mono-nerd-font": {
+        "cargoLock": null,
+        "date": "2023-07-01",
+        "extract": null,
+        "name": "liga-sf-mono-nerd-font",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "rev": "dc5a3e6fcc2e16ad476b7be3c3c17c2273b260ea",
+            "sha256": "sha256-AYjKrVLISsJWXN6Cj74wXmbJtREkFDYOCRw1t2nVH2w=",
+            "sparseCheckout": [],
+            "type": "git",
+            "url": "https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized.git"
+        },
+        "version": "dc5a3e6fcc2e16ad476b7be3c3c17c2273b260ea"
+    },
+    "morewaita-icon-theme": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "morewaita-icon-theme",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "rev": "v49",
+            "sha256": "sha256-DxZ7XnIIF3EKGMPXahD+aHp6lCLRmrnywn7+qWCVflo=",
+            "sparseCheckout": [],
+            "type": "git",
+            "url": "https://github.com/somepaulo/MoreWaita.git"
+        },
+        "version": "v49"
+    },
+    "owo-sh": {
+        "cargoLock": null,
+        "date": "2023-04-10",
+        "extract": null,
+        "name": "owo-sh",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "rev": "d6ffda964cd6c81030f8e5516ca57c80a5a5dcb2",
+            "sha256": "sha256-vwvUiM7mOixyNERjITwcS90jz15QFkwxCEtYzqm+hdg=",
+            "sparseCheckout": [],
+            "type": "git",
+            "url": "https://owo.codes/whats-this/owo.sh.git"
+        },
+        "version": "d6ffda964cd6c81030f8e5516ca57c80a5a5dcb2"
+    },
+    "pearcleaner-bin": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "pearcleaner-bin",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-+hTyxyRhCbM3OzRiqoFxel+iSIr6QcpcWoc4TIh0mqY=",
+            "type": "url",
+            "url": "https://github.com/alienator88/Pearcleaner/releases/download/5.4.3/Pearcleaner.dmg"
+        },
+        "version": "5.4.3"
+    },
+    "proton-cachyos_x86_64_v3": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "proton-cachyos_x86_64_v3",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-5Lyg5gdy2SL4L7KlDCjmmXtTy+LEhS4sQDYDzxwo8o4=",
+            "type": "url",
+            "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-10.0-20260203-slr/proton-cachyos-10.0-20260203-slr-x86_64_v3.tar.xz"
+        },
+        "version": "cachyos-10.0-20260203-slr"
+    },
+    "proton-cachyos_x86_64_v4": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "proton-cachyos_x86_64_v4",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-Ble4VSLZQyb2cUqEp68XQx4IK0RG0gJGGxEorW2mwb8=",
+            "type": "url",
+            "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-10.0-20260203-slr/proton-cachyos-10.0-20260203-slr-x86_64_v4.tar.xz"
+        },
+        "version": "cachyos-10.0-20260203-slr"
+    },
+    "protonpass-bin": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "protonpass-bin",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-oo02IYOKZEsr0+4zimSFkutTGuS63ZvMZTeUTapZrVw=",
+            "type": "url",
+            "url": "https://proton.me/download/PassDesktop/darwin/universal/ProtonPass_1.34.2.dmg"
+        },
+        "version": "1.34.2"
+    },
+    "protonvpn-bin": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "protonvpn-bin",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-u/J32eIgpQkvF87j4Lc3IKT0YkJHTx4JauL6TsXg/ls=",
+            "type": "url",
+            "url": "https://vpn.protondownload.com/download/macos/6.1.0/ProtonVPN_mac_v6.1.0.dmg"
+        },
+        "version": "6.1.0"
+    },
+    "swipeaerospace-bin": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "swipeaerospace-bin",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-v3zjXCxCS2Vsjqoc+vYvbN3hiBKy2Jh+uIrG2ZSPmn0=",
+            "type": "url",
+            "url": "https://github.com/MediosZ/SwipeAeroSpace/releases/download/0.2.5/SwipeAeroSpace.zip"
+        },
+        "version": "0.2.5"
+    }
+}

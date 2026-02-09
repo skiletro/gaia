@@ -1,0 +1,58 @@
+[apple-emoji]
+fetch.url = "https://github.com/samuelngs/apple-emoji-linux/releases/download/$ver/AppleColorEmoji.ttf"
+src.github = "samuelngs/apple-emoji-linux"
+
+[base16-schemes]
+fetch.git = "https://github.com/tinted-theming/schemes.git"
+src.git = "https://github.com/tinted-theming/schemes.git"
+
+[equibop-bin]
+fetch.url = "https://github.com/Equicord/Equibop/releases/download/v$ver/Equibop-$ver-universal.dmg"
+src.github = "Equicord/Equibop"
+src.prefix = "v"
+
+[helium-dmg]
+fetch.url = "https://github.com/imputnet/helium-macos/releases/download/$ver/helium_$ver_arm64-macos.dmg"
+src.github = "imputnet/helium-macos"
+
+[helium-tarball]
+fetch.url = "https://github.com/imputnet/helium-linux/releases/download/$ver/helium-$ver-x86_64_linux.tar.xz"
+src.github = "imputnet/helium-linux"
+
+[liga-sf-mono-nerd-font]
+fetch.git = "https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized.git"
+src.git = "https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized.git"
+
+[morewaita-icon-theme]
+fetch.git = "https://github.com/somepaulo/MoreWaita.git"
+src.github = "somepaulo/MoreWaita"
+
+[owo-sh]
+fetch.git = "https://owo.codes/whats-this/owo.sh.git"
+src.git = "https://owo.codes/whats-this/owo.sh.git"
+
+[pearcleaner-bin]
+fetch.url = "https://github.com/alienator88/Pearcleaner/releases/download/$ver/Pearcleaner.dmg"
+src.github = "alienator88/Pearcleaner"
+
+[proton-cachyos_x86_64_v3]
+fetch.url = "https://github.com/CachyOS/proton-cachyos/releases/download/$ver/proton-$ver-x86_64_v3.tar.xz"
+src.github = "CachyOS/proton-cachyos"
+
+[proton-cachyos_x86_64_v4]
+fetch.url = "https://github.com/CachyOS/proton-cachyos/releases/download/$ver/proton-$ver-x86_64_v4.tar.xz"
+src.github = "CachyOS/proton-cachyos"
+
+[protonpass-bin]
+fetch.url = "https://proton.me/download/PassDesktop/darwin/universal/ProtonPass_$ver.dmg"
+src.webpage = "https://proton.me/download/PassDesktop/darwin/universal/version.json"
+src.regex = '"Version":\s*"([0-9.]+)"'
+
+[protonvpn-bin]
+fetch.url = "https://vpn.protondownload.com/download/macos/$ver/ProtonVPN_mac_v$ver.dmg"
+src.webpage = "https://protonvpn.com/download/macos/updates/v4/sparkle.xml"
+src.regex = '<title>Version\s+((?!beta)\d+\.\d+\.\d+)</title>'
+
+[swipeaerospace-bin]
+fetch.url = "https://github.com/MediosZ/SwipeAeroSpace/releases/download/$ver/SwipeAeroSpace.zip"
+src.github = "MediosZ/SwipeAeroSpace"

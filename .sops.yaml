@@ -1,0 +1,11 @@
+keys:
+  - &eris age1689hns6xrgas8fc8dk809m48qeetlfvu9au3942ewhyqe7kyye3qdvzdtc
+  - &moirai age14zp3stx7nnwqkze488ckacz6h9u4ed3p8v92jyvv0lxhnw6qxp6qnn28a0
+  - &keres age1salqmxagycvhs8unnddzwyg3aptn3tp9g7g7g5p25w3urw5kxvds72swg9
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini|sops)$
+    key_groups:
+      - age:
+          - *eris
+          - *moirai
+          - *keres
