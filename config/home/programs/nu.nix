@@ -34,5 +34,7 @@
     };
 
     home.shell.enableNushellIntegration = true;
+
+    programs.nix-your-shell.enable = true;
   };
 }

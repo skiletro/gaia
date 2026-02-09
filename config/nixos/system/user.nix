@@ -43,7 +43,7 @@
 
     programs.fish.enable = true; # For autocompletions. We will use the home manager module for configuration.
     programs.bash.interactiveShellInit = ''
-      if ! [ "$TERM" = "dumb" ] && [ -z "$BASH_EXECUTION_STRING" ]; then
+      if [ "$TERM" != "dumb" ] && [ -z "$BASH_EXECUTION_STRING" ] && [ "$SHLVL" == "1" ]; then
         exec ${lib.getExe pkgs.nushell}
       fi
     '';
