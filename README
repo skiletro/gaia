@@ -1,13 +1,25 @@
-                       .
-                      /
-     .-.  ).--..-.   /-.  )  (   .
-   ./.-'_/   ./.-'_ /   )(    ) / \
-   (__.'/    (__.'.'`--'`-`--':/ ._)
-                              /
+                   .-.           
+  .--.     .---.  ( __)   .---.  
+ /    \   / .-, \ (''")  / .-, \ 
+;  ,-. ' (__) ; |  | |  (__) ; | 
+| |  | |   .'`  |  | |    .'`  | 
+| |  | |  / .'| |  | |   / .'| | 
+| |  | | | /  | |  | |  | /  | | 
+| '  | | ; |  ; |  | |  ; |  ; | 
+'  `-' | ' `-'  |  | |  ' `-'  | 
+ `.__. | `.__.'_. (___) `.__.'_. 
+ ( `-' ;                         
+  `.__.
+  
+- f.k.a. 'erebus', 'nixfiles' -
 
 README
-  Erebus is my opinionated NixOS, Home Manager, and nix-darwin configuration,
+  Gaia is my opinionated NixOS, Home Manager, and nix-darwin configuration,
   built upon flake-parts.
+
+  Erebus is the namespace for the legacy module system I have implemented.
+  I am in the process of moving over to the dendritic pattern with help from
+  flake-aspects.
 
 FEATURES
   - Reusable module system for programs not present in nixpkgs or home-manager
@@ -24,7 +36,6 @@ HOSTS
    moirai    | aarch64-darwin  | M1 MacBook Air running nix-darwin
 
 TODO
-  - A "guest mode": a seperate login for when people want to borrow my computer
   - Ephemeral root and home.
   - Declarative partitions with disko, featuring BTRFS and LUKS encryption.
 
