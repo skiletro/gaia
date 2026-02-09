@@ -28,7 +28,9 @@ export def "main boot" --wrapped [...args: string] {
 # build and activate, without adding to bootloader
 export def "main test" --wrapped [...args: string] {
     exit-if-darwin
+    git add -A
     nh $SYSTEM test --impure -- ...$args
+    git reset
 }
 
 # build and compare
