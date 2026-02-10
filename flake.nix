@@ -91,6 +91,8 @@
 
     stylix.url = "github:nix-community/stylix";
 
+    tangled.url = "git+https://tangled.org/@tangled.org/core";
+
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
