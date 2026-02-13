@@ -1,12 +1,11 @@
 {
-  outputs =
-    inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./config/flake);
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./parts);
 
   inputs = {
     # keep-sorted start block=yes newline_separated=yes
-    cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
-
     bundle.url = "github:different-name/bundle-of-nix";
+
+    cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
 
     cursors.url = "github:lilleaila/nix-cursors";
 
