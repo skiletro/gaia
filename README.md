@@ -1,3 +1,6 @@
+<img src="https://wt.warm.vodka/api/badge/jamie/interval:any/project:gaia">
+
+```
                    .-.           
   .--.     .---.  ( __)   .---.  
  /    \   / .-, \ (''")  / .-, \ 
@@ -47,3 +50,4 @@ INSTALLATION
 ACKNOWLEDGEMENTS
   https://github.com/different-name/nix-files
   https://github.com/different-name/bundle-of-nix
+```

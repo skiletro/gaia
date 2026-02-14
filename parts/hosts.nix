@@ -12,10 +12,10 @@
           class = "nixos";
         };
 
-        keres = {
-          system = "aarch64-linux";
-          class = "nixos";
-        };
+        # keres = {
+        #   system = "aarch64-linux";
+        #   class = "nixos";
+        # };
 
         moirai = {
           system = "aarch64-darwin";
@@ -35,8 +35,13 @@
               nixpkgs.hostPlatform = attrs.system;
               networking.hostName = host;
             };
+
+            home-manager = {
+              home.username = "jamie";
+            };
           }
         ];
       }) hosts;
     };
+
 }
