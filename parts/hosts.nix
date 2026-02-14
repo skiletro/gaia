@@ -35,8 +35,13 @@
               nixpkgs.hostPlatform = attrs.system;
               networking.hostName = host;
             };
+
+            home-manager = {
+              home.username = "jamie";
+            };
           }
         ];
       }) hosts;
     };
+
 }
