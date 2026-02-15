@@ -1,10 +1,12 @@
 {
+  bundleLib,
   inputs,
   self',
   lib,
   ...
 }:
-{
+bundleLib.mkEnableModule [ "gaia" "programs" "discord" ] {
+
   home-manager =
     { pkgs, ... }:
     let
@@ -63,4 +65,5 @@
         "x-scheme-handler/discord" = "equibop.desktop";
       };
     };
+
 }

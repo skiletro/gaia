@@ -1,4 +1,6 @@
-{
+{ bundleLib, ... }:
+bundleLib.mkEnableModule [ "gaia" "programs" "kitty" ] {
+
   home-manager = {
     programs.kitty = {
       enable = true;
@@ -11,4 +13,5 @@
       };
     };
   };
+
 }

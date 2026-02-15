@@ -72,8 +72,6 @@
   home-manager =
     { osConfig, ... }:
     {
-      imports = [ inputs.stylix.homeModules.default ];
-
       xdg.configFile."stylix/wall.png".source = osConfig.stylix.image;
 
       stylix.icons = {

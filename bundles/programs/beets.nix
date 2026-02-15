@@ -1,4 +1,6 @@
-{
+{ bundleLib, ... }:
+bundleLib.mkEnableModule [ "gaia" "programs" "beets" ] {
+
   home-manager = {
     programs.beets = {
       enable = true;
@@ -15,5 +17,6 @@
         ];
       };
     };
+
   };
 }

@@ -1,4 +1,6 @@
-{
+{ bundleLib, ... }:
+bundleLib.mkEnableModule [ "gaia" "programs" "git" ] {
+
   home-manager =
     { pkgs, ... }:
     {
@@ -54,4 +56,5 @@
         packages = [ pkgs.gh ]; # necessary evil
       };
     };
+
 }

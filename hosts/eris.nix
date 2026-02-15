@@ -1,4 +1,8 @@
 {
+  gaia = {
+    desktop = "hyprland";
+  };
+
   nixos = {
     programs.firefox.enable = true;
 

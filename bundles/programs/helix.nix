@@ -1,25 +1,14 @@
 {
-  self,
+  bundleLib,
   inputs',
   lib,
   ...
 }:
-{
+bundleLib.mkEnableModule [ "gaia" "programs" "helix" ] {
+
   home-manager =
     { pkgs, config, ... }:
     {
-      imports = [ self.homeModules.wakatime ];
-
-      programs'.wakatime = {
-        enable = true;
-        settings = {
-          api_url = "https://wt.warm.vodka/api";
-          api_key_vault_cmd = "${pkgs.writeShellScript "cat-wakatime-api-key" "cat ${config.sops.secrets.wakapi-key.path}"}";
-        };
-      };
-
-      sops.secrets."wakapi-key" = { };
-
       programs.helix = {
         enable = true;
         package = inputs'.helix.packages.helix.overrideAttrs (_: {
@@ -252,4 +241,5 @@
         };
       };
     };
+
 }

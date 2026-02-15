@@ -1,5 +1,6 @@
-{ self', ... }:
-{
+{ bundleLib, self', ... }:
+bundleLib.mkEnableModule [ "gaia" "programs" "proton" ] {
+
   home-manager =
     { pkgs, ... }:
     {
@@ -9,4 +10,5 @@
         self'.packages.protonpass-bin
       ];
     };
+
 }

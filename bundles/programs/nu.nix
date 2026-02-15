@@ -1,4 +1,6 @@
-{
+{ bundleLib, ... }:
+bundleLib.mkEnableModule [ "gaia" "programs" "nu" ] {
+
   home-manager =
     { config, ... }:
     {
@@ -37,4 +39,5 @@
         enableNushellIntegration = true;
       };
     };
+
 }

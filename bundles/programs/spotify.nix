@@ -1,5 +1,11 @@
-{ inputs, inputs', ... }:
 {
+  bundleLib,
+  inputs,
+  inputs',
+  ...
+}:
+bundleLib.mkEnableModule [ "gaia" "programs" "spotify" ] {
+
   home-manager = {
     imports = [ inputs.spicetify.homeManagerModules.default ];
 
@@ -17,4 +23,5 @@
       ];
     };
   };
+
 }

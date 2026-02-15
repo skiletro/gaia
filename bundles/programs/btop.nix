@@ -1,5 +1,6 @@
-{ lib, ... }:
-{
+{ lib, bundleLib, ... }:
+bundleLib.mkEnableModule [ "gaia" "programs" "btop" ] {
+
   home-manager =
     { pkgs, ... }:
     {
@@ -12,4 +13,5 @@
         };
       };
     };
+
 }

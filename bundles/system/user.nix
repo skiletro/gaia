@@ -42,7 +42,7 @@ in
         inherit username;
         homeDirectory =
           let
-            homeDir = if pkgs.hostPlatform.isDarwin then "Users" else "home";
+            homeDir = if pkgs.stdenvNoCC.hostPlatform.isDarwin then "Users" else "home";
           in
           "/${homeDir}/${username}";
       };
