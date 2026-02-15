@@ -2,8 +2,7 @@
 {
   fetchgit,
   fetchurl,
-  fetchFromGitHub,
-  dockerTools,
+  ...
 }:
 {
   apple-emoji = {

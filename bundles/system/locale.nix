@@ -1,4 +1,5 @@
-{lib, ...}: {
+{ lib, ... }:
+{
   nixos = {
     time.timeZone = "Europe/London";
 

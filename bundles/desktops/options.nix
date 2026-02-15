@@ -2,7 +2,7 @@
 {
   options.gaia.desktop = lib.mkOption {
     description = "Sets the desktop environment to use";
-    default = "hyprland";
+    default = null;
     type = lib.types.nullOr (
       lib.types.enum (
         lib.pipe (builtins.readDir ./.) [
