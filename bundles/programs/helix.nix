@@ -6,6 +6,8 @@
 }:
 bundleLib.mkEnableModule [ "gaia" "programs" "helix" ] {
 
+  gaia.programs.wakatime.enable = true;
+
   home-manager =
     { pkgs, config, ... }:
     {

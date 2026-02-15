@@ -1,4 +1,6 @@
 {
-  darwin.system.stateVersion = 6;
-  home-manager.home.stateVersion = "25.11";
+  gaia.state = {
+    system = 6;
+    home = "25.11";
+  };
 }

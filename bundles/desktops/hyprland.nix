@@ -7,7 +7,10 @@
 }:
 {
   config = lib.mkIf (config.gaia.desktop == "hyprland") {
-    # TODO: enable vicinae and dms
+    gaia = {
+      programs.vicinae.enable = true;
+      services.dms.enable = true;
+    };
 
     nixos =
       { pkgs, ... }:

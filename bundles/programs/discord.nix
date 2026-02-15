@@ -10,7 +10,7 @@ bundleLib.mkEnableModule [ "gaia" "programs" "discord" ] {
   home-manager =
     { pkgs, ... }:
     let
-      inherit (pkgs.hostPlatform) isLinux isDarwin;
+      inherit (pkgs.stdenvNoCC.hostPlatform) isLinux isDarwin;
       equibop = self'.packages.equibop-patched;
     in
     {

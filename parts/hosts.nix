@@ -12,10 +12,10 @@
           class = "nixos";
         };
 
-        keres = {
-          system = "aarch64-linux";
-          class = "nixos";
-        };
+        # keres = {
+        #   system = "aarch64-linux";
+        #   class = "nixos";
+        # };
 
         moirai = {
           system = "aarch64-darwin";

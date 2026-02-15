@@ -1,5 +1,6 @@
-{ lib, ... }:
-{
+{ bundleLib, lib, ... }:
+bundleLib.mkEnableModule [ "gaia" "programs" "khal" ] {
+
   home-manager =
     { pkgs, config, ... }:
     {
@@ -42,4 +43,5 @@
 
       services.vdirsyncer.enable = lib.mkIf pkgs.stdenvNoCC.hostPlatform.isLinux true;
     };
+
 }
