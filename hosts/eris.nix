@@ -11,6 +11,7 @@
       btop.enable = true;
       direnv.enable = true;
       discord.enable = true;
+      gamemode.enable = true;
       git.enable = true;
       helium.enable = true;
       helix.enable = true;
