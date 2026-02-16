@@ -1,6 +1,9 @@
 {
   gaia = {
     desktop = "hyprland";
+    system = {
+      bluetooth.enable = true;
+    };
     programs = {
       # keep-sorted start
       beets.enable = true;
