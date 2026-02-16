@@ -18,6 +18,7 @@
       spotify.enable = true;
       zed.enable = true;
       steam.enable = true;
+      wivrn.enable = true;
       gsr.enable = true;
       # keep-sorted end
     };
