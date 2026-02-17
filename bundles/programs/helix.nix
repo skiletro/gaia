@@ -9,7 +9,7 @@ bundleLib.mkEnableModule [ "gaia" "programs" "helix" ] {
   gaia.programs.wakatime.enable = true;
 
   home-manager =
-    { pkgs, config, ... }:
+    { pkgs, ... }:
     {
       programs.helix = {
         enable = true;
@@ -219,27 +219,7 @@ bundleLib.mkEnableModule [ "gaia" "programs" "helix" ] {
               ];
             };
           };
-          keys = {
-            normal = {
-              "ret" = "goto_word";
-              "X" = "select_line_above";
-              "C-e" = [
-                ":sh rm -f /tmp/hx-unique-file"
-                ":insert-output ${lib.getExe config.programs.yazi.package} %{buffer_name} --chooser-file=/tmp/hx-unique-file"
-                ":insert-output echo '\\x1b[?1049h\\x1b[?2004h' > /dev/tty"
-                ":open %sh{cat /tmp/hx-unique-file}"
-                ":redraw"
-                ":set-option mouse false"
-                ":set-option mouse true"
-              ];
-              "B" =
-                ":sh git log -n 5 --format='format:%%h (%%an: %%ar) %%s' --no-patch -L%{cursor_line},+1:%{buffer_name}";
-              "=" = ":format";
-            };
-            select = {
-              "X" = "select_line_above";
-            };
-          };
+          keys.normal."=" = ":format";
         };
       };
     };
