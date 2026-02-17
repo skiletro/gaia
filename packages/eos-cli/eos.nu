@@ -43,7 +43,7 @@ export def "main build" --wrapped [...args: string] {
 # update flake inputs and nvfetcher sources
 export def "main update" [] {
     nix flake update --refresh
-    nvfetcher -c ./pkgs/nvfetcher.toml -o ./pkgs/_sources/
+    nvfetcher -c ./packages/nvfetcher.toml -o ./packages/_sources/
 }
 
 # formats the repo, ready for committing
