@@ -3,7 +3,11 @@
   gaia = {
     desktop = "hyprland";
     system = {
+      # keep-sorted start
       bluetooth.enable = true;
+      fonts.enable = true;
+      virtualisation = true;
+      # keep-sorted end
     };
     services = {
       # keep-sorted start
