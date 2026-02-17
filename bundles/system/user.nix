@@ -6,34 +6,35 @@ let
   ];
 in
 {
-  nixos = _: {
-    sops.secrets."jamie-password".neededForUsers = true;
+  nixos =
+    { config, ... }:
+    {
+      sops.secrets."jamie-password".neededForUsers = true;
 
-    users = {
-      mutableUsers = false; # forces declaration of user and group adding and modification
-      users.${username} = {
-        isNormalUser = true;
-        # hashedPasswordFile = config.sops.secrets.jamie-password.path;
-        password = "123"; # TODO: REMOVE ME!!!!!!!!!!!!
-        extraGroups = [
-          # TODO: probably get rid of some of these
-          "users"
-          "networkmanager"
-          "wheel"
-          "libvirtd"
-          "gamemode"
-          "docker"
-          "kvm"
-        ];
-        openssh.authorizedKeys.keys = sshKeys;
+      users = {
+        mutableUsers = false; # forces declaration of user and group adding and modification
+        users.${username} = {
+          isNormalUser = true;
+          hashedPasswordFile = config.sops.secrets.jamie-password.path;
+          extraGroups = [
+            # TODO: probably get rid of some of these
+            "users"
+            "networkmanager"
+            "wheel"
+            "libvirtd"
+            "gamemode"
+            "docker"
+            "kvm"
+          ];
+          openssh.authorizedKeys.keys = sshKeys;
+        };
+      };
+
+      home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
       };
     };
-
-    home-manager = {
-      useGlobalPkgs = true;
-      useUserPackages = true;
-    };
-  };
 
   home-manager =
     { pkgs, ... }:
