@@ -6,7 +6,7 @@
       # keep-sorted start
       bluetooth.enable = true;
       fonts.enable = true;
-      virtualisation = true;
+      virtualisation.enable = true;
       # keep-sorted end
     };
     services = {
