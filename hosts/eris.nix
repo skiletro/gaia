@@ -35,6 +35,7 @@
       proton.enable = true;
       qbittorrent.enable = true;
       rustdesk.enable = true;
+      signal.enable = true;
       spotify.enable = true;
       steam.enable = true;
       wivrn.enable = true;
