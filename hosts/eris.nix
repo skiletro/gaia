@@ -8,6 +8,7 @@
     services = {
       # keep-sorted start
       flatpak.enable = true;
+      kdeconnect.enable = true;
       # keep-sorted end
     };
     programs = {
