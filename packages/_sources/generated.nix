@@ -7,48 +7,48 @@
 {
   apple-emoji = {
     pname = "apple-emoji";
-    version = "v18.4";
+    version = "v26.2.1";
     src = fetchurl {
-      url = "https://github.com/samuelngs/apple-emoji-linux/releases/download/v18.4/AppleColorEmoji.ttf";
-      sha256 = "sha256-pP0He9EUN7SUDYzwj0CE4e39SuNZ+SVz7FdmUviF6r0=";
+      url = "https://github.com/samuelngs/apple-emoji-linux/releases/download/v26.2.1/AppleColorEmoji.ttf";
+      sha256 = "sha256-57X5mIEtmrUNMvVibLHojt6jRdcl+O30Sn7DMzuBBD0=";
     };
   };
   base16-schemes = {
     pname = "base16-schemes";
-    version = "43dd14f6466a782bd57419fdfb5f398c74d6ac53";
+    version = "7725e097895102ca2949c7a553b54dca0b2e2667";
     src = fetchgit {
       url = "https://github.com/tinted-theming/schemes.git";
-      rev = "43dd14f6466a782bd57419fdfb5f398c74d6ac53";
+      rev = "7725e097895102ca2949c7a553b54dca0b2e2667";
       fetchSubmodules = false;
       deepClone = false;
       leaveDotGit = false;
       sparseCheckout = [ ];
-      sha256 = "sha256-AWTIYZ1tZab0YwAQwgt5yO4ucqZoc4iXX002Byy7pRY=";
+      sha256 = "sha256-lOw77YOBM6HNuWcLL4Qugn+vr4RxMKV8FgXqFlnyLIo=";
     };
-    date = "2026-01-15";
+    date = "2026-02-17";
   };
   equibop-bin = {
     pname = "equibop-bin";
-    version = "3.1.7";
+    version = "3.1.8";
     src = fetchurl {
-      url = "https://github.com/Equicord/Equibop/releases/download/v3.1.7/Equibop-3.1.7-universal.dmg";
-      sha256 = "sha256-DvXMVEvI/sQA1ktxJSXE0C1j2cpoXcRo3ZCwbhKoczk=";
+      url = "https://github.com/Equicord/Equibop/releases/download/v3.1.8/Equibop-3.1.8-universal.dmg";
+      sha256 = "sha256-fmucyEnVkh08EfmRPBOOH805/XJboke5y3njWXN1pYc=";
     };
   };
   helium-dmg = {
     pname = "helium-dmg";
-    version = "0.8.5.1";
+    version = "0.9.2.1";
     src = fetchurl {
-      url = "https://github.com/imputnet/helium-macos/releases/download/0.8.5.1/helium_0.8.5.1_arm64-macos.dmg";
-      sha256 = "sha256-erlRR3QTHvzNCSXcGtpR27d2ElNrrRvS7ZLHEnZK0wI=";
+      url = "https://github.com/imputnet/helium-macos/releases/download/0.9.2.1/helium_0.9.2.1_arm64-macos.dmg";
+      sha256 = "sha256-DtfBq0sX/ylRsCml3YdUvUYUq4PX5raAtWowx2XJcqk=";
     };
   };
   helium-tarball = {
     pname = "helium-tarball";
-    version = "0.8.5.1";
+    version = "0.9.2.1";
     src = fetchurl {
-      url = "https://github.com/imputnet/helium-linux/releases/download/0.8.5.1/helium-0.8.5.1-x86_64_linux.tar.xz";
-      sha256 = "sha256-/cp201tiw2N+xsj89Ms06efJyYnfgc04uoJnvsjDUog=";
+      url = "https://github.com/imputnet/helium-linux/releases/download/0.9.2.1/helium-0.9.2.1-x86_64_linux.tar.xz";
+      sha256 = "sha256-wDHs/FEoOkYUjKPUrM9QAPwsqNvURJhlP/RZteLL2gA=";
     };
   };
   liga-sf-mono-nerd-font = {
@@ -102,18 +102,18 @@
   };
   proton-cachyos_x86_64_v3 = {
     pname = "proton-cachyos_x86_64_v3";
-    version = "cachyos-10.0-20260203-slr";
+    version = "cachyos-10.0-20260207-slr";
     src = fetchurl {
-      url = "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-10.0-20260203-slr/proton-cachyos-10.0-20260203-slr-x86_64_v3.tar.xz";
-      sha256 = "sha256-5Lyg5gdy2SL4L7KlDCjmmXtTy+LEhS4sQDYDzxwo8o4=";
+      url = "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-10.0-20260207-slr/proton-cachyos-10.0-20260207-slr-x86_64_v3.tar.xz";
+      sha256 = "sha256-76iQrZKa2ysCDKV4jysWqthaiKMfjGWQR7r6IwilktI=";
     };
   };
   proton-cachyos_x86_64_v4 = {
     pname = "proton-cachyos_x86_64_v4";
-    version = "cachyos-10.0-20260203-slr";
+    version = "cachyos-10.0-20260207-slr";
     src = fetchurl {
-      url = "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-10.0-20260203-slr/proton-cachyos-10.0-20260203-slr-x86_64_v4.tar.xz";
-      sha256 = "sha256-Ble4VSLZQyb2cUqEp68XQx4IK0RG0gJGGxEorW2mwb8=";
+      url = "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-10.0-20260207-slr/proton-cachyos-10.0-20260207-slr-x86_64_v4.tar.xz";
+      sha256 = "sha256-/GkMdSjP3DkbYjvvDEZvI2Na4WFW27zVwxkf9sLQj80=";
     };
   };
   protonpass-bin = {
