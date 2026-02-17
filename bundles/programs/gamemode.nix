@@ -54,4 +54,6 @@ bundleLib.mkEnableModule [ "gaia" "programs" "gamemode" ] {
       };
     };
 
+  darwin = throw "gaia: 'gamemode' is incompatible with macos.";
+
 }

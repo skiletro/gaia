@@ -5,6 +5,10 @@
     system = {
       bluetooth.enable = true;
     };
+    services = {
+      # keep-sorted start
+      # keep-sorted end
+    };
     programs = {
       # keep-sorted start
       beets.enable = true;
