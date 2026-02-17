@@ -1,4 +1,4 @@
-{ bundleLib, ... }:
+{ bundleLib, lib, ... }:
 bundleLib.mkEnableModule [ "gaia" "programs" "nu" ] {
 
   home-manager =
@@ -10,14 +10,14 @@ bundleLib.mkEnableModule [ "gaia" "programs" "nu" ] {
           #nu
           ''
             $env.config = {
-              show-banner: false
+              show_banner: false
               completions: {
                 external: {
                   enable: true
                 }
               }
               highlight_resolved_externals: true
-            };
+            };            
           '';
         loginFile.text =
           # nu
@@ -38,6 +38,30 @@ bundleLib.mkEnableModule [ "gaia" "programs" "nu" ] {
         enable = true;
         enableNushellIntegration = true;
       };
+    };
+
+  nixos =
+    { pkgs, ... }:
+    {
+      programs.bash.interactiveShellInit =
+        # bash
+        ''
+          if [ "$TERM" != "dumb" ] && [ -z "$BASH_EXECUTION_STRING" ] && [ "$SHLVL" == "1" ]; then
+            exec ${lib.getExe pkgs.nushell}
+          fi
+        '';
+    };
+
+  darwin =
+    { pkgs, ... }:
+    {
+      programs.zsh.interactiveShellInit =
+        # zsh
+        ''
+          if [ "$TERM" != "dumb" ] && [ -z "$ZSH_EXECUTION_STRING" ] && [ "$SHLVL" == "1" ]; then
+            exec ${lib.getExe pkgs.nushell} --config ~/.config/nushell/config.nu
+          fi
+        '';
     };
 
 }

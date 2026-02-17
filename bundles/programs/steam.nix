@@ -75,7 +75,8 @@ bundleLib.mkEnableModule [ "gaia" "programs" "steam" ] {
           };
         };
       };
-
     };
+
+  darwin.homebrew.casks = lib.singleton "steam";
 
 }

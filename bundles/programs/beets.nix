@@ -17,6 +17,5 @@ bundleLib.mkEnableModule [ "gaia" "programs" "beets" ] {
         ];
       };
     };
-
   };
 }
