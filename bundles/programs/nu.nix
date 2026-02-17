@@ -38,6 +38,10 @@ bundleLib.mkEnableModule [ "gaia" "programs" "nu" ] {
         enable = true;
         enableNushellIntegration = true;
       };
+
+      home.shellAliases = {
+        n = "cd ~/Projects/gaia";
+      };
     };
 
   nixos =
