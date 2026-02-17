@@ -25,6 +25,7 @@
       helix.enable = true;
       kitty.enable = true;
       libreoffice.enable = true;
+      lsfg.enable = true;
       nu.enable = true;
       proton.enable = true;
       spotify.enable = true;
