@@ -40,6 +40,7 @@
       signal.enable = true;
       spotify.enable = true;
       steam.enable = true;
+      term-utils.enable = true;
       wivrn.enable = true;
       zed.enable = true;
       # keep-sorted end
