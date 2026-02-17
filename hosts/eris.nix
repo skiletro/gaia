@@ -7,6 +7,7 @@
     };
     services = {
       # keep-sorted start
+      flatpak.enable = true;
       # keep-sorted end
     };
     programs = {
