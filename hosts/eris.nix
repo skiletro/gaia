@@ -13,6 +13,7 @@
       # keep-sorted start
       flatpak.enable = true;
       kdeconnect.enable = true;
+      printing.enable = true;
       # keep-sorted end
     };
     programs = {
