@@ -41,6 +41,7 @@ bundleLib.mkEnableModule [ "gaia" "services" "dms" ] {
           padHours12Hour = true;
 
           modalDarkenBackground = false;
+          enableRippleEffects = false;
 
           animationSpeed = 4;
           customAnimationDuration = 400; # ms
