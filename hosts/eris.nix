@@ -27,6 +27,7 @@
       gsr.enable = true;
       helium.enable = true;
       helix.enable = true;
+      khal.enable = true;
       kitty.enable = true;
       libreoffice.enable = true;
       lsfg.enable = true;
