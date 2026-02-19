@@ -16,13 +16,14 @@
   
 - f.k.a. 'erebus', 'nixfiles' -
 
+NOTE
+  This flake is still a work in progress. As of the time of writing, only eris
+  and moirai have been successfully ported over. My next job is to port over
+  keres.
+
 README
   Gaia is my opinionated NixOS, Home Manager, and nix-darwin configuration,
-  built upon flake-parts.
-
-  Erebus is the namespace for the legacy module system I have implemented.
-  I am in the process of moving over to the dendritic pattern with help from
-  flake-aspects.
+  built upon flake-parts and bundle.
 
 FEATURES
   - Reusable module system for programs not present in nixpkgs or home-manager
