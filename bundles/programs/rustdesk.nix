@@ -8,7 +8,7 @@ bundleLib.mkEnableModule [ "gaia" "programs" "rustdesk" ] {
     };
 
   darwin = {
-    homebrew.casks = lib.singleton [ "rustdesk" ];
+    homebrew.casks = lib.singleton "rustdesk";
   };
 
 }

@@ -24,5 +24,5 @@ stdenvNoCC.mkDerivation rec {
     mv "equibop ${version}-universal/equibop.app" $out/Applications
   '';
 
-  meta.platforms = lib.platforms.linux;
+  meta.platforms = lib.platforms.darwin;
 }

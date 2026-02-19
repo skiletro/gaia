@@ -1,5 +1,5 @@
 [apple-emoji]
-fetch.url = "https://github.com/samuelngs/apple-emoji-linux/releases/download/$ver/AppleColorEmoji.ttf"
+fetch.url = "https://github.com/samuelngs/apple-emoji-linux/releases/download/$ver/AppleColorEmoji-Linux.ttf"
 src.github = "samuelngs/apple-emoji-linux"
 
 [base16-schemes]

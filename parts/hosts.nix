@@ -9,17 +9,17 @@
       hosts = {
         eris = {
           system = "x86_64-linux";
-          class = "nixos";
+          systemPlatform = "nixos";
         };
 
         # keres = {
         #   system = "aarch64-linux";
-        #   class = "nixos";
+        #   systemPlatform = "nixos";
         # };
 
         moirai = {
           system = "aarch64-darwin";
-          class = "darwin";
+          systemPlatform = "darwin";
         };
       };
     in
@@ -31,7 +31,7 @@
           (inputs.import-tree ../bundles)
           ../hosts/${host}.nix
           {
-            ${attrs.class} = {
+            ${attrs.systemPlatform} = {
               nixpkgs.hostPlatform = attrs.system;
               networking.hostName = host;
             };

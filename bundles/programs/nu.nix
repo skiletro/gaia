@@ -62,8 +62,8 @@ bundleLib.mkEnableModule [ "gaia" "programs" "nu" ] {
       programs.zsh.interactiveShellInit =
         # zsh
         ''
-          if [ "$TERM" != "dumb" ] && [ -z "$ZSH_EXECUTION_STRING" ] && [ "$SHLVL" == "1" ]; then
-            exec ${lib.getExe pkgs.nushell} --config ~/.config/nushell/config.nu
+          if [ "$TERM" != "dumb" ] && [ -z "$ZSH_EXECUTION_STRING" ] && [ "$SHLVL" -eq "2" ]; then
+            exec ${lib.getExe pkgs.nushell}
           fi
         '';
     };

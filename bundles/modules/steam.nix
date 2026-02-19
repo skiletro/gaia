@@ -30,17 +30,17 @@
           '';
         };
       };
-    };
 
-  home-manager =
-    { osConfig, ... }:
-    {
-      imports = [ inputs.steam-config-nix.homeModules.default ];
-
-      programs.steam.config = lib.mkIf osConfig.programs.steam.enable {
-        enable = true;
-        closeSteam = true;
-        inherit (osConfig.programs.steam) apps defaultCompatTool;
-      };
+      # such a hacky work around
+      home-manager.sharedModules = [
+        inputs.steam-config-nix.homeModules.default
+        {
+          programs.steam.config = {
+            enable = lib.mkIf config.programs.steam.enable true;
+            closeSteam = true;
+            inherit (config.programs.steam) apps defaultCompatTool;
+          };
+        }
+      ];
     };
 }

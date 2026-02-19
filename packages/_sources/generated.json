@@ -8,11 +8,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-57X5mIEtmrUNMvVibLHojt6jRdcl+O30Sn7DMzuBBD0=",
+            "sha256": "sha256-49g+MqagqHjejBaw7qCSWhNb5CdVfsRyHS4dUg+ZxEo=",
             "type": "url",
-            "url": "https://github.com/samuelngs/apple-emoji-linux/releases/download/v26.2.1/AppleColorEmoji.ttf"
+            "url": "https://github.com/samuelngs/apple-emoji-linux/releases/download/macos-26-20260218-4989e498/AppleColorEmoji-Linux.ttf"
         },
-        "version": "v26.2.1"
+        "version": "macos-26-20260218-4989e498"
     },
     "base16-schemes": {
         "cargoLock": null,
@@ -112,7 +112,7 @@
             "leaveDotGit": false,
             "name": null,
             "rev": "v49",
-            "sha256": "sha256-DxZ7XnIIF3EKGMPXahD+aHp6lCLRmrnywn7+qWCVflo=",
+            "sha256": "sha256-GUvEMVGFbGA0Vjvl22xHAtELKasT2V0vcQkkpytQPuE=",
             "sparseCheckout": [],
             "type": "git",
             "url": "https://github.com/somepaulo/MoreWaita.git"

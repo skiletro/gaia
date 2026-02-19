@@ -5,6 +5,32 @@
   lib,
   ...
 }:
+let
+  base16Scheme = "${self'.packages.base16-schemes}/share/themes/penumbra-dark-contrast-plus-plus.yaml";
+  polarity = "dark";
+  fonts = pkgs: config: {
+    sansSerif = {
+      package = pkgs.work-sans;
+      name = "Work Sans";
+    };
+    serif = config.stylix.fonts.sansSerif; # Set serif font to the same as the sans-serif
+    monospace = {
+      package = self'.packages.liga-sf-mono-nerd-font;
+      name = "Liga SFMono Nerd Font";
+    };
+    emoji = {
+      package = self'.packages.apple-emoji;
+      name = "Apple Color Emoji";
+    };
+
+    sizes = {
+      applications = 10;
+      desktop = 10;
+      popups = 10;
+      terminal = 12;
+    };
+  };
+in
 {
   nixos =
     { config, pkgs, ... }:
@@ -13,8 +39,7 @@
 
       stylix = {
         enable = true;
-        base16Scheme = "${self'.packages.base16-schemes}/share/themes/penumbra-dark-contrast-plus-plus.yaml";
-        polarity = "dark";
+        inherit base16Scheme polarity;
 
         image =
           let
@@ -26,28 +51,7 @@
           pkgs.runCommand "output.png" { }
             "${lib.getExe pkgs.lutgen} apply ${wallpaper} -o $out -- ${builtins.concatStringsSep " " config.lib.stylix.colors.toList}";
 
-        fonts = {
-          sansSerif = {
-            package = pkgs.work-sans;
-            name = "Work Sans";
-          };
-          serif = config.stylix.fonts.sansSerif; # Set serif font to the same as the sans-serif
-          monospace = {
-            package = self'.packages.liga-sf-mono-nerd-font;
-            name = "Liga SFMono Nerd Font";
-          };
-          emoji = {
-            package = self'.packages.apple-emoji;
-            name = "Apple Color Emoji";
-          };
-
-          sizes = {
-            applications = 10;
-            desktop = 10;
-            popups = 10;
-            terminal = 12;
-          };
-        };
+        fonts = fonts pkgs config;
 
         cursor = {
           package =
@@ -70,32 +74,38 @@
     };
 
   home-manager =
-    { osConfig, ... }:
+    { pkgs, ... }:
     {
-      xdg.configFile."stylix/wall.png".source = osConfig.stylix.image;
-
       stylix.icons = {
-        enable = true;
+        enable = lib.mkIf pkgs.stdenvNoCC.hostPlatform.isLinux true;
         package = self'.packages.morewaita-icon-theme;
         dark = "MoreWaita";
         light = "MoreWaita";
       };
     };
 
-  darwin = {
-    imports = [ inputs.stylix.darwinModules.stylix ];
+  darwin =
+    { pkgs, config, ... }:
+    {
+      imports = [ inputs.stylix.darwinModules.stylix ];
 
-    system.defaults = {
-      NSGlobalDomain = {
-        AppleInterfaceStyle = "Dark";
-        AppleInterfaceStyleSwitchesAutomatically = false;
-        NSStatusItemSpacing = 8; # default=12
-        NSStatusItemSelectionPadding = 6; # default=6
-        _HIHideMenuBar = false;
-        NSAutomaticWindowAnimationsEnabled = false;
+      stylix = {
+        enable = true;
+        inherit base16Scheme polarity;
+        fonts = fonts pkgs config;
       };
-      spaces.spans-displays = true;
-      dock.expose-group-apps = true;
+
+      system.defaults = {
+        NSGlobalDomain = {
+          AppleInterfaceStyle = "Dark";
+          AppleInterfaceStyleSwitchesAutomatically = false;
+          NSStatusItemSpacing = 8; # default=12
+          NSStatusItemSelectionPadding = 6; # default=6
+          _HIHideMenuBar = false;
+          NSAutomaticWindowAnimationsEnabled = false;
+        };
+        spaces.spans-displays = true;
+        dock.expose-group-apps = true;
+      };
     };
-  };
 }

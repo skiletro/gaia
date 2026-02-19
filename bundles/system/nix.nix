@@ -22,18 +22,12 @@ let
       builders-use-substitutes = true;
       accept-flake-config = true;
     };
-
-    optimise = {
-      automatic = true;
-      dates = [
-        "03:45"
-        "07:00"
-      ];
-    };
   };
 in
 {
   nixos = { inherit nix nixpkgs; };
 
   darwin = { inherit nix nixpkgs; };
+
+  home-manager = { inherit nixpkgs; };
 }

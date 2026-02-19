@@ -16,7 +16,7 @@ lib.mkIf (config.gaia.desktop == "aerospace") {
       environment.systemPackages = with pkgs; [
         # keep-sorted start
         iina # video player
-        self'.packages.swipeaerospace
+        self'.packages.swipeaerospace-bin
         # keep-sorted end
       ];
 

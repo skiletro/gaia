@@ -7,10 +7,10 @@
 {
   apple-emoji = {
     pname = "apple-emoji";
-    version = "v26.2.1";
+    version = "macos-26-20260218-4989e498";
     src = fetchurl {
-      url = "https://github.com/samuelngs/apple-emoji-linux/releases/download/v26.2.1/AppleColorEmoji.ttf";
-      sha256 = "sha256-57X5mIEtmrUNMvVibLHojt6jRdcl+O30Sn7DMzuBBD0=";
+      url = "https://github.com/samuelngs/apple-emoji-linux/releases/download/macos-26-20260218-4989e498/AppleColorEmoji-Linux.ttf";
+      sha256 = "sha256-49g+MqagqHjejBaw7qCSWhNb5CdVfsRyHS4dUg+ZxEo=";
     };
   };
   base16-schemes = {
@@ -75,7 +75,7 @@
       deepClone = false;
       leaveDotGit = false;
       sparseCheckout = [ ];
-      sha256 = "sha256-DxZ7XnIIF3EKGMPXahD+aHp6lCLRmrnywn7+qWCVflo=";
+      sha256 = "sha256-GUvEMVGFbGA0Vjvl22xHAtELKasT2V0vcQkkpytQPuE=";
     };
   };
   owo-sh = {
