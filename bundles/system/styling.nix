@@ -78,7 +78,7 @@ in
     {
       stylix.icons = {
         enable = lib.mkIf pkgs.stdenvNoCC.hostPlatform.isLinux true;
-        package = self'.packages.morewaita-icon-theme;
+        package = pkgs.morewaita-icon-theme;
         dark = "MoreWaita";
         light = "MoreWaita";
       };
