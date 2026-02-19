@@ -1,4 +1,7 @@
+{ self, ... }:
 let
+  flakeConfig = (import "${self}/flake.nix").nixConfig;
+
   nixpkgs.config = {
     allowUnfree = true;
   };
@@ -7,6 +10,8 @@ let
     enable = true;
     channel.enable = false;
     settings = {
+      substituters = flakeConfig.trusted-substituters;
+      inherit (flakeConfig) trusted-substituters trusted-public-keys;
       experimental-features = [
         "nix-command"
         "flakes"
