@@ -119,6 +119,11 @@
 
       networking.useDHCP = lib.mkDefault true;
 
+      networking.firewall.allowedTCPPorts = [
+        80
+        443
+      ];
+
       disko.devices = {
         disk = {
           main = {
