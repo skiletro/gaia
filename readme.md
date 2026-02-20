@@ -1,3 +1,4 @@
+
 <img src="https://wt.warm.vodka/api/badge/jamie/interval:any/project:gaia">
 
 ```
@@ -15,11 +16,6 @@
   `.__.
   
 - f.k.a. 'erebus', 'nixfiles' -
-
-NOTE
-  This flake is still a work in progress. As of the time of writing, only eris
-  and moirai have been successfully ported over. My next job is to port over
-  keres.
 
 README
   Gaia is my opinionated NixOS, Home Manager, and nix-darwin configuration,
