@@ -1,5 +1,5 @@
-{ lib, ... }:
-{
+{ bundleLib, lib, ... }:
+bundleLib.mkEnableModule [ "gaia" "system" "greeter" ] {
 
   nixos =
     { config, ... }:
@@ -28,5 +28,7 @@
         extraPackages = lib.mkDefault [ ];
       };
     };
+
+  darwin = throw "gaia: greeters are unsupported on macos";
 
 }
