@@ -1511,11 +1511,11 @@
         "systems": "systems_4"
       },
       "locked": {
-        "lastModified": 1770296756,
-        "narHash": "sha256-3jBIUXJu+Pc2MPu1KaHqhTS1z6KospVbDlBPvggATqs=",
+        "lastModified": 1771641886,
+        "narHash": "sha256-+mchQJE30NiI66DUMwXW+dBrKJeF240n4v45TcXmkIc=",
         "owner": "different-name",
         "repo": "steam-config-nix",
-        "rev": "e409b3bac9412513ff95fe293eb6ad42f985c60b",
+        "rev": "5b24ff543683b62663adbc3b54942929ca0d4d91",
         "type": "github"
       },
       "original": {
