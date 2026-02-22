@@ -43,6 +43,8 @@
 
     import-tree.url = "github:vic/import-tree";
 
+    millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
+
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
