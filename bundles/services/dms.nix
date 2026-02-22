@@ -5,6 +5,10 @@ bundleLib.mkEnableModule [ "gaia" "services" "dms" ] {
     imports = [ inputs.dms.nixosModules.dank-material-shell ];
 
     programs.dank-material-shell = {
+      systemd = {
+        enable = true;
+        restartIfChanged = true;
+      };
       enable = true;
       enableSystemMonitoring = true;
       enableVPN = true;
