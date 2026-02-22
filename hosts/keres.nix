@@ -94,7 +94,7 @@
         settings = with deployments.drasl; {
           Domain = "${subdomain}.${domain}";
           BaseURL = "https://${subdomain}.${domain}";
-          ListenAddress = "0.0.0.0:${port}";
+          ListenAddress = "0.0.0.0:${toString port}";
           DefaultAdmins = [ "jamie" ];
           RegistrationNewPlayer = {
             Allow = true;
