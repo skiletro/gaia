@@ -30,6 +30,10 @@
           subdomain = "wt";
           port = 3009;
         };
+        drasl = {
+          subdomain = "ma";
+          port = 3002;
+        };
       };
     in
     {
@@ -85,6 +89,20 @@
         };
       };
 
+      services.drasl = {
+        enable = true;
+        settings = with deployments.drasl; {
+          Domain = "${subdomain}.${domain}";
+          BaseURL = "https://${subdomain}.${domain}";
+          ListenAddress = "0.0.0.0:${port}";
+          DefaultAdmins = [ "jamie" ];
+          RegistrationNewPlayer = {
+            Allow = true;
+            RequireInvite = true;
+          };
+        };
+      };
+
       # Reverse Proxy
       services.caddy = {
         enable = true;
@@ -104,6 +122,7 @@
         (modulesPath + "/profiles/qemu-guest.nix")
         inputs.disko.nixosModules.default
         inputs.tangled.nixosModules.knot
+        inputs.drasl.nixosModules.drasl
       ];
 
       boot.initrd.availableKernelModules = [

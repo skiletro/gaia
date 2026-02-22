@@ -21,6 +21,8 @@
 
     dms.url = "github:AvengeMedia/DankMaterialShell";
 
+    drasl.url = "github:unmojang/drasl";
+
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
