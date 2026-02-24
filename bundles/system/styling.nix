@@ -6,7 +6,7 @@
   ...
 }:
 let
-  base16Scheme = "${self'.packages.base16-schemes}/share/themes/penumbra-dark-contrast-plus-plus.yaml";
+  base16Scheme = "${self'.packages.base16-schemes}/share/themes/rose-pine.yaml";
   polarity = "dark";
   fonts = pkgs: config: {
     sansSerif = {
