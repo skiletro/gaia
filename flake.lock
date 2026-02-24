@@ -1868,15 +1868,16 @@
         "tinted-zed": "tinted-zed"
       },
       "locked": {
-        "lastModified": 1771428844,
-        "narHash": "sha256-rTzo6bZEsdT7yHUZ0B4BYe32XQZzm8SiWKvWLJnxerE=",
-        "owner": "nix-community",
+        "lastModified": 1771870459,
+        "narHash": "sha256-Ra3z0HBqQ999PRFjNUJxtPBV9VNTyCl2Ou0Us9wE9tw=",
+        "owner": "skiletro",
         "repo": "stylix",
-        "rev": "801843d10e9e22d7a00f660d069e2de70aa2980a",
+        "rev": "10451ccfbb662611da6461f13fa6b51a34c3d247",
         "type": "github"
       },
       "original": {
-        "owner": "nix-community",
+        "owner": "skiletro",
+        "ref": "autostart-fix",
         "repo": "stylix",
         "type": "github"
       }

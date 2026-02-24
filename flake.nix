@@ -94,7 +94,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    stylix.url = "github:nix-community/stylix";
+    stylix.url = "github:skiletro/stylix/autostart-fix"; # https://github.com/nix-community/stylix/pull/2218
 
     tangled.url = "git+https://tangled.org/@tangled.org/core";
 
