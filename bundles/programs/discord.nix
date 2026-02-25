@@ -7,6 +7,8 @@
 }:
 bundleLib.mkEnableModule [ "gaia" "programs" "discord" ] {
 
+  gaia.autoStart = [ "equibop -m" ];
+
   home-manager =
     { pkgs, ... }:
     let
