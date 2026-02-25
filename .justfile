@@ -98,6 +98,18 @@ build *args: (_builder "build" args)
 [no-exit-message]
 test *args: (_builder "test" args)
 
+[doc("builds and deploys a system to a target")]
+[group("rebuild")]
+[linux]
+[no-exit-message]
+deploy system: (_m "deploying")
+    nixos-rebuild switch --flake .# \
+    --target-host jamie@{{ system }} \
+    --build-host jamie@{{ system }} \
+    --use-substitutes \
+    --no-reexec \
+    --sudo --ask-sudo-password
+
 [doc("build a package")]
 [group("package")]
 [no-exit-message]

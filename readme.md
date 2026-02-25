@@ -47,4 +47,5 @@ INSTALLATION
 ACKNOWLEDGEMENTS
   https://github.com/different-name/nix-files
   https://github.com/different-name/bundle-of-nix
+  https://github.com/isabelroses/dotfiles
 ```
