@@ -10,8 +10,8 @@ _nh := require("nh")
 _git := require("git")
 
 #
-#
 # Internal Recipes
+#
 
 # default recipe
 [no-exit-message]
@@ -73,8 +73,8 @@ _gc:
     nix store --gc --print-roots | egrep -v "^(/nix/var|/run/\w+-system|\{libproc)"
 
 #
-#
 # Build Recipes
+#
 
 [doc("build and switch to the generation")]
 [group("rebuild")]
@@ -105,8 +105,8 @@ pkg pkg:
     nix build .#{{ pkg }}
 
 #
-#
 # Housekeeping Recipes
+#
 
 [doc("update flake inputs and package sources")]
 [group("housekeeping")]
@@ -151,6 +151,4 @@ repair: (_m "verifying nix store")
 [group("housekeeping")]
 [no-exit-message]
 secret:
-    #!/usr/bin/env bash
-    SOPS_AGE_KEY="$(ssh-to-age -private-key < "$HOME/.ssh/id_ed25519")"
-    sops ./.secrets.yaml
+    SOPS_AGE_KEY="$(ssh-to-age -private-key < "$HOME/.ssh/id_ed25519")" sops ./.secrets.yaml
