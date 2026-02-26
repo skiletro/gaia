@@ -22,6 +22,7 @@ bundleLib.mkEnableModule [ "gaia" "programs" "discord" ] {
       programs.nixcord = {
         enable = true;
         discord = {
+          enable = false;
           vencord.enable = false;
           equicord.enable = true;
         };
