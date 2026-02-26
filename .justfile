@@ -100,7 +100,6 @@ test *args: (_builder "test" args)
 
 [doc("builds and deploys a system to a target")]
 [group("rebuild")]
-[linux]
 [no-exit-message]
 deploy system: (_m "deploying")
     nixos-rebuild switch --flake .# \

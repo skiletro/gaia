@@ -4,6 +4,7 @@
     system = {
       # keep-sorted start
       bluetooth.enable = true;
+      emulation.enable = true;
       fonts.enable = true;
       virtualisation.enable = true;
       # keep-sorted end

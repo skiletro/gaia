@@ -1,4 +1,8 @@
-{ bundleLib, lib, ... }:
+{
+  bundleLib,
+  lib,
+  ...
+}:
 bundleLib.mkEnableModule [ "gaia" "system" "emulation" ] {
 
   nixos =
@@ -31,5 +35,12 @@ bundleLib.mkEnableModule [ "gaia" "system" "emulation" ] {
           });
         };
     };
+
+  darwin = {
+    nix.linux-builder = {
+      enable = true;
+      systems = [ "aarch64-linux" ];
+    };
+  };
 
 }
