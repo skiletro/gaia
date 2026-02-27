@@ -21,6 +21,16 @@
           system = "aarch64-darwin";
           systemPlatform = "darwin";
         };
+
+        hemera = {
+          system = "x86_64-linux";
+          systemPlatform = "nixos";
+        };
+
+        iso = {
+          system = "x86_64-linux";
+          systemPlatform = "nixos";
+        };
       };
     in
     {
