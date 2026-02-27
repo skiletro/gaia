@@ -1,6 +1,13 @@
 { inputs, lib, ... }:
 {
-  gaia.state.system = "26.05";
+  gaia = {
+    programs = {
+      nu.enable = true;
+      git.enable = true;
+      term-utils.enable = true;
+    };
+    state.system = "26.05";
+  };
 
   nixos =
     { pkgs, ... }:
@@ -9,7 +16,15 @@
         inputs.disko.nixosModules.default
       ];
 
-      boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
+      boot.kernelPackages = lib.mkForce pkgs.linuxPackages_zen;
+
+      services.logind.settings.Login = {
+        HandleLidSwitch = "suspend";
+        HandleLidSwitchExternalPower = "ignore";
+        HandleLidSwitchDocked = "ignore";
+      };
+
+      services.tlp.enable = true;
 
       disko.devices = {
         disk = {
