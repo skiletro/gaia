@@ -35,6 +35,11 @@ in
         useGlobalPkgs = true;
         useUserPackages = true;
       };
+
+      services.openssh = {
+        enable = true;
+        settings.PasswordAuthentication = false;
+      };
     };
 
   home-manager =
@@ -57,6 +62,11 @@ in
       name = username;
       home = "/Users/${username}";
       openssh.authorizedKeys.keys = sshKeys;
+    };
+
+    services.openssh = {
+      enable = true;
+      settings.PasswordAuthentication = false;
     };
   };
 }
