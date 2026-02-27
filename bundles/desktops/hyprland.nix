@@ -33,7 +33,6 @@ lib.mkIf (config.gaia.desktop == "hyprland") {
         gvfs.enable = true;
         tumbler.enable = true;
       };
-      networking.networkmanager.enable = true;
       environment.pathsToLink = [ "share/thumbnailers" ];
       environment.gnome.excludePackages = lib.mkDefault (
         with pkgs;
