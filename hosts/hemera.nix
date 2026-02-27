@@ -10,13 +10,29 @@
   };
 
   nixos =
-    { pkgs, ... }:
+    { pkgs, modulesPath, ... }:
     {
       imports = [
         inputs.disko.nixosModules.default
+        (modulesPath + "/installer/scan/not-detected.nix")
       ];
 
-      boot.kernelPackages = lib.mkForce pkgs.linuxPackages_zen;
+      boot = {
+        kernelPackages = lib.mkForce pkgs.linuxPackages_zen;
+        initrd.availableKernelModules = [
+          "nvme"
+          "xhci_pci"
+          "usb_storage"
+          "sd_mod"
+          "rtsx_pci_sdmmc"
+        ];
+        kernelModules = [ "kvm-amd" ];
+      };
+
+      hardware = {
+        enableAllFirmware = true;
+        cpu.amd.updateMicrocode = true;
+      };
 
       services.logind.settings.Login = {
         HandleLidSwitch = "suspend";
