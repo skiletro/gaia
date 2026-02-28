@@ -169,3 +169,15 @@ repair: (_m "verifying nix store")
 [no-exit-message]
 secret:
     SOPS_AGE_KEY="$(ssh-to-age -private-key < "$HOME/.ssh/id_ed25519")" sops ./.secrets.yaml
+
+[doc("rotate secrets")]
+[group("housekeeping")]
+[no-exit-message]
+secret-rotate:
+    SOPS_AGE_KEY="$(ssh-to-age -private-key < "$HOME/.ssh/id_ed25519")" sops rotate -i ./.secrets.yaml
+
+[doc("update secret keys")]
+[group("housekeeping")]
+[no-exit-message]
+secret-update:
+    SOPS_AGE_KEY="$(ssh-to-age -private-key < "$HOME/.ssh/id_ed25519")" sops updatekeys -y ./.secrets.yaml
