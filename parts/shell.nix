@@ -17,6 +17,7 @@
         ];
         shellHook = ''
           just
+          git status
         '';
       };
     };
