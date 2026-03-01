@@ -32,13 +32,16 @@ lib.mkIf (config.gaia.desktop == "aerospace") {
             "Raycast"
           ];
 
-          enable-normalization-flatten-containers = true;
-          enable-normalization-opposite-orientation-for-nested-containers = true;
+          enable-normalization-flatten-containers = false;
+          enable-normalization-opposite-orientation-for-nested-containers = false;
 
           default-root-container-layout = "tiles";
           default-root-container-orientation = "auto";
 
-          on-focus-changed = [ "move-mouse window-lazy-center" ];
+          # on-focus-changed = [ "move-mouse window-lazy-center" ];
+          on-focus-changed = [
+            "exec-and-forget /Users/jamie/.config/aerospace/autotile"
+          ];
 
           automatically-unhide-macos-hidden-apps = true;
 
@@ -140,6 +143,30 @@ lib.mkIf (config.gaia.desktop == "aerospace") {
           "Screen Sharing"
           "Raycast"
         ];
+      };
+    };
+
+  home-manager =
+    { pkgs, ... }:
+    {
+      xdg.configFile."aerospace/autotile" = {
+        enable = true;
+        executable = true;
+        text =
+          let
+            a = lib.getExe pkgs.aerospace;
+          in
+          # bash
+          ''
+            #/usr/bin/env bash
+            NUM=$(${a} list-windows --workspace focused | wc -l)
+
+            if (($NUM % 2 == 0)); then
+              ${a} split vertical
+            else
+              ${a} split horizontal
+            fi
+          '';
       };
     };
 
