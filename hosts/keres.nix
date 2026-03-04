@@ -26,12 +26,12 @@
           subdomain = "karakeep";
           port = 3001;
         };
-        tangled = {
-          subdomain = "tk";
+        tangled-knot = {
+          subdomain = "knot";
           port = 3050;
         };
         wakapi = {
-          subdomain = "wt"; # TODO: add OIDC
+          subdomain = "wakapi"; # TODO: add OIDC
           port = 3009;
         };
         drasl = {
@@ -56,6 +56,7 @@
           mode = "444";
         };
         "pocketid-karakeep-secret" = { };
+        "pocketid-smtp-pass" = { };
       };
 
       # Deployments
@@ -84,7 +85,7 @@
         gitUser = "git";
         stateDir = "/var/lib/tangled-knot";
         repo.scanPath = "/var/lib/tangled-knot/repos";
-        server = with deployments.tangled; {
+        server = with deployments.tangled-knot; {
           listenAddr = "0.0.0.0:${toString port}";
           hostname = "${subdomain}.${domain}";
           owner = "did:plc:bdkgxk7f45l6l7copr3hn3sj"; # @skilet.ro
@@ -147,9 +148,19 @@
           UI_CONFIG_DISABLED = true;
           APP_NAME = "Methanol";
           ALLOW_USER_SIGNUPS = "withToken";
+          SMTP_HOST = "smtp.protonmail.ch";
+          SMTP_PORT = "587";
+          SMTP_USER = "${"noreply"}${"@"}${"warm.vodka"}";
+          SMTP_FROM = "${"noreply"}${"@"}${"warm.vodka"}";
+          SMTP_TLS = "starttls";
+          EMAIL_ONE_TIME_ACCESS_AS_UNAUTHENTICATED_ENABLED = true;
+          EMAIL_VERIFICATION_ENABLED = true;
+          EMAIL_API_KEY_EXPIRATION_ENABLED = true;
+          EMAIL_LOGIN_NOTIFICATION_ENABLED = true;
         };
         credentials = {
           ENCRYPTION_KEY = config.sops.secrets.pocketid-encryption-key.path;
+          SMTP_PASSWORD = config.sops.secrets.pocketid-smtp-pass.path;
         };
       };
 
@@ -172,7 +183,6 @@
         (modulesPath + "/profiles/qemu-guest.nix")
         inputs.disko.nixosModules.default
         inputs.tangled.nixosModules.knot
-        inputs.drasl.nixosModules.drasl
       ];
 
       boot.initrd.availableKernelModules = [

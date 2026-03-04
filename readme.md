@@ -1,5 +1,5 @@
 
-<img src="https://wt.warm.vodka/api/badge/jamie/interval:any/project:gaia">
+<img src="https://wakapi.warm.vodka/api/badge/jamie/interval:any/project:gaia">
 
 ```
                    .-.           

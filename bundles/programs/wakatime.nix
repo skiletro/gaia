@@ -7,7 +7,7 @@ bundleLib.mkEnableModule [ "gaia" "programs" "wakatime" ] {
       programs'.wakatime = {
         enable = true;
         settings = {
-          api_url = "https://wt.warm.vodka/api";
+          api_url = "https://wakapi.warm.vodka/api";
           api_key_vault_cmd = "${pkgs.writeShellScript "cat-wakatime-api-key" "cat ${config.sops.secrets.wakapi-key.path}"}";
         };
       };
