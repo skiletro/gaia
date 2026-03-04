@@ -18,7 +18,7 @@
 
         JUST_LIST_HEADING = "";
         JUST_LIST_PREFIX = "";
-        
+
         shellHook = ''
           echo
           just

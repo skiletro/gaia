@@ -36,11 +36,25 @@ bundleLib.mkEnableModule [ "gaia" "system" "emulation" ] {
         };
     };
 
-  darwin = {
-    nix.linux-builder = {
-      enable = true;
-      systems = [ "aarch64-linux" ];
+  darwin =
+    { pkgs, ... }:
+    {
+      nix.linux-builder = {
+        enable = true;
+        package = pkgs.darwin.linux-builder-x86_64;
+        ephemeral = true;
+        supportedFeatures = [
+          "kvm"
+          "benchmark"
+          "big-parallel"
+          "nixos-test"
+        ];
+        systems = [
+          "aarch64-linux"
+          "x86_64-linux"
+        ];
+        config.virtualisation.cores = 6;
+      };
     };
-  };
 
 }
