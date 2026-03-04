@@ -21,7 +21,7 @@
     };
     programs = {
       # keep-sorted start
-      beets.enable = true;
+      # beets.enable = true;
       broot.enable = true;
       btop.enable = true;
       direnv.enable = true;
