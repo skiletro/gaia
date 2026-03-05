@@ -135,7 +135,7 @@ update-inputs *input: (_m "updating flake inputs")
 [group("housekeeping")]
 [no-exit-message]
 update-sources: (_m "updating nvfetcher sources")
-    nvfetcher -c ./pkgs/nvfetcher.toml -o ./pkgs/_sources/
+    nvfetcher -c ./packages/nvfetcher.toml -o ./packages/_sources/
 
 [doc("open up a repl with the flake imported")]
 [group("housekeeping")]
