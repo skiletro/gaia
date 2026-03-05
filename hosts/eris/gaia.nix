@@ -44,7 +44,7 @@
       steam.enable = true;
       term-utils.enable = true;
       wivrn.enable = true;
-      zed.enable = true;
+      # zed.enable = true;
       # keep-sorted end
     };
     state.system = "25.11";
