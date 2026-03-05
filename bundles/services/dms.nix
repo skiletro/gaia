@@ -38,7 +38,7 @@ bundleLib.mkEnableModule [ "gaia" "services" "dms" ] {
           fontFamily = config.stylix.fonts.sansSerif.name;
           monoFontFamily = config.stylix.fonts.monospace.name;
 
-          cornerRadius = 0;
+          cornerRadius = 6;
           showSeconds = false;
           useFahrenheit = false;
           use24HourClock = false;
