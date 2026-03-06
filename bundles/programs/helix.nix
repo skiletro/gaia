@@ -160,13 +160,18 @@ bundleLib.mkEnableModule [ "gaia" "programs" "helix" ] {
         };
         settings = {
           editor = {
+            mouse = false;
             bufferline = "multiple";
             cursorline = true;
             true-color = true;
             color-modes = true;
             line-number = "relative";
             rainbow-brackets = true;
-            rulers = [ 120 ];
+            rulers = [
+              80
+              120
+            ];
+            jump-label-alphabet = "ghfjdksltyrubnvm";
             cursor-shape = {
               insert = "bar";
               normal = "block";
@@ -179,6 +184,7 @@ bundleLib.mkEnableModule [ "gaia" "programs" "helix" ] {
             auto-pairs = true;
             lsp = {
               auto-signature-help = false;
+              display-messages = true;
               display-progress-messages = true;
               display-inlay-hints = true;
             };
