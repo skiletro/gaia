@@ -9,7 +9,7 @@
       ];
 
       boot = {
-        intrd = {
+        initrd = {
           availableKernelModules = [
             "xhci_pci"
             "virtio_pci"
