@@ -1,16 +1,10 @@
 { bundleLib, ... }:
 bundleLib.mkEnableModule [ "gaia" "programs" "signal" ] {
 
-  nixos =
+  home-manager =
     { pkgs, ... }:
     {
-      environment.systemPackages = [ pkgs.signal-desktop ];
-    };
-
-  darwin =
-    { pkgs, ... }:
-    {
-      environment.systemPackages = [ pkgs.signal-desktop-bin ];
+      home.packages = [ pkgs.signal-desktop ];
     };
 
 }
