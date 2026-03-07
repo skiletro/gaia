@@ -45,7 +45,7 @@
     swapDevices = lib.singleton { device = "/dev/disk/by-uuid/ae2dc9bc-8451-48f4-a42b-916e449f30b8"; };
 
     hardware = {
-      enableRedistributableFirmware = true;
+      enableAllFirmware = true;
       amdgpu.overdrive.enable = true;
     };
   };
