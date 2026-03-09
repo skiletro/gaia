@@ -1,51 +1,20 @@
-
+<img src="https://img.shields.io/badge/project-gaia-violet">
+<img src="https://img.shields.io/badge/language-nix-blue">
 <img src="https://wakapi.warm.vodka/api/badge/jamie/interval:any/project:gaia">
+<img src="https://img.shields.io/badge/license-gplv3-red">
 
-```
-                   .-.           
-  .--.     .---.  ( __)   .---.  
- /    \   / .-, \ (''")  / .-, \ 
-;  ,-. ' (__) ; |  | |  (__) ; | 
-| |  | |   .'`  |  | |    .'`  | 
-| |  | |  / .'| |  | |   / .'| | 
-| |  | | | /  | |  | |  | /  | | 
-| '  | | ; |  ; |  | |  ; |  ; | 
-'  `-' | ' `-'  |  | |  ' `-'  | 
- `.__. | `.__.'_. (___) `.__.'_. 
- ( `-' ;                         
-  `.__.
-  
-- f.k.a. 'erebus', 'nixfiles' -
+## hosts
+ HOSTNAME  | ARCHITECTURE    | NOTES
+-----------|-----------------|------------------------------------------------
+ eris      | x86-64_linux    | Gaming Desktop: R7 7800X3D + RX 9070 XT
+ keres     | aarch64-linux   | Netcup VPS 1000 ARM G11
+ moirai    | aarch64-darwin  | M1 MacBook Air running nix-darwin
 
-README
-  Gaia is my opinionated NixOS, Home Manager, and nix-darwin configuration,
-  built upon flake-parts and bundle.
+## todo
+- Ephemeral root and home.
+- Declarative partitions with disko, featuring BTRFS and LUKS encryption.
 
-FEATURES
-  - Reusable module system for programs not present in nixpkgs or home-manager
-  - Wayland-first configuration.
-  - Cohesive styling (courtsey of Stylix, nix-cursors, and more!).
-  - Useful packages for a range of systems.
-  - Support for multiple architectures.
-
-HOSTS
-   HOSTNAME  | ARCHITECTURE    | NOTES
-  -----------|-----------------|------------------------------------------------
-   eris      | x86-64_linux    | Gaming Desktop: R7 7800X3D + RX 9070 XT
-   keres     | aarch64-linux   | Netcup VPS 1000 ARM G11
-   moirai    | aarch64-darwin  | M1 MacBook Air running nix-darwin
-
-TODO
-  - Ephemeral root and home.
-  - Declarative partitions with disko, featuring BTRFS and LUKS encryption.
-
-INSTALLATION
-  I wouldn't recommend using the system configurations as they are tailored
-  to my needs, however feel free to import the repository as an input in
-  *your* flake to use its packages!
-
-ACKNOWLEDGEMENTS
+## cool people and projects
   https://github.com/different-name/nix-files
   https://github.com/different-name/bundle-of-nix
   https://github.com/isabelroses/dotfiles
-```
