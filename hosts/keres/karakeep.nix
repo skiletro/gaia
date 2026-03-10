@@ -7,11 +7,7 @@
       port = 3001;
     in
     {
-      sops.secrets."wakapi-env" = {
-        owner = "wakapi";
-        group = "wakapi";
-        mode = "0400";
-      };
+      sops.secrets."pocketid-karakeep-secret" = { };
 
       sops.templates."karakeep.env".content =
         # env
