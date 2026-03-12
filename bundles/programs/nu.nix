@@ -52,7 +52,7 @@ bundleLib.mkEnableModule [ "gaia" "programs" "nu" ] {
       programs.bash.interactiveShellInit =
         # bash
         ''
-          if [ "$TERM" != "dumb" ] && [ -z "$BASH_EXECUTION_STRING" ] && [ "$SHLVL" == "1" ]; then
+          if [ "$TERM" != "dumb" ] && [ -z "$BASH_EXECUTION_STRING" ] && [ "$SHLVL" -le "1" ]; then
             exec ${lib.getExe pkgs.nushell}
           fi
         '';
@@ -64,7 +64,7 @@ bundleLib.mkEnableModule [ "gaia" "programs" "nu" ] {
       programs.zsh.interactiveShellInit =
         # zsh
         ''
-          if [ "$TERM" != "dumb" ] && [ -z "$ZSH_EXECUTION_STRING" ] && [ "$SHLVL" -eq "2" ]; then
+          if [ "$TERM" != "dumb" ] && [ -z "$ZSH_EXECUTION_STRING" ] && [ "$SHLVL" -le "2" ]; then
             exec ${lib.getExe pkgs.nushell}
           fi
         '';
