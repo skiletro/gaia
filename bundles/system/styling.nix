@@ -7,7 +7,7 @@
 }:
 let
   sharedStylixConfig = config: pkgs: {
-    base16Scheme = "${self'.packages.base16-schemes}/share/themes/rose-pine.yaml";
+    base16Scheme = "${self'.packages.base16-schemes}/share/themes/everforest-dark-hard.yaml";
     polarity = "dark";
     fonts = {
       sansSerif = {
