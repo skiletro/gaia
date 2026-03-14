@@ -12,7 +12,7 @@ bundleLib.mkEnableModule [ "gaia" "programs" "starship" ] {
           };
           via = symbol: style: {
             inherit symbol;
-            format = "via [$symbol](${style})";
+            format = "via [$symbol ](${style})";
           };
         in
         {
@@ -62,50 +62,14 @@ bundleLib.mkEnableModule [ "gaia" "programs" "starship" ] {
             };
           };
 
-          # os = {
-          #   disabled = false;
-          #   style = "bold white";
-          #   format = "[$symbol]($style)";
-
-          #   symbols = {
-          #     Arch = "";
-          #     Artix = "";
-          #     Debian = "";
-          #     # Kali = "󰠥";
-          #     EndeavourOS = "";
-          #     Fedora = "";
-          #     NixOS = "";
-          #     openSUSE = "";
-          #     SUSE = "";
-          #     Ubuntu = "";
-          #     Raspbian = "";
-          #     #elementary = "";
-          #     #Coreos = "";
-          #     Gentoo = "";
-          #     #mageia = ""
-          #     CentOS = "";
-          #     #sabayon = "";
-          #     #slackware = "";
-          #     Mint = "";
-          #     Alpine = "";
-          #     #aosc = "";
-          #     #devuan = "";
-          #     Manjaro = "";
-          #     #rhel = "";
-          #     Macos = "󰀵";
-          #     Linux = "";
-          #     Windows = "";
-          #   };
-          # };
-
-          container = using " 󰏖" "yellow dimmed";
-          python = using "" "yellow";
+          container = using "󰏖 " "yellow dimmed";
+          python = using " " "yellow";
           nodejs = using " " "yellow";
           lua = using "󰢱 " "blue";
-          rust = using "" "red";
+          rust = using " " "red";
           java = using " " "red";
           c = using " " "blue";
-          golang = using "" "blue";
+          golang = using " " "blue";
           docker_context = using " " "blue";
           nix_shell = via " " "blue";
 
@@ -130,10 +94,6 @@ bundleLib.mkEnableModule [ "gaia" "programs" "starship" ] {
             staged = "[++\\($count\\)](green)";
             renamed = "󰖷 ";
             deleted = " ";
-          };
-
-          cmd_duration = {
-            format = " took [$duration]($style) ";
           };
         };
     };
