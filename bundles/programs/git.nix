@@ -33,12 +33,12 @@ bundleLib.mkEnableModule [ "gaia" "programs" "git" ] {
             gui = {
               nerdFontsVersion = "3";
               spinner.frames = [
-                "⠟"
-                "⠯"
-                "⠷"
-                "⠾"
-                "⠽"
-                "⠻"
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
               ];
             };
             git.pagers = [
