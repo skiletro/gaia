@@ -45,10 +45,7 @@ bundleLib.mkEnableModule [ "gaia" "programs" "discord" ] {
             favoriteGifSearch.enable = true;
             fixSpotifyEmbeds.enable = true;
             fixYoutubeEmbeds.enable = true;
-            limitMiddleClickPaste = {
-              enable = true;
-              limitTo = "never";
-            };
+            middleClickTweaks.enable = true;
             noSystemBadge.enable = true;
             messageLogger = {
               ignoreBots = true;
