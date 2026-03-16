@@ -79,6 +79,32 @@
         },
         "version": "0.10.5.1"
     },
+    "hyprland-preview-share-picker": {
+        "cargoLock": {
+            "Cargo.lock": [
+                "sha256-dreIL3+GfrTxzN5ZoQvLvEc8qFlTs_qwQZjPFJS1eJQ=/Cargo.lock",
+                {}
+            ]
+        },
+        "date": "2026-03-04",
+        "extract": null,
+        "name": "hyprland-preview-share-picker",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": true,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "WhySoBad",
+            "repo": "hyprland-preview-share-picker",
+            "rev": "344394a8669fb82ff2744d2780327dd402ffb76a",
+            "sha256": "sha256-dreIL3+GfrTxzN5ZoQvLvEc8qFlTs/qwQZjPFJS1eJQ=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "344394a8669fb82ff2744d2780327dd402ffb76a"
+    },
     "liga-sf-mono-nerd-font": {
         "cargoLock": null,
         "date": "2023-07-01",

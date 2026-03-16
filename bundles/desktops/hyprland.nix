@@ -282,6 +282,30 @@ lib.mkIf (config.gaia.desktop == "hyprland") {
         settings."org/gnome/desktop/wm/preferences".button-layout = lib.mkForce "";
       };
 
+      xdg.configFile."hypr/xdph.conf".text =
+        # conf
+        ''
+          screencopy {
+            max_fps = 0
+            allow_token_by_default = true
+            custom_picker_binary = ${lib.getExe self'.packages.hyprland-preview-share-picker}
+          }
+        '';
+
+      # https://github.com/WhySoBad/hyprland-preview-share-picker?tab=readme-ov-file#configuration
+      xdg.configFile."hyprland-preview-share-picker/config.yaml".source =
+        (pkgs.formats.yaml { }).generate "hypr-prev-share-picker-config"
+          {
+            outputs = {
+              clicks = 0;
+              show_label = false;
+            };
+            hide_token_restore = true;
+            region = {
+              command = "${lib.getExe pkgs.slurp} -f '%o@%x,%y,%w,%h'";
+            };
+          };
+
       xdg.mimeApps = {
         enable = true;
         defaultApplications = {

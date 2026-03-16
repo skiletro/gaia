@@ -2,6 +2,7 @@
 {
   fetchgit,
   fetchurl,
+  fetchFromGitHub,
   ...
 }:
 {
@@ -50,6 +51,24 @@
       url = "https://github.com/imputnet/helium-macos/releases/download/0.10.5.1/helium_0.10.5.1_arm64-macos.dmg";
       sha256 = "sha256-KA4Qz/fh/SfpiEX1mgZU1o7zzlqnFgUQiFAK5KEjmqg=";
     };
+  };
+  hyprland-preview-share-picker = {
+    pname = "hyprland-preview-share-picker";
+    version = "344394a8669fb82ff2744d2780327dd402ffb76a";
+    src = fetchFromGitHub {
+      owner = "WhySoBad";
+      repo = "hyprland-preview-share-picker";
+      rev = "344394a8669fb82ff2744d2780327dd402ffb76a";
+      fetchSubmodules = true;
+      sha256 = "sha256-dreIL3+GfrTxzN5ZoQvLvEc8qFlTs/qwQZjPFJS1eJQ=";
+    };
+    cargoLock."Cargo.lock" = {
+      lockFile = ./. + "/sha256-dreIL3+GfrTxzN5ZoQvLvEc8qFlTs_qwQZjPFJS1eJQ=/Cargo.lock";
+      outputHashes = {
+
+      };
+    };
+    date = "2026-03-04";
   };
   liga-sf-mono-nerd-font = {
     pname = "liga-sf-mono-nerd-font";

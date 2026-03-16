@@ -19,6 +19,12 @@ src.github = "imputnet/helium-linux"
 fetch.url = "https://github.com/imputnet/helium-macos/releases/download/$ver/helium_$ver_arm64-macos.dmg"
 src.github = "imputnet/helium-macos"
 
+[hyprland-preview-share-picker]
+cargo_lock = ["Cargo.lock"]
+fetch.github = "WhySoBad/hyprland-preview-share-picker"
+git.fetchSubmodules = true
+src.git = "https://github.com/WhySoBad/hyprland-preview-share-picker.git"
+
 [liga-sf-mono-nerd-font]
 fetch.git = "https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized.git"
 src.git = "https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized.git"
