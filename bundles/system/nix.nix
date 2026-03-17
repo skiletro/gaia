@@ -2,6 +2,8 @@
 let
   flakeConfig = (import "${self}/flake.nix").nixConfig;
 
+  megabytes = num: num * 1000 * 1000;
+
   settings = pkgs: {
     nixpkgs = {
       overlays = [
@@ -34,12 +36,17 @@ let
           "jamie"
           "root"
           "@wheel"
-        ]; # Fixes some "cannot connect to socket" issues
+        ];
         warn-dirty = false;
         http-connections = 50;
         log-lines = 50;
         builders-use-substitutes = true;
         accept-flake-config = true;
+        connect-timeout = 5; # seconds
+        min-free = megabytes 128;
+        max-free = megabytes 1000;
+        auto-optimise-store = true;
+        lint-short-path-literals = true;
       };
     };
   };
