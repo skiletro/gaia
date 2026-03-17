@@ -23,9 +23,6 @@ bundleLib.mkEnableModule [ "gaia" "programs" "helix" ] {
           dockerfile-language-server # Dockerfile
           gopls # Go
           marksman # Markdown
-          mono # C#
-          msbuild # C# Unity
-          netcoredbg # C#
           nil # Nix
           nixd # Nix
           nufmt # Nu
