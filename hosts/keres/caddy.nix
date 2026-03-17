@@ -7,6 +7,7 @@
         "drasl"
         "wakapi"
         "knot"
+        "miniflux"
       ];
     in
     {
