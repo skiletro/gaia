@@ -46,7 +46,6 @@ let
         min-free = megabytes 128;
         max-free = megabytes 1000;
         auto-optimise-store = true;
-        lint-short-path-literals = true;
       };
     };
   };
