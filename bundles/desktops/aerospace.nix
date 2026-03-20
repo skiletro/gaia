@@ -134,8 +134,8 @@ lib.mkIf (config.gaia.desktop == "aerospace") {
 
       services.jankyborders = {
         enable = true;
-        style = "square";
-        width = 2.0;
+        style = "round";
+        width = 3.0;
         hidpi = true;
         blacklist = [
           "Steam"
