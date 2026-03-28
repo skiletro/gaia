@@ -14,7 +14,7 @@ bundleLib.mkEnableModule [ "gaia" "programs" "vicinae" ] {
         nix
       ];
       settings = {
-        close_on_focus_loss = true;
+        close_on_focus_loss = false;
         providers = {
           "@Gelei/bluetooth-0".preferences.connectionToggleable = true;
           "@knoopx/nix-0".entrypoints = {
