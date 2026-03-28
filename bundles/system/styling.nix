@@ -7,7 +7,7 @@
 }:
 let
   sharedStylixConfig = config: pkgs: {
-    base16Scheme = "${self'.packages.base16-schemes}/share/themes/everforest-dark-hard.yaml";
+    base16Scheme = "${self'.packages.base16-schemes}/share/themes/soft-server.yaml";
     polarity = "dark";
     fonts = {
       sansSerif = {
@@ -34,8 +34,8 @@ let
     image =
       let
         wallpaper = pkgs.fetchurl {
-          url = "https://w.wallhaven.cc/full/6o/wallhaven-6o1kyq.png";
-          sha256 = "01hm5bqndivyjm9qyxrrxpqdb2s2b5yg37jrmjyznp48ha508nfz";
+          url = "https://w.wallhaven.cc/full/28/wallhaven-28k9zx.png";
+          sha256 = "1v473jbwdqhay8wf6fvmhl5invfj2wfn22xakvzc4bxh3n471267";
         };
       in
       pkgs.runCommand "output.png" { }
