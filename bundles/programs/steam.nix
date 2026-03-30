@@ -33,7 +33,7 @@ bundleLib.mkEnableModule [ "gaia" "programs" "steam" ] {
                 PULSE_LATENCY_MSEC = 60;
                 SDL_AUDIO_DRIVER = "pulse";
                 TZ = null;
-                MANGOHUD_CONFIG = "fps_limit=164,no_display";
+                MANGOHUD_CONFIG = "fps_limit=174,no_display";
               };
               wrappers = [
                 (lib.getExe' pkgs.mangohud "mangohud")
@@ -50,7 +50,7 @@ bundleLib.mkEnableModule [ "gaia" "programs" "steam" ] {
             launchOptions = {
               env = {
                 PROTON_FSR4_UPGRADE = 1;
-                MANGOHUD_CONFIG = "fps_limit=164,fps_only";
+                MANGOHUD_CONFIG = "fps_limit=174,fps_only";
               };
               wrappers = [
                 (lib.getExe' pkgs.mangohud "mangohud")

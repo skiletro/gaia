@@ -10,7 +10,7 @@ bundleLib.mkEnableModule [ "gaia" "system" "greeter" ] {
           name = "sway";
           customConfig = ''
             output DP-3 {
-              mode 3440x1440@165Hz
+              mode 3440x1440@175Hz
             }
 
             input * {

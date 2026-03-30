@@ -50,12 +50,21 @@ lib.mkIf (config.gaia.desktop == "hyprland") {
             };
 
             monitorv2 = {
-              output = "DP-3";
-              mode = "3440x1440@165";
+              output = "desc:AOC AG346UCD 2OQQ9JA00068";
+              mode = "3440x1440@175";
               position = "0x0";
-              scale = 1;
+              scale = "auto";
               bitdepth = 10;
-              vrr = true;
+              min_luminance = 0.5;
+              max_luminance = 1000;
+              max_avg_luminance = 450;
+              vrr = 2;
+              # TODO: figure out why using the ICC stops transparency from working
+              # icc = builtins.fetchurl {
+              #   name = "ag346ucd.icm";
+              #   url = "https://aoc.com/api/asset/pi35003?ext=icm";
+              #   sha256 = "sha256:09lydsnv9csi39gxal4lp408j74ryxviw42cl6k5nf28zgl12c82";
+              # };
             };
 
             ecosystem = {
@@ -157,7 +166,6 @@ lib.mkIf (config.gaia.desktop == "hyprland") {
             misc = {
               disable_hyprland_logo = true;
               disable_splash_rendering = true;
-              vrr = 2;
               focus_on_activate = true;
               enable_swallow = true;
               swallow_regex = "^(kitty|ghostty|alacritty|foot)$";
