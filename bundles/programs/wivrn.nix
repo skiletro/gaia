@@ -7,7 +7,7 @@
 bundleLib.mkEnableModule [ "gaia" "programs" "wivrn" ] {
 
   nixos =
-    { pkgs, ... }:
+    { pkgs, config, ... }:
     {
       services.wivrn =
         let
@@ -19,8 +19,11 @@ bundleLib.mkEnableModule [ "gaia" "programs" "wivrn" ] {
             ovrCompatSearchPaths = "${xrizer}/lib/xrizer:${opencomposite}/lib/opencomposite";
           };
           openFirewall = true;
-          defaultRuntime = true;
-          steam.importOXRRuntimes = true;
+          steam = {
+            enable = true;
+            inherit (config.programs.steam) package;
+            importOXRRuntimes = true;
+          };
           highPriority = true;
         };
 
