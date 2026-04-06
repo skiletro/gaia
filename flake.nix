@@ -5,6 +5,8 @@
     # keep-sorted start block=yes newline_separated=yes
     bundle.url = "github:different-name/bundle-of-nix";
 
+    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+
     cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
 
     cursors.url = "github:lilleaila/nix-cursors";
