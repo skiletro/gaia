@@ -38,18 +38,18 @@
   };
   helium-appimage = {
     pname = "helium-appimage";
-    version = "0.10.7.1";
+    version = "0.10.9.1";
     src = fetchurl {
-      url = "https://github.com/imputnet/helium-linux/releases/download/0.10.7.1/helium-0.10.7.1-x86_64.AppImage";
-      sha256 = "sha256-+vmxXcg8TkR/GAiHKnjq4b04bGtQzErfJkOb4P4nZUk=";
+      url = "https://github.com/imputnet/helium-linux/releases/download/0.10.9.1/helium-0.10.9.1-x86_64.AppImage";
+      sha256 = "sha256-FMO4gB2zOjhgmjfE/T0XdDb0NMDKsQFuzy/Org1iD48=";
     };
   };
   helium-dmg = {
     pname = "helium-dmg";
-    version = "0.10.7.1";
+    version = "0.10.9.1";
     src = fetchurl {
-      url = "https://github.com/imputnet/helium-macos/releases/download/0.10.7.1/helium_0.10.7.1_arm64-macos.dmg";
-      sha256 = "sha256-zQUIP9LoZnjPKyvxPAOmyOsNp/cr0EBSxX0YEdmJO58=";
+      url = "https://github.com/imputnet/helium-macos/releases/download/0.10.9.1/helium_0.10.9.1_arm64-macos.dmg";
+      sha256 = "sha256-qLsd9TNAri8ytp2LyRiRQmCxrvC60r/JYQZCpdEP8es=";
     };
   };
   hyprland-preview-share-picker = {

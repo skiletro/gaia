@@ -58,11 +58,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-+vmxXcg8TkR/GAiHKnjq4b04bGtQzErfJkOb4P4nZUk=",
+            "sha256": "sha256-FMO4gB2zOjhgmjfE/T0XdDb0NMDKsQFuzy/Org1iD48=",
             "type": "url",
-            "url": "https://github.com/imputnet/helium-linux/releases/download/0.10.7.1/helium-0.10.7.1-x86_64.AppImage"
+            "url": "https://github.com/imputnet/helium-linux/releases/download/0.10.9.1/helium-0.10.9.1-x86_64.AppImage"
         },
-        "version": "0.10.7.1"
+        "version": "0.10.9.1"
     },
     "helium-dmg": {
         "cargoLock": null,
@@ -73,11 +73,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-zQUIP9LoZnjPKyvxPAOmyOsNp/cr0EBSxX0YEdmJO58=",
+            "sha256": "sha256-qLsd9TNAri8ytp2LyRiRQmCxrvC60r/JYQZCpdEP8es=",
             "type": "url",
-            "url": "https://github.com/imputnet/helium-macos/releases/download/0.10.7.1/helium_0.10.7.1_arm64-macos.dmg"
+            "url": "https://github.com/imputnet/helium-macos/releases/download/0.10.9.1/helium_0.10.9.1_arm64-macos.dmg"
         },
-        "version": "0.10.7.1"
+        "version": "0.10.9.1"
     },
     "hyprland-preview-share-picker": {
         "cargoLock": {
