@@ -62,3 +62,7 @@ src.regex = '<title>Version\s+((?!beta)\d+\.\d+\.\d+)</title>'
 [swipeaerospace-bin]
 fetch.url = "https://github.com/MediosZ/SwipeAeroSpace/releases/download/$ver/SwipeAeroSpace.zip"
 src.github = "MediosZ/SwipeAeroSpace"
+
+[spotiflac-cli]
+fetch.github = "Nizarberyan/SpotiFLAC"
+src.git = "https://github.com/Nizarberyan/SpotiFLAC.git"

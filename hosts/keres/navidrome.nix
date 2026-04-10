@@ -1,3 +1,4 @@
+{ self', ... }:
 {
   nixos =
     let
@@ -23,5 +24,7 @@
       services.caddy.virtualHosts."${subdomain}.${domain}".extraConfig = ''
         reverse_proxy :${toString port}
       '';
+
+      environment.systemPackages = [ self'.packages.spotiflac-cli ];
     };
 }

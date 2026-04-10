@@ -240,6 +240,27 @@
         },
         "version": "6.1.0"
     },
+    "spotiflac-cli": {
+        "cargoLock": null,
+        "date": "2026-03-12",
+        "extract": null,
+        "name": "spotiflac-cli",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "Nizarberyan",
+            "repo": "SpotiFLAC",
+            "rev": "780b8c9ae2f7ba8b3d7a8aae811db6ecb5ca52e3",
+            "sha256": "sha256-pjDD7FZbuok4ccBN7sGWb0KzMFi4ZfsEcYmM1pWYyGU=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "780b8c9ae2f7ba8b3d7a8aae811db6ecb5ca52e3"
+    },
     "swipeaerospace-bin": {
         "cargoLock": null,
         "date": null,

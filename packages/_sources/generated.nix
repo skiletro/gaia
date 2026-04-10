@@ -3,6 +3,7 @@
   fetchgit,
   fetchurl,
   fetchFromGitHub,
+  dockerTools,
   ...
 }:
 {
@@ -65,7 +66,7 @@
     cargoLock."Cargo.lock" = {
       lockFile = ./. + "/sha256-dreIL3+GfrTxzN5ZoQvLvEc8qFlTs_qwQZjPFJS1eJQ=/Cargo.lock";
       outputHashes = {
-
+        
       };
     };
     date = "2026-03-04";
@@ -150,6 +151,18 @@
       url = "https://vpn.protondownload.com/download/macos/6.1.0/ProtonVPN_mac_v6.1.0.dmg";
       sha256 = "sha256-u/J32eIgpQkvF87j4Lc3IKT0YkJHTx4JauL6TsXg/ls=";
     };
+  };
+  spotiflac-cli = {
+    pname = "spotiflac-cli";
+    version = "780b8c9ae2f7ba8b3d7a8aae811db6ecb5ca52e3";
+    src = fetchFromGitHub {
+      owner = "Nizarberyan";
+      repo = "SpotiFLAC";
+      rev = "780b8c9ae2f7ba8b3d7a8aae811db6ecb5ca52e3";
+      fetchSubmodules = false;
+      sha256 = "sha256-pjDD7FZbuok4ccBN7sGWb0KzMFi4ZfsEcYmM1pWYyGU=";
+    };
+    date = "2026-03-12";
   };
   swipeaerospace-bin = {
     pname = "swipeaerospace-bin";
