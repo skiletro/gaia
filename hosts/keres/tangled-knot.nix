@@ -14,8 +14,8 @@
       services.tangled.knot = {
         enable = true;
         gitUser = "git";
-        stateDir = "/var/lib/tangled-knot";
-        repo.scanPath = "/var/lib/tangled-knot/repos";
+        stateDir = "/srv/tangled/knot";
+        repo.scanPath = "/srv/tangled/knot/repos";
         server = {
           listenAddr = "0.0.0.0:${toString port}";
           hostname = "${subdomain}.${domain}";
