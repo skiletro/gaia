@@ -43,6 +43,7 @@
       signal.enable = true;
       spotify.enable = true;
       steam.enable = true;
+      supersonic.enable = true;
       term-utils.enable = true;
       vial.enable = true;
       wivrn.enable = true;
