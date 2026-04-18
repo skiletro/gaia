@@ -23,8 +23,10 @@
 
         programs.steam.package = pkgs.millennium-steam.override {
           extraProfile = ''
-            export DXVK_HUD=compiler,fps
+            export DXVK_HUD=compiler
             export PROTON_ENABLE_WAYLAND=1
+            export PROTON_ENABLE_HDR=1
+            export PROTON_FSR4_UPGRADE=1
             export PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES=1
             unset TZ
           '';
