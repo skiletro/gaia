@@ -1,6 +1,6 @@
 {
   gaia = {
-    desktop = "grid";
+    desktop = "rectangle";
     system = {
       # keep-sorted start
       bluetooth.enable = true;
