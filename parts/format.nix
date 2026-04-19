@@ -19,6 +19,7 @@
           deadnix.enable = true;
           just.enable = true;
           keep-sorted.enable = true;
+          nixf-diagnose.enable = true;
           nixfmt.enable = true;
           statix.enable = true;
           toml-sort.enable = true;
