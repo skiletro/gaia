@@ -11,8 +11,8 @@
         flakeCheck = true;
         settings.global.excludes = [
           "*.age"
-          "pkgs/_sources/generated.json"
-          "pkgs/_sources/generated.nix"
+          "packages/_sources/generated.json"
+          "packages/_sources/generated.nix"
         ];
         programs = {
           # keep-sorted start
