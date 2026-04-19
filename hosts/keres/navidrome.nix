@@ -1,6 +1,7 @@
 { self', ... }:
 {
   nixos =
+    { pkgs, ... }:
     let
       subdomain = "navidrome";
       domain = "warm.vodka";
@@ -27,6 +28,9 @@
         reverse_proxy :${toString port}
       '';
 
-      environment.systemPackages = [ self'.packages.spotiflac-cli ];
+      environment.systemPackages = [
+        self'.packages.spotiflac-cli
+        pkgs.beets
+      ];
     };
 }
