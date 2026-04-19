@@ -28,6 +28,7 @@ _m message:
 [no-exit-message]
 [private]
 _format: (_m "formatting code")
+    git add .
     nix fmt
 
 # stages all changes
@@ -97,6 +98,7 @@ test *args: (_builder "test" args)
 [group("rebuild")]
 [no-exit-message]
 deploy system: (_m "deploying")
+    git add .
     nixos-rebuild switch --flake .# \
     --target-host jamie@{{ system }} \
     --build-host jamie@{{ system }} \
