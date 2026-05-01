@@ -1,4 +1,4 @@
-set quiet := true
+set quiet
 
 export NH_FLAKE := justfile_directory()
 RUNNER := `sh -c "command -v gamemoderun > /dev/null && echo gamemoderun || echo"`
