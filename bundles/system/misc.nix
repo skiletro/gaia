@@ -1,4 +1,29 @@
+{ lib, ... }:
 {
+  nixos =
+    { pkgs, ... }:
+    {
+      environment.defaultPackages = lib.mkForce [ pkgs.vim ];
+
+      programs.nano.enable = false;
+
+      services = {
+        speechd.enable = false;
+        dbus.implementation = "broker";
+      };
+
+      documentation = {
+        doc.enable = false;
+        info.enable = false;
+        nixos.enable = false;
+      };
+
+      system = {
+        disableInstallerTools = true; # remove generate, install, enter, option, version, build-vms, firewall
+        tools.nixos-rebuild.enable = true; # but keep rebuild
+      };
+    };
+
   darwin = {
     system = {
       defaults = {
