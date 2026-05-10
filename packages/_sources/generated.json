@@ -16,7 +16,7 @@
     },
     "base16-schemes": {
         "cargoLock": null,
-        "date": "2026-04-24",
+        "date": "2026-05-03",
         "extract": null,
         "name": "base16-schemes",
         "passthru": null,
@@ -26,13 +26,13 @@
             "fetchSubmodules": false,
             "leaveDotGit": false,
             "name": null,
-            "rev": "5f868b3a338b6904c47f3833b9c411be641983a8",
-            "sha256": "sha256-BAGZ7ObFV/9Z61OJZun7ifPyhkuHqNuW1QIhQ8LuzCo=",
+            "rev": "0c94645546f4f3ddac77a1a5fce54eb95bf50795",
+            "sha256": "sha256-PDF0/wObw4nIsSBeXVYLsloXOiphXCgIdsrNcVXguKs=",
             "sparseCheckout": [],
             "type": "git",
             "url": "https://github.com/tinted-theming/schemes.git"
         },
-        "version": "5f868b3a338b6904c47f3833b9c411be641983a8"
+        "version": "0c94645546f4f3ddac77a1a5fce54eb95bf50795"
     },
     "equibop-bin": {
         "cargoLock": null,
@@ -58,11 +58,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-qzc135IP5F2btxtOMUGMz+0azJhYL9KI0lcPG2KjcxU=",
+            "sha256": "sha256-+UE+JqQtxbA5szPvAohapXlES21VBOdNsV6Ej1dRRfs=",
             "type": "url",
-            "url": "https://github.com/imputnet/helium-linux/releases/download/0.11.7.1/helium-0.11.7.1-x86_64.AppImage"
+            "url": "https://github.com/imputnet/helium-linux/releases/download/0.12.1.1/helium-0.12.1.1-x86_64.AppImage"
         },
-        "version": "0.11.7.1"
+        "version": "0.12.1.1"
     },
     "helium-dmg": {
         "cargoLock": null,
@@ -73,11 +73,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-jbu/w3/GYC60Gs0ueeECrbeDDSLAoXFManquIpw0VvM=",
+            "sha256": "sha256-JLziPZ1Hl0WMpOgN5eliSeAjw/NQhtURQZvqWdQdJyk=",
             "type": "url",
-            "url": "https://github.com/imputnet/helium-macos/releases/download/0.11.7.1/helium_0.11.7.1_arm64-macos.dmg"
+            "url": "https://github.com/imputnet/helium-macos/releases/download/0.12.1.1/helium_0.12.1.1_arm64-macos.dmg"
         },
-        "version": "0.11.7.1"
+        "version": "0.12.1.1"
     },
     "hyprland-preview-share-picker": {
         "cargoLock": {
@@ -169,26 +169,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-1b0yGKQiygZq+GtVc5JrXhQfUL/k2hPd7CvxpmK585k=",
+            "sha256": "sha256-LemiIEFqlz+xSypYpwO/oy1lXBYxcGdwqhS/b7xOrlw=",
             "type": "url",
-            "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-10.0-20260425-slr/proton-cachyos-10.0-20260425-slr-x86_64_v3.tar.xz"
+            "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-11.0-20260429-slr/proton-cachyos-11.0-20260429-slr-x86_64_v3.tar.xz"
         },
-        "version": "cachyos-10.0-20260425-slr"
-    },
-    "proton-cachyos_x86_64_v4": {
-        "cargoLock": null,
-        "date": null,
-        "extract": null,
-        "name": "proton-cachyos_x86_64_v4",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "name": null,
-            "sha256": "sha256-EToDEiizqIShm0qkWZo7pfOW6N8C7x+l/RCkjBpgJv0=",
-            "type": "url",
-            "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-10.0-20260425-slr/proton-cachyos-10.0-20260425-slr-x86_64_v4.tar.xz"
-        },
-        "version": "cachyos-10.0-20260425-slr"
+        "version": "cachyos-11.0-20260429-slr"
     },
     "protonpass-bin": {
         "cargoLock": null,

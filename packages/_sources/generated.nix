@@ -16,17 +16,17 @@
   };
   base16-schemes = {
     pname = "base16-schemes";
-    version = "5f868b3a338b6904c47f3833b9c411be641983a8";
+    version = "0c94645546f4f3ddac77a1a5fce54eb95bf50795";
     src = fetchgit {
       url = "https://github.com/tinted-theming/schemes.git";
-      rev = "5f868b3a338b6904c47f3833b9c411be641983a8";
+      rev = "0c94645546f4f3ddac77a1a5fce54eb95bf50795";
       fetchSubmodules = false;
       deepClone = false;
       leaveDotGit = false;
       sparseCheckout = [ ];
-      sha256 = "sha256-BAGZ7ObFV/9Z61OJZun7ifPyhkuHqNuW1QIhQ8LuzCo=";
+      sha256 = "sha256-PDF0/wObw4nIsSBeXVYLsloXOiphXCgIdsrNcVXguKs=";
     };
-    date = "2026-04-24";
+    date = "2026-05-03";
   };
   equibop-bin = {
     pname = "equibop-bin";
@@ -38,18 +38,18 @@
   };
   helium-appimage = {
     pname = "helium-appimage";
-    version = "0.11.7.1";
+    version = "0.12.1.1";
     src = fetchurl {
-      url = "https://github.com/imputnet/helium-linux/releases/download/0.11.7.1/helium-0.11.7.1-x86_64.AppImage";
-      sha256 = "sha256-qzc135IP5F2btxtOMUGMz+0azJhYL9KI0lcPG2KjcxU=";
+      url = "https://github.com/imputnet/helium-linux/releases/download/0.12.1.1/helium-0.12.1.1-x86_64.AppImage";
+      sha256 = "sha256-+UE+JqQtxbA5szPvAohapXlES21VBOdNsV6Ej1dRRfs=";
     };
   };
   helium-dmg = {
     pname = "helium-dmg";
-    version = "0.11.7.1";
+    version = "0.12.1.1";
     src = fetchurl {
-      url = "https://github.com/imputnet/helium-macos/releases/download/0.11.7.1/helium_0.11.7.1_arm64-macos.dmg";
-      sha256 = "sha256-jbu/w3/GYC60Gs0ueeECrbeDDSLAoXFManquIpw0VvM=";
+      url = "https://github.com/imputnet/helium-macos/releases/download/0.12.1.1/helium_0.12.1.1_arm64-macos.dmg";
+      sha256 = "sha256-JLziPZ1Hl0WMpOgN5eliSeAjw/NQhtURQZvqWdQdJyk=";
     };
   };
   hyprland-preview-share-picker = {
@@ -108,18 +108,10 @@
   };
   proton-cachyos_x86_64_v3 = {
     pname = "proton-cachyos_x86_64_v3";
-    version = "cachyos-10.0-20260425-slr";
+    version = "cachyos-11.0-20260429-slr";
     src = fetchurl {
-      url = "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-10.0-20260425-slr/proton-cachyos-10.0-20260425-slr-x86_64_v3.tar.xz";
-      sha256 = "sha256-1b0yGKQiygZq+GtVc5JrXhQfUL/k2hPd7CvxpmK585k=";
-    };
-  };
-  proton-cachyos_x86_64_v4 = {
-    pname = "proton-cachyos_x86_64_v4";
-    version = "cachyos-10.0-20260425-slr";
-    src = fetchurl {
-      url = "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-10.0-20260425-slr/proton-cachyos-10.0-20260425-slr-x86_64_v4.tar.xz";
-      sha256 = "sha256-EToDEiizqIShm0qkWZo7pfOW6N8C7x+l/RCkjBpgJv0=";
+      url = "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-11.0-20260429-slr/proton-cachyos-11.0-20260429-slr-x86_64_v3.tar.xz";
+      sha256 = "sha256-LemiIEFqlz+xSypYpwO/oy1lXBYxcGdwqhS/b7xOrlw=";
     };
   };
   protonpass-bin = {
