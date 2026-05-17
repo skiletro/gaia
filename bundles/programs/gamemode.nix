@@ -27,16 +27,16 @@ bundleLib.mkEnableModule [ "gaia" "programs" "gamemode" ] {
                   # sh
                   ''
                     ${powerprofilesctl} set performance
-                    ${hyprctl} --batch "\
-                      keyword animations:enabled 0;\
-                      keyword animation borderangle,0; \
-                      keyword decoration:shadow:enabled 0;\
-                      keyword decoration:blur:enabled 0;\
-                      keyword decoration:fullscreen_opacity 1;\
-                      keyword general:gaps_in 0;\
-                      keyword general:gaps_out 0;\
-                      keyword general:border_size 1;\
-                      keyword decoration:rounding 0"
+                    # ${hyprctl} --batch "\
+                    #   keyword animations:enabled 0;\
+                    #   keyword animation borderangle,0; \
+                    #   keyword decoration:shadow:enabled 0;\
+                    #   keyword decoration:blur:enabled 0;\
+                    #   keyword decoration:fullscreen_opacity 1;\
+                    #   keyword general:gaps_in 0;\
+                    #   keyword general:gaps_out 0;\
+                    #   keyword general:border_size 1;\
+                    #   keyword decoration:rounding 0"
                     ${hyprctl} notify 1 5000 "rgb(000000)" "Gamemode ON"
                   ''
                 ).outPath;
@@ -44,7 +44,7 @@ bundleLib.mkEnableModule [ "gaia" "programs" "gamemode" ] {
                 (pkgs.writeShellScript "gamemode-end"
                   # sh
                   ''
-                    ${hyprctl} reload
+                    # ${hyprctl} reload
                     ${powerprofilesctl} set power-saver
                     ${hyprctl} notify 1 5000 "rgb(000000)" "Gamemode OFF"
                   ''
