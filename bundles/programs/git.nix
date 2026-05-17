@@ -47,6 +47,7 @@ bundleLib.mkEnableModule [ "gaia" "programs" "git" ] {
               }
             ];
             disableStartupPopups = true;
+            promptToReturnFromSubprocess = false;
           };
         };
       };
