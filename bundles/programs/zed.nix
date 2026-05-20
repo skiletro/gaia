@@ -7,7 +7,12 @@ bundleLib.mkEnableModule [ "gaia" "programs" "zed" ] {
       programs.zed-editor = {
         enable = true;
         extensions = [
+          # keep-sorted start
+          "git_firefly"
+          "just"
+          "lua"
           "nix"
+          # keep-sorted end
         ];
         userSettings = {
           # keep-sorted start block=yes
@@ -39,7 +44,7 @@ bundleLib.mkEnableModule [ "gaia" "programs" "zed" ] {
             diagnostics = false;
           };
           title_bar.show_sign_in = false;
-          ui_font_size = lib.mkForce (config.stylix.fonts.sizes.terminal * 4.0 / 3.0);
+          ui_font_size = lib.mkForce (config.stylix.fonts.sizes.terminal * 1.25);
           # keep-sorted end
         };
         extraPackages = with pkgs; [
