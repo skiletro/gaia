@@ -87,6 +87,22 @@ bundleLib.mkEnableModule [ "gaia" "programs" "steam" ] {
                 wrappers = [ gamemode ];
               };
             };
+            red-dead-redemption-ii = {
+              id = 1174180;
+              compatTool = defaultCompatTool;
+              launchOptions = {
+                env = {
+                  PROTON_FSR4_UPGRADE = 1;
+                  MANGOHUD_CONFIG = "fps_limit=90,fps_only";
+                  PROTON_ENABLE_HDR = 1;
+                  DXVK_HDR = 1;
+                };
+                wrappers = [
+                  mangohud
+                  gamemode
+                ];
+              };
+            };
             vrchat = {
               id = 438100;
               compatTool = "GE-Proton-rtsp";
