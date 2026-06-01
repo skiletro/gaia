@@ -95,7 +95,7 @@
 
     stylix.url = "github:skiletro/stylix/autostart-fix"; # https://github.com/nix-community/stylix/pull/2218
 
-    tangled.url = "git+https://tangled.org/@tangled.org/core";
+    tangled.url = "git+https://tangled.org/tangled.org/core";
 
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";

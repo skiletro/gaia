@@ -30,26 +30,26 @@
   };
   equibop-bin = {
     pname = "equibop-bin";
-    version = "3.2.0";
+    version = "3.2.1";
     src = fetchurl {
-      url = "https://github.com/Equicord/Equibop/releases/download/v3.2.0/Equibop-3.2.0-universal.dmg";
-      sha256 = "sha256-NqLmoO4mhk9hPrELIc3lLwgxLNj2wvr0Y1GLk4VSf3g=";
+      url = "https://github.com/Equicord/Equibop/releases/download/v3.2.1/Equibop-3.2.1-universal.dmg";
+      sha256 = "sha256-J7SWkMg96yTclfbhmNjcNQ3mY0KPqLO9wHe+YYvqc5w=";
     };
   };
   helium-appimage = {
     pname = "helium-appimage";
-    version = "0.12.4.1";
+    version = "0.12.5.1";
     src = fetchurl {
-      url = "https://github.com/imputnet/helium-linux/releases/download/0.12.4.1/helium-0.12.4.1-x86_64.AppImage";
-      sha256 = "sha256-OgS8HkLBseFrEhNFJxMwp1bg0gzPdfY1VaySAAp7vq0=";
+      url = "https://github.com/imputnet/helium-linux/releases/download/0.12.5.1/helium-0.12.5.1-x86_64.AppImage";
+      sha256 = "sha256-uUZauNralX6katmnO9VDLEs+d+HIhkjkeV36Dw2eUmM=";
     };
   };
   helium-dmg = {
     pname = "helium-dmg";
-    version = "0.12.4.1";
+    version = "0.12.5.1";
     src = fetchurl {
-      url = "https://github.com/imputnet/helium-macos/releases/download/0.12.4.1/helium_0.12.4.1_arm64-macos.dmg";
-      sha256 = "sha256-0cpES40UjQqUmdmZqEx37SUKJ1F2L4X+91t8+IQ6y5g=";
+      url = "https://github.com/imputnet/helium-macos/releases/download/0.12.5.1/helium_0.12.5.1_arm64-macos.dmg";
+      sha256 = "sha256-uws6OUTyV6/Ejo1FqFnpNSG3tTUGFMNelrex2m1Ymd0=";
     };
   };
   hyprland-preview-share-picker = {
@@ -86,17 +86,17 @@
   };
   owo-sh = {
     pname = "owo-sh";
-    version = "d6ffda964cd6c81030f8e5516ca57c80a5a5dcb2";
+    version = "e32e86d326bafbc6c983cc45cc0b2d9c00db2926";
     src = fetchgit {
       url = "https://owo.codes/whats-this/owo.sh.git";
-      rev = "d6ffda964cd6c81030f8e5516ca57c80a5a5dcb2";
+      rev = "e32e86d326bafbc6c983cc45cc0b2d9c00db2926";
       fetchSubmodules = false;
       deepClone = false;
       leaveDotGit = false;
       sparseCheckout = [ ];
-      sha256 = "sha256-vwvUiM7mOixyNERjITwcS90jz15QFkwxCEtYzqm+hdg=";
+      sha256 = "sha256-mPD2XM452ZHFQ9tHDOUW3SCexZM9z2NJdFnMzw2Xun0=";
     };
-    date = "2023-04-10";
+    date = "2026-05-26";
   };
   pearcleaner-bin = {
     pname = "pearcleaner-bin";
@@ -108,10 +108,10 @@
   };
   proton-cachyos_x86_64_v3 = {
     pname = "proton-cachyos_x86_64_v3";
-    version = "cachyos-11.0-20260506-slr";
+    version = "cachyos-11.0-20260521-slr";
     src = fetchurl {
-      url = "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-11.0-20260506-slr/proton-cachyos-11.0-20260506-slr-x86_64_v3.tar.xz";
-      sha256 = "sha256-c7Zj46wubq3ZYqganMx4TfP4OgMiEBKoDRuR3KJMSY0=";
+      url = "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-11.0-20260521-slr/proton-cachyos-11.0-20260521-slr-x86_64_v3.tar.xz";
+      sha256 = "sha256-hWkZ+22va9Icx8DEj80k3lZId/jv/ETxXmB8UdwIz6U=";
     };
   };
   protonpass-bin = {
@@ -144,10 +144,10 @@
   };
   swipeaerospace-bin = {
     pname = "swipeaerospace-bin";
-    version = "0.3.0";
+    version = "v0.3.1";
     src = fetchurl {
-      url = "https://github.com/MediosZ/SwipeAeroSpace/releases/download/0.3.0/SwipeAeroSpace.zip";
-      sha256 = "sha256-koHHD9ofObiwNFtCV5bkNhHH29vGzTcvCMUTDOjzWKc=";
+      url = "https://github.com/MediosZ/SwipeAeroSpace/releases/download/v0.3.1/SwipeAeroSpace.zip";
+      sha256 = "sha256-xd2UuSVxf3P1ncUc+8+3u+ZEPWBt2/Z0OuDKYhueRTY=";
     };
   };
 }
