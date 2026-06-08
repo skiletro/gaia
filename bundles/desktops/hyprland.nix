@@ -228,6 +228,10 @@ lib.mkIf (config.gaia.desktop == "hyprland") {
               "initial_title ^(Signal Sticker Pack Creator)$"
               "class com.danklinux.dms"
             ]);
+
+            workspace = [
+              "name:sunshine, monitor:name:Virtual"
+            ];
           };
       };
 
