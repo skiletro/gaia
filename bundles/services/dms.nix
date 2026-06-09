@@ -251,6 +251,26 @@ bundleLib.mkEnableModule [ "gaia" "services" "dms" ] {
               (w "bluetooth")
               (du "mktvkfz3tysbvmtwsns9t6c9d1ya5" "/")
             ];
+
+          # Power menu
+          powerMenuDefaultAction = "restart";
+          powerActionHoldDUration = 0.75;
+
+          # Idle
+          acLockTimeout = 180;
+          acPostLockMonitorTimeout = 900;
+          lockBeforeSuspend = true;
+        };
+        session = {
+          nightModeEnabled = true;
+          nightModeTemperature = 4500;
+          nightModeHighTemperature = 6500;
+          nightModeAutoEnabled = true;
+          nightModeAutoMode = "time";
+          nightModeStartHour = 22;
+          nightModeStartMinute = 0;
+          nightModeEndHour = 6;
+          nightModeEndMinute = 0;
         };
       };
     };
