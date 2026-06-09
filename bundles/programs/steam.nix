@@ -137,8 +137,11 @@ bundleLib.mkEnableModule [ "gaia" "programs" "steam" ] {
         ];
         extest.enable = true;
         protontricks.enable = true;
-        gamescopeSession.enable = true;
+        remotePlay.openFirewall = true;
+        localNetworkGameTransfers.openFirewall = true;
       };
+
+      programs.gamescope.enable = true;
 
       environment.systemPackages = with pkgs; [
         # keep-sorted start
