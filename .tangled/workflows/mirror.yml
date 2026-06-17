@@ -12,6 +12,7 @@ steps:
   - name: "Mirror to GitHub"
     command: |
       git fetch --unshallow 2>/dev/null || true
+      git fetch origin 'refs/heads/*:refs/heads/*' 'refs/tags/*:refs/tags/*'
       git remote add github https://x-access-token:${GITHUB_TOKEN}@github.com/skiletro/gaia.git
       git push --force --all github
       git push --force --tags github
