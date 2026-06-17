@@ -13,4 +13,5 @@ steps:
     command: |
       git fetch --unshallow 2>/dev/null || true
       git remote add github https://x-access-token:${GITHUB_TOKEN}@github.com/skiletro/gaia.git
-      git push --mirror --force github
+      git push --force --all github
+      git push --force --tags github
