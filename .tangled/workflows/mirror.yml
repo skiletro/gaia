@@ -1,0 +1,16 @@
+when:
+  - event: ["push"]
+    branch: ["*"]
+
+engine: "nixery"
+
+dependencies:
+  nixpkgs:
+    - git
+
+steps:
+  - name: "Mirror to GitHub"
+    command: |
+      git fetch --unshallow 2>/dev/null || true
+      git remote add github https://x-access-token:${GITHUB_TOKEN}@github.com/skiletro/gaia.git
+      git push --mirror --force github
