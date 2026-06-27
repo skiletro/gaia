@@ -86,11 +86,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    steam-config-nix = {
-      url = "github:different-name/steam-config-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     stylix.url = "github:nix-community/stylix";
 
     tangled.url = "git+https://tangled.org/tangled.org/core";
