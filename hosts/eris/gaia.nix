@@ -38,6 +38,7 @@
       lsfg.enable = true;
       nu.enable = true;
       obs.enable = true;
+      opencode.enable = true;
       proton.enable = true;
       qbittorrent.enable = true;
       rustdesk.enable = true;
