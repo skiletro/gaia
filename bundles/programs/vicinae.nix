@@ -49,7 +49,6 @@ bundleLib.mkEnableModule [ "gaia" "programs" "vicinae" ] {
               "btop"
               "hyprprop"
               "iamb"
-              "khal"
               "nixos-manual"
               "org.kde.kdeconnect.nonplasma"
               "org.kde.kdeconnect.sms"
