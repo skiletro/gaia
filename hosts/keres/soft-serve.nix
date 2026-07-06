@@ -59,54 +59,54 @@ in
         respond `${
         # html
         ''
-        <!DOCTYPE html>
-        <html lang="en" class="antialiased">
-          <head>
-            <meta charset="UTF-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <title>vodka float</title>
-            <style>
-            * { margin: 0; padding: 0 }
-            body {
-              height: 100dvh; width: 100dvw;
-              overflow: hidden;
-              display: flex; justify-content: center; align-items: center;
-              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-              -webkit-font-smoothing: antialiased;
-              -moz-osx-font-smoothing: grayscale;
-              color: #e4e4e7; background: #0a0a0a;
-            }
-            div { text-align: center }
-            h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.75rem; text-wrap: balance; color: #fafafa }
-            p { font-size: 1rem; margin-bottom: 1.5rem; color: #a1a1aa }
-            code {
-              display: inline-block;
-              font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", "SF Mono", monospace;
-              font-size: 1rem;
-              padding: 0.5rem 1rem;
-              border-radius: 8px;
-              background: #141414;
-              color: #e4e4e7;
-              cursor: copy;
-              transition: background 150ms ease-out;
-            }
-            code:hover { background: #1a1a1a }
-            .cmd::before {
-              content: "$ ";
-              font-weight: 600;
-              color: #52525b;
-              font-family: inherit;
-            }
-            </style>
-          </head>
-          <body>
-            <div>
-              <h1>vodka float</h1>
-              <p>access the git forge over SSH</p>
-              <code class="cmd" onclick="navigator.clipboard?.writeText(this.textContent)">ssh -p ${toString sshPort} ${subdomain}.${domain}</code>
-            </div>
-          </body>
-        </html>
+          <!DOCTYPE html>
+          <html lang="en" class="antialiased">
+            <head>
+              <meta charset="UTF-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <title>vodka float</title>
+              <style>
+              * { margin: 0; padding: 0 }
+              body {
+                height: 100dvh; width: 100dvw;
+                overflow: hidden;
+                display: flex; justify-content: center; align-items: center;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                color: #e4e4e7; background: #0a0a0a;
+              }
+              div { text-align: center }
+              h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.75rem; text-wrap: balance; color: #fafafa }
+              p { font-size: 1rem; margin-bottom: 1.5rem; color: #a1a1aa }
+              code {
+                display: inline-block;
+                font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", "SF Mono", monospace;
+                font-size: 1rem;
+                padding: 0.5rem 1rem;
+                border-radius: 8px;
+                background: #141414;
+                color: #e4e4e7;
+                cursor: copy;
+                transition: background 150ms ease-out;
+              }
+              code:hover { background: #1a1a1a }
+              .cmd::before {
+                content: "$ ";
+                font-weight: 600;
+                color: #52525b;
+                font-family: inherit;
+              }
+              </style>
+            </head>
+            <body>
+              <div>
+                <h1>vodka float</h1>
+                <p>access the git forge over SSH</p>
+                <code class="cmd" onclick="navigator.clipboard?.writeText(this.textContent)">ssh -p ${toString sshPort} ${subdomain}.${domain}</code>
+              </div>
+            </body>
+          </html>
         ''}` 200
       }
 
