@@ -79,6 +79,10 @@ bundleLib.mkEnableModule [ "gaia" "services" "dms" ] {
           selectedGpuIndex = 0;
           enabledGpuPciIds = [ ];
           showSystemTray = true;
+          hiddenTrayIds = [
+            "trayid31211" # Sunshine
+            "dank-calendar::Dank Calendar"
+          ];
           showClock = true;
           showNotificationButton = true;
           showBattery = true;

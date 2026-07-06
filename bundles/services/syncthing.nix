@@ -1,8 +1,6 @@
 { bundleLib, ... }:
 bundleLib.mkEnableModule [ "gaia" "services" "syncthing" ] {
 
-  gaia.autoStart = [ "syncthingtray --wait" ];
-
   nixos =
     { pkgs, ... }:
     {
