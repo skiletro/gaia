@@ -49,6 +49,7 @@
       supersonic.enable = true;
       term-utils.enable = true;
       vial.enable = true;
+      wine.enable = true;
       wivrn.enable = true;
       zed.enable = true;
       zoxide.enable = true;
