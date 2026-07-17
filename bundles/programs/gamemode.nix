@@ -2,8 +2,10 @@
 bundleLib.mkEnableModule [ "gaia" "programs" "gamemode" ] {
 
   nixos =
-    { pkgs, config, ... }:
+    { pkgs, ... }:
     {
+      power-profiles-daemon.enable = true;
+
       programs.gamemode = {
         enable = true;
         enableRenice = false;
@@ -14,39 +16,26 @@ bundleLib.mkEnableModule [ "gaia" "programs" "gamemode" ] {
           };
           custom =
             let
-              powerprofilesctl = lib.getExe pkgs.power-profiles-daemon;
-              hyprctl =
-                if config.programs.hyprland.enable then
-                  (lib.getExe' config.programs.hyprland.package "hyprctl")
-                else
-                  "true"; # do nothing essentially
+              powerprofile = profile: "${lib.getExe pkgs.power-profiles-daemon} set ${profile}";
+              notif =
+                title: content:
+                "${lib.getExe' pkgs.libnotify "notify-send"} notify-send -u low -a 'Gamemode' '${title}' '${content}'";
             in
             {
               start =
                 (pkgs.writeShellScript "gamemode-start"
                   # sh
                   ''
-                    ${powerprofilesctl} set performance
-                    # ${hyprctl} --batch "\
-                    #   keyword animations:enabled 0;\
-                    #   keyword animation borderangle,0; \
-                    #   keyword decoration:shadow:enabled 0;\
-                    #   keyword decoration:blur:enabled 0;\
-                    #   keyword decoration:fullscreen_opacity 1;\
-                    #   keyword general:gaps_in 0;\
-                    #   keyword general:gaps_out 0;\
-                    #   keyword general:border_size 1;\
-                    #   keyword decoration:rounding 0"
-                    ${hyprctl} notify 1 5000 "rgb(000000)" "Gamemode ON"
+                    ${powerprofile "performance"}
+                    ${notif "Gamemode enabled" "Switching to performance mode."}
                   ''
                 ).outPath;
               end =
                 (pkgs.writeShellScript "gamemode-end"
                   # sh
                   ''
-                    # ${hyprctl} reload
-                    ${powerprofilesctl} set power-saver
-                    ${hyprctl} notify 1 5000 "rgb(000000)" "Gamemode OFF"
+                    ${powerprofile "power-saver"}
+                    ${notif "Gamemode disabled" "Switching to power saving mode."}
                   ''
                 ).outPath;
             };
