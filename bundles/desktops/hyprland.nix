@@ -139,6 +139,7 @@ lib.mkIf (config.gaia.desktop == "hyprland") {
                 size = 3;
                 passes = 2;
                 noise = 0.05;
+                vibrancy = 0.1696;
                 popups = true;
                 popups_ignorealpha = 0.3;
               };
@@ -176,21 +177,23 @@ lib.mkIf (config.gaia.desktop == "hyprland") {
 
             cursor.no_warps = true;
 
-            layerrule = [
-              "match:namespace ^noctalia-(bar-.+|notification|dock|panel|attached-panel|osd)$, ignore_alpha 0.5"
-            ];
+            # layerrule = [
+            #   "match:namespace ^noctalia-(bar-.+|notification|dock|panel|attached-panel|osd)$, ignore_alpha 0.5"
+            # ];
+            layerrule =
+              map (x: "match:namespace ^noctalia-(bar-.+|notification|dock|panel|attached-panel|osd)$, ${x}")
+                [
+                  "ignore_alpha 0.5"
+                  "no_anim on"
+                  "blur on"
+                  "blur_popups on"
+                ];
 
             windowrule = [
-              "match:class ^(org.quickshell)$, float on"
-              "match:class ^(org.quickshell)$, center on"
-              "match:class ^(org.quickshell)$, size (monitor_h*.70) (monitor_h*.80)"
+              "match:class dev.noctalia.Noctalia, size 1080 920"
 
               "match:class org.freedesktop.impl.portal.desktop.gnome, float on"
               "match:class org.freedesktop.impl.portal.desktop.gnome, size (monitor_w*.60) (monitor_h*.65)"
-
-              ''match:class ^jetbrains-.*$, match:float 1, match:title ^$|^\s$|^win\d+$, no_initial_focus on''
-
-              "match:class Kodi, fullscreen on"
 
               "match:class steam, float on"
               ''match:class steam, match:title ^(?!\s*$).+, center on''
@@ -223,6 +226,7 @@ lib.mkIf (config.gaia.desktop == "hyprland") {
               "class org.gnome.NautilusPreviewer"
               "initial_title ^(Signal Sticker Pack Creator)$"
               "class Emulator" # normally Android emulator
+              "class dev.noctalia.Noctalia"
             ]);
           };
       };
