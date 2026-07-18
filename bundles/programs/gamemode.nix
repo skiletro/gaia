@@ -4,7 +4,7 @@ bundleLib.mkEnableModule [ "gaia" "programs" "gamemode" ] {
   nixos =
     { pkgs, ... }:
     {
-      power-profiles-daemon.enable = true;
+      services.power-profiles-daemon.enable = true;
 
       programs.gamemode = {
         enable = true;
