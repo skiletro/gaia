@@ -52,6 +52,8 @@
       inputs.flake-compat.follows = "";
     };
 
+    nixos-apple-silicon.url = "github:nix-community/nixos-apple-silicon";
+
     nixos-hardware.url = "github:NixOS/nixos-hardware";
 
     nixpkgs-xr = {
@@ -111,6 +113,7 @@
       "https://attic.xuyh0120.win/lantian"
       "https://helix.cachix.org"
       "https://noctalia.cachix.org"
+      "https://nixos-apple-silicon.cachix.org"
     ];
     extra-trusted-public-keys = [
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
@@ -118,6 +121,7 @@
       "helix.cachix.org-1:ejp9KQpR1FBI2onstMQ34yogDm4OgU2ru6lIwPvuCVs="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+      "nixos-apple-silicon.cachix.org-1:8psDu5SA5dAD7qA0zMy5UT292TxeEPzIz8VVEr2Js20="
     ];
   };
 }

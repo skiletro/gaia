@@ -16,6 +16,12 @@
           system = "aarch64-linux";
           systemPlatform = "nixos";
         };
+
+        moirai = {
+          system = "aarch64-linux";
+          systemPlatform = "nixos";
+        };
+
         hemera = {
           system = "x86_64-linux";
           systemPlatform = "nixos";
