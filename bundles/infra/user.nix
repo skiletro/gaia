@@ -14,7 +14,8 @@ in
         mutableUsers = false; # forces declaration of user and group adding and modification
         users.${username} = {
           isNormalUser = true;
-          hashedPasswordFile = config.sops.secrets.jamie-password.path; # config reqires bootstrapping to get this pwd
+          password = "123";
+          # hashedPasswordFile = config.sops.secrets.jamie-password.path; # config reqires bootstrapping to get this pwd
           extraGroups = [
             "users" # default user group for users
             "wheel" # sudo

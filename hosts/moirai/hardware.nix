@@ -4,16 +4,26 @@
   ...
 }:
 {
-  nixos = { modulesPath, ... }: {
+  nixos = { modulesPath, pkgs, ... }: {
     imports = [
       (modulesPath + "/installer/scan/not-detected.nix")
       inputs.nixos-apple-silicon.nixosModules.apple-silicon-support
     ];
 
-    hardware.asahi.enable = true;
+    hardware.asahi = {
+      enable = true;
+      extractPeripheralFirmware = true;
+      peripheralFirmwareDirectory = pkgs.requireFile {
+        name = "vendorfw";
+        hashMode = "recursive";
+        hash = "sha256-SzAb/GNueE4DKx3FPfgp6QxXjrnT+tocu0Hz6WsUcvI=";
+        message = "Please run 'nix-store --add-fixed sha256 --recursive /boot/vendorfw' to add the firmware.";
+      };
+      # nix hash path --algo sha256 /boot/vendorfw
+    };
 
-    services.xserver.xkbOptions = "ctrl:nocaps"; # use capslock as ctrl
-    console.useXkbConfig = true;
+    # services.xserver.xkbOptions = "ctrl:nocaps"; # use capslock as ctrl
+    # console.useXkbConfig = true;
 
     networking.networkmanager = {
       enable = lib.mkForce true;
