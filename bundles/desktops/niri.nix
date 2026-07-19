@@ -105,160 +105,112 @@ lib.mkIf (config.gaia.desktop == "niri") {
           }
         ];
 
-        binds = {
-          # App shortcuts
-          "Mod+Return".action.spawn = [ "${lib.getExe pkgs.kitty}" ];
-          "Mod+Space".action.spawn = [
-            "vicinae"
-            "toggle"
-          ];
-          "Mod+F".action.spawn = "helium";
-          "Mod+E".action.spawn = [
-            "${lib.getExe pkgs.nautilus}"
-            "--new-window"
-          ];
+        binds =
+          let
+            strToList = str: lib.strings.splitString " " str;
 
-          # Window management
-          "Mod+Shift+Q".action.close-window = { };
-          "Mod+Shift+F".action.maximize-column = { };
-          "Mod+Ctrl+Shift+F".action.fullscreen-window = { };
-          "Mod+Shift+Space".action.toggle-window-floating = { };
+            noctalia = msg: strToList "noctalia msg ${msg}";
+            vicinae = deeplink: strToList "vicinae deeplink ${deeplink}";
+          in
+          {
+            # App shortcuts
+            "Mod+Return".action.spawn = "${lib.getExe pkgs.kitty}";
+            "Mod+Space".action.spawn = strToList "vicinae toggle";
+            "Mod+F".action.spawn = "helium";
+            "Mod+E".action.spawn = strToList "${lib.getExe pkgs.nautilus} --new-window";
 
-          # Vicinae deep links
-          "Mod+P".action.spawn = [
-            "vicinae"
-            "deeplink"
-            "vicinae://launch/@leonkohli/vicinae-extension-process-manager-0/processes"
-          ];
-          "Mod+Shift+P".action.spawn = [
-            "vicinae"
-            "deeplink"
-            "vicinae://launch/power"
-          ];
-          "Mod+Period".action.spawn = [
-            "vicinae"
-            "deeplink"
-            "vicinae://launch/core/search-emojis"
-          ];
+            # Window management
+            "Mod+Shift+Q".action.close-window = { };
+            "Mod+Shift+F".action.maximize-column = { };
+            "Mod+Ctrl+Shift+F".action.fullscreen-window = { };
+            "Mod+Shift+Space".action.toggle-window-floating = { };
 
-          # Lock & screenshot
-          "Mod+Delete".action.spawn = [
-            "noctalia"
-            "msg"
-            "session"
-            "lock"
-          ];
-          "Print".action.spawn = [
-            "${lib.getExe pkgs.grimblast}"
-            "copy"
-            "area"
-          ];
+            # Vicinae deep links
+            "Mod+P".action.spawn =
+              vicinae "vicinae://launch/@leonkohli/vicinae-extension-process-manager-0/processes";
+            "Mod+Shift+P".action.spawn = vicinae "vicinae://launch/power";
+            "Mod+Period".action.spawn = vicinae "vicinae://launch/core/search-emojis";
+            # Lock & screenshot
+            "Mod+Delete".action.spawn = noctalia "session lock";
+            "Mod+Shift+S".action.spawn = noctalia "screenshot-region";
 
-          # Focus — HJKL (primary)
-          "Mod+H".action.focus-column-left = { };
-          "Mod+J".action.focus-window-down = { };
-          "Mod+K".action.focus-window-up = { };
-          "Mod+L".action.focus-column-right = { };
+            # Focus — HJKL (primary)
+            "Mod+H".action.focus-column-left = { };
+            "Mod+J".action.focus-window-down = { };
+            "Mod+K".action.focus-window-up = { };
+            "Mod+L".action.focus-column-right = { };
 
-          # Focus — arrows (fallback)
-          "Mod+Left".action.focus-column-left = { };
-          "Mod+Down".action.focus-window-down = { };
-          "Mod+Up".action.focus-window-up = { };
-          "Mod+Right".action.focus-column-right = { };
+            # Focus — arrows (fallback)
+            "Mod+Left".action.focus-column-left = { };
+            "Mod+Down".action.focus-window-down = { };
+            "Mod+Up".action.focus-window-up = { };
+            "Mod+Right".action.focus-column-right = { };
 
-          # Move window — Shift+HJKL (primary)
-          "Mod+Shift+H".action.move-column-left = { };
-          "Mod+Shift+J".action.move-window-down = { };
-          "Mod+Shift+K".action.move-window-up = { };
-          "Mod+Shift+L".action.move-column-right = { };
+            # Move window — Shift+HJKL (primary)
+            "Mod+Shift+H".action.move-column-left = { };
+            "Mod+Shift+J".action.move-window-down = { };
+            "Mod+Shift+K".action.move-window-up = { };
+            "Mod+Shift+L".action.move-column-right = { };
 
-          # Move window — Shift+arrows (fallback)
-          "Mod+Shift+Left".action.move-column-left = { };
-          "Mod+Shift+Down".action.move-window-down = { };
-          "Mod+Shift+Up".action.move-window-up = { };
-          "Mod+Shift+Right".action.move-column-right = { };
+            # Move window — Shift+arrows (fallback)
+            "Mod+Shift+Left".action.move-column-left = { };
+            "Mod+Shift+Down".action.move-window-down = { };
+            "Mod+Shift+Up".action.move-window-up = { };
+            "Mod+Shift+Right".action.move-column-right = { };
 
-          # Workspaces
-        }
-        // (builtins.listToAttrs (
-          map (i: {
-            name = "Mod+${toString i}";
-            value = {
-              hotkey-overlay.hidden = true;
-              action.focus-workspace = i;
+            # Workspaces
+          }
+          // (builtins.listToAttrs (
+            map (i: {
+              name = "Mod+${toString i}";
+              value = {
+                hotkey-overlay.hidden = true;
+                action.focus-workspace = i;
+              };
+            }) (lib.range 1 9)
+          ))
+          // (builtins.listToAttrs (
+            map (i: {
+              name = "Mod+Shift+${toString i}";
+              value = {
+                hotkey-overlay.hidden = true;
+                action.move-column-to-workspace = i;
+              };
+            }) (lib.range 1 9)
+          ))
+          // {
+            # Media keys (locked — work even when screen is locked)
+            "XF86AudioRaiseVolume" = {
+              allow-when-locked = true;
+              repeat = false;
+              action.spawn = noctalia "volume-up";
             };
-          }) (lib.range 1 9)
-        ))
-        // (builtins.listToAttrs (
-          map (i: {
-            name = "Mod+Shift+${toString i}";
-            value = {
-              hotkey-overlay.hidden = true;
-              action.move-column-to-workspace = i;
+            "XF86AudioLowerVolume" = {
+              allow-when-locked = true;
+              repeat = false;
+              action.spawn = noctalia "volume-down";
             };
-          }) (lib.range 1 9)
-        ))
-        // {
-          # Media keys (locked — work even when screen is locked)
-          "XF86AudioRaiseVolume" = {
-            allow-when-locked = true;
-            repeat = false;
-            action.spawn = [
-              "noctalia"
-              "msg"
-              "volume-up"
-            ];
+            "XF86AudioNext" = {
+              allow-when-locked = true;
+              repeat = false;
+              action.spawn = noctalia "media next";
+            };
+            "XF86AudioPrev" = {
+              allow-when-locked = true;
+              repeat = false;
+              action.spawn = noctalia "media previous";
+            };
+            "XF86AudioPlay" = {
+              allow-when-locked = true;
+              repeat = false;
+              action.spawn = noctalia "media toggle";
+            };
+            "XF86PowerOff" = {
+              allow-when-locked = true;
+              repeat = false;
+              action.spawn = noctalia "session lock";
+            };
           };
-          "XF86AudioLowerVolume" = {
-            allow-when-locked = true;
-            repeat = false;
-            action.spawn = [
-              "noctalia"
-              "msg"
-              "volume-down"
-            ];
-          };
-          "XF86AudioNext" = {
-            allow-when-locked = true;
-            repeat = false;
-            action.spawn = [
-              "noctalia"
-              "msg"
-              "media"
-              "next"
-            ];
-          };
-          "XF86AudioPrev" = {
-            allow-when-locked = true;
-            repeat = false;
-            action.spawn = [
-              "noctalia"
-              "msg"
-              "media"
-              "previous"
-            ];
-          };
-          "XF86AudioPlay" = {
-            allow-when-locked = true;
-            repeat = false;
-            action.spawn = [
-              "noctalia"
-              "msg"
-              "media"
-              "toggle"
-            ];
-          };
-          "XF86PowerOff" = {
-            allow-when-locked = true;
-            repeat = false;
-            action.spawn = [
-              "noctalia"
-              "msg"
-              "session"
-              "lock"
-            ];
-          };
-        };
 
         blur = {
           enable = true;
@@ -336,14 +288,6 @@ lib.mkIf (config.gaia.desktop == "niri") {
 
           # Apps that should float
           {
-            matches = [ { app-id = "fsearch"; } ];
-            open-floating = true;
-          }
-          {
-            matches = [ { app-id = "com\\.saivert\\.pwvucontrol"; } ];
-            open-floating = true;
-          }
-          {
             matches = [ { app-id = "crashreporter"; } ];
             open-floating = true;
           }
@@ -362,16 +306,6 @@ lib.mkIf (config.gaia.desktop == "niri") {
           {
             matches = [ { app-id = "Emulator"; } ];
             open-floating = true;
-          }
-
-          # Steam
-          {
-            matches = [ { app-id = "steam"; } ];
-            open-floating = true;
-          }
-          {
-            matches = [ { title = "Steam"; } ];
-            open-floating = false;
           }
         ];
 
