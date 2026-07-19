@@ -236,7 +236,6 @@ bundleLib.mkEnableModule [ "gaia" "services" "noctalia" ] {
 
         # Misc
         theme.pure_black_dark = true;
-        wallpaper.enabled = false; # use hyprbg or whatever
         plugins.enabled = [ ];
 
         shell = {
