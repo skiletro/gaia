@@ -15,7 +15,7 @@
       btop.enable = true;
       devenv.enable = true;
       git.enable = true;
-      # helium.enable = true;
+      helium.enable = true;
       helix.enable = true;
       nu.enable = true;
       term-utils.enable = true;
