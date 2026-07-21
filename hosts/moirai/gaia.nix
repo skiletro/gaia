@@ -3,6 +3,7 @@
     desktop = "niri";
     system = {
       # keep-sorted start
+      autologin.enable = true;
       bluetooth.enable = true;
       fonts.enable = true;
       greeter.enable = true;
