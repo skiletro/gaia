@@ -20,6 +20,7 @@
       # keep-sorted start
       btop.enable = true;
       devenv.enable = true;
+      direnv.enable = true;
       discord.enable = true;
       git.enable = true;
       helium.enable = true;
