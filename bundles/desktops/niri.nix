@@ -139,6 +139,12 @@ lib.mkIf (config.gaia.desktop == "niri") {
             "Mod+Ctrl+Shift+F".action.fullscreen-window = { };
             "Mod+Shift+Space".action.toggle-window-floating = { };
 
+            # Resize window
+            "Mod+Minus".action.set-column-width = "-5%";
+            "Mod+Equal".action.set-column-width = "+5%";
+            "Mod+Shift+Minus".action.set-window-height = "-5%";
+            "Mod+Shift+Equal".action.set-window-height = "+5%";
+
             "Mod+P".action.spawn =
               vicinae "vicinae://launch/@leonkohli/vicinae-extension-process-manager-0/processes";
             "Mod+Shift+P".action.spawn = vicinae "vicinae://launch/power";
