@@ -80,6 +80,15 @@ lib.mkIf (config.gaia.desktop == "niri") {
             };
             variable-refresh-rate = true;
           };
+          "eDP-1" = {
+            mode = {
+              width = 2560;
+              height = 1600;
+              refresh = 60.0;
+            };
+            scale = 1.5;
+            variable-refresh-rate = true;
+          };
         };
 
         layout = {
