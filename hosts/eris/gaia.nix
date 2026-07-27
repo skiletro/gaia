@@ -33,6 +33,7 @@
       gamemode.enable = true;
       git.enable = true;
       gsr.enable = true;
+      handy.enable = true;
       helium.enable = true;
       helix.enable = true;
       kitty.enable = true;

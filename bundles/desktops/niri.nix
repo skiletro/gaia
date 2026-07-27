@@ -141,6 +141,7 @@ lib.mkIf (config.gaia.desktop == "niri") {
             "XF86Search".action.spawn = strToList "vicinae toggle";
             "Mod+F".action.spawn = "helium";
             "Mod+E".action.spawn = strToList "${lib.getExe pkgs.nautilus} --new-window";
+            "Ctrl+Space".action.spawn = strToList "pkill -USR2 -n handy";
 
             # Window management
             "Mod+Shift+Q".action.close-window = { };
