@@ -54,7 +54,6 @@
       url = "github:kaylorben/nixcord";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-parts.follows = "flake-parts";
-      inputs.flake-compat.follows = "";
     };
 
     nixos-apple-silicon.url = "github:nix-community/nixos-apple-silicon";

@@ -32,7 +32,6 @@ bundleLib.mkEnableModule [ "gaia" "programs" "discord" ] {
           clearUrls.enable = true;
           crashHandler.enable = true;
           fakeNitro.enable = true;
-          favoriteGifSearch.enable = true;
           fixSpotifyEmbeds.enable = true;
           fixYoutubeEmbeds.enable = true;
           middleClickTweaks.enable = true;
