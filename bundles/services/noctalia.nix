@@ -23,9 +23,8 @@ bundleLib.mkEnableModule [ "gaia" "services" "noctalia" ] {
             end = [
               "tray"
               "group:g1"
-              "group:g2"
             ];
-            margin_ends = 250;
+            margin_ends = 0;
             padding = 4;
             position = "left";
             shadow = false;
@@ -41,17 +40,7 @@ bundleLib.mkEnableModule [ "gaia" "services" "noctalia" ] {
                   "notifications"
                   "volume"
                   "network"
-                ];
-                opacity = 1.0;
-                padding = 6.0;
-              }
-              {
-                enabled = true;
-                fill = "surface_variant";
-                id = "g2";
-                members = [
                   "battery"
-                  "brightness"
                 ];
                 opacity = 1.0;
                 padding = 6.0;
