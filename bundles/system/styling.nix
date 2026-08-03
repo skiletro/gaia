@@ -7,7 +7,7 @@
 }:
 let
   sharedStylixConfig = config: pkgs: {
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/chalk.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/rose-pine.yaml";
     polarity = "dark";
     fonts = {
       sansSerif = {
@@ -34,8 +34,9 @@ let
     image =
       let
         wallpaper = pkgs.fetchurl {
-          url = "https://w.wallhaven.cc/full/3k/wallhaven-3k5zgy.jpg";
-          sha256 = "0g995gd4zpyhz5fxlh6grid4r02yaz46s1cnn21frzs2pc3pr9mp";
+          # tags: macro, plants, nature, depth of field
+          url = "https://w.wallhaven.cc/full/8o/wallhaven-8o8owk.png";
+          sha256 = "1cynpqlsid9fsvdcr834ppmq2672wls5incnx9l5arzfi765clrm";
         };
       in
       pkgs.runCommand "output.png" { }
