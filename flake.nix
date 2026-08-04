@@ -3,6 +3,8 @@
 
   inputs = {
     # keep-sorted start block=yes newline_separated=yes
+    asahix.url = "github:warm-vodka/asahix";
+
     bundle.url = "github:different-name/bundle-of-nix";
 
     cursors.url = "github:lilleaila/nix-cursors";
@@ -116,6 +118,7 @@
   nixConfig = {
     extra-trusted-substituters = [
       # keep-sorted start
+      "https://asahix.cachix.org"
       "https://helix.cachix.org"
       "https://hyprland.cachix.org"
       "https://niri.cachix.org"
@@ -126,6 +129,7 @@
     ];
     extra-trusted-public-keys = [
       # keep-sorted start
+      "asahix.cachix.org-1:SDzLl9HW7kV2h/6yBCZwjhveL2HUjjdI0x+qFB0I54Y="
       "helix.cachix.org-1:ejp9KQpR1FBI2onstMQ34yogDm4OgU2ru6lIwPvuCVs="
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
       "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
