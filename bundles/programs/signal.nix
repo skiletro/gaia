@@ -6,9 +6,18 @@ bundleLib.mkEnableModule [ "gaia" "programs" "signal" ] {
     let
       css =
         with config.lib.stylix.colors;
+        with config.stylix.fonts;
         pkgs.writeText "signal-stylix.css"
           # css
           ''
+            * {
+              font-family: "${sansSerif.name}", sans-serif !important;
+            }
+
+            code, pre, [style*="monospace"], *[class*="code"], *[class*="mono"] {
+              font-family: "${monospace.name}", monospace !important;
+            }
+
             /* ======== NavTabs (leftmost bar) ======== */
             .NavTabs {
               background-color: #${base01} !important;
