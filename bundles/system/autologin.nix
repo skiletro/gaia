@@ -2,7 +2,7 @@
 bundleLib.mkEnableModule [ "gaia" "system" "autologin" ] {
 
   nixos =
-    { pkgs, ... }:
+    { config, pkgs, ... }:
     {
 
       services.greetd.settings.initial_session = {
@@ -14,11 +14,11 @@ bundleLib.mkEnableModule [ "gaia" "system" "autologin" ] {
         KeyringMode = lib.mkForce "inherit";
       };
 
-      security.pam.services.greetd.rules.session.fde-boot-pw = {
+      security.pam.services.login.rules.session.fde-boot-pw = {
         control = "optional";
         modulePath = "${pkgs.pam_fde_boot_pw}/lib/security/pam_fde_boot_pw.so";
         settings.inject_for = "gkr";
-        order = 12500;
+        order = config.security.pam.services.login.rules.session.gnome_keyring.order - 100;
       };
 
     };
