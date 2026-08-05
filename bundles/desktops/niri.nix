@@ -10,6 +10,7 @@ lib.mkIf (config.gaia.desktop == "niri") {
     programs = {
       vicinae.enable = true;
       suite.enable = true;
+      kitty.enable = true;
     };
     services.noctalia.enable = true;
   };
