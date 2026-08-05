@@ -10,14 +10,6 @@ bundleLib.mkEnableModule [ "gaia" "programs" "signal" ] {
         pkgs.writeText "signal-stylix.css"
           # css
           ''
-            * {
-              font-family: "${sansSerif.name}", sans-serif !important;
-            }
-
-            code, pre, [style*="monospace"], *[class*="code"], *[class*="mono"] {
-              font-family: "${monospace.name}", monospace !important;
-            }
-
             /* ======== NavTabs (leftmost bar) ======== */
             .NavTabs {
               background-color: #${base01} !important;
@@ -250,6 +242,9 @@ bundleLib.mkEnableModule [ "gaia" "programs" "signal" ] {
             cp ${css} stylesheets/stylix.css
             LINE=$(grep -n '^@use\|^@forward' stylesheets/manifest.scss | tail -1 | cut -d: -f1)
             sed -i "''${LINE}a @import \"stylix.css\";" stylesheets/manifest.scss
+
+            sed -i "s/Inter/'${config.stylix.fonts.sansSerif.name}'/g" ts/axo/_tailwind-theme/fonts.css
+            sed -i "s/SF Mono/${config.stylix.fonts.monospace.name}/g" ts/axo/_tailwind-theme/fonts.css
           '';
         }))
       ];
