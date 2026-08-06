@@ -23,6 +23,12 @@
       # nix hash path --algo sha256 /boot/vendorfw
     };
 
+    users.users.jamie.extraGroups = [ "video" ];
+
+    services.udev.extraRules = ''
+      ACTION=="add", SUBSYSTEM=="backlight", RUN+="${pkgs.coreutils}/bin/chgrp video %S/class/backlight/%k/brightness", RUN+="${pkgs.coreutils}/bin/chmod g+w %S/class/backlight/%k/brightness"
+    '';
+
     networking.networkmanager = {
       enable = lib.mkForce true;
       wifi.backend = lib.mkForce "iwd";
