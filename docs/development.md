@@ -16,7 +16,7 @@ Everything goes through `just`. Run `just` for the full list with descriptions.
 | `just boot` | format, stage, then build and update the bootloader |
 | `just build` | format, stage, then build |
 | `just test` | build and test the generation |
-| `just deploy <host>` | build and deploy to a remote host over ssh |
+| `just deploy <host>` | deploy to a remote host over ssh with deploy-rs |
 | `just pkg <name>` | build a package from this flake |
 | `just iso` | build the installer ISO |
 | `just update` | update flake inputs and package sources |
@@ -63,5 +63,14 @@ config.sops.secrets.wakapi-key.path
 
 ## Deployment
 
-`just deploy <host>` builds on the target and switches, connecting as
-`jamie@<host>`. The host must be reachable over ssh and the user must have sudo.
+Deployment uses deploy-rs. Nodes are defined in `parts/deploy.nix`; currently
+only `keres` has one. `just deploy keres` runs the `deploy` binary from the
+devShell against the pinned deploy-rs input.
+
+Builds happen on the target when the local architecture does not match the
+node (keres is aarch64, so an x86_64 machine builds remotely), and locally
+otherwise. Activation runs as root over sudo and prompts for the password,
+since jamie has no passwordless sudo. deploy-rs runs `nix flake check` before
+deploying, so the tree must be formatted.
+
+The host must be reachable over ssh as `jamie@keres`.

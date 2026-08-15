@@ -3,6 +3,8 @@ set quiet
 export NH_FLAKE := justfile_directory()
 RUNNER := `sh -c "command -v gamemoderun > /dev/null && echo gamemoderun || echo"`
 [private]
+_arch := `uname -m`
+[private]
 _nix := require("nix")
 [private]
 _nh := require("nh")
@@ -84,14 +86,9 @@ test *args: (_builder "test" args)
 [doc("builds and deploys a system to a target")]
 [group("rebuild")]
 [no-exit-message]
-deploy system: (_m "deploying")
+deploy host: (_m "deploying")
     git add .
-    nixos-rebuild switch --flake .# \
-    --target-host jamie@{{ system }} \
-    --build-host jamie@{{ system }} \
-    --use-substitutes \
-    --no-reexec \
-    --sudo --ask-sudo-password
+    deploy .#{{ host }}{{ if _arch == "aarch64" { "" } else { " --remote-build" } }}
 
 [doc("build a package")]
 [group("package")]
