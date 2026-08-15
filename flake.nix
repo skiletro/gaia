@@ -99,7 +99,7 @@
     };
 
     tuigreet = {
-      url = "github:NotAShelf/tuigreet";
+      url = "github:tuigreet/tuigreet";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

@@ -36,9 +36,9 @@ bundleLib.mkEnableModule [ "gaia" "programs" "git" ] {
                 ""
               ];
             };
-            git.pagers = [
+            git.diffRenderers = [
               {
-                pager = "${lib.getExe pkgs.delta} --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format=\"lazygit-edit://{path}:{line}\"";
+                command = "${lib.getExe pkgs.delta} --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format=\"lazygit-edit://{path}:{line}\"";
                 colorArg = "always";
               }
             ];
