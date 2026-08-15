@@ -13,7 +13,6 @@
     };
     services = {
       # keep-sorted start
-      appimage.enable = true;
       flatpak.enable = true;
       kdeconnect.enable = true;
       printing.enable = true;
