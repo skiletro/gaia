@@ -1,3 +1,11 @@
+# Bundle Examples
+
+The retired `dms` bundle (Dank Material Shell and Dank Calendar) shows a
+`services` bundle that uses both `nixos` and `home-manager` blocks, imports
+home modules from flake inputs, and reads `config.stylix` inside the
+home-manager block.
+
+```nix
 { bundleLib, inputs, ... }:
 bundleLib.mkEnableModule [ "gaia" "services" "dms" ] {
 
@@ -285,3 +293,16 @@ bundleLib.mkEnableModule [ "gaia" "services" "dms" ] {
     };
 
 }
+```
+
+Notable patterns:
+
+- Both platform blocks in one bundle: `nixos` for system modules, `home-manager`
+  for user modules.
+- Flake input home modules are imported with `inputs`, for example
+  `inputs.dms-plugin-registry.homeModules.default`.
+- `config.stylix.fonts` is read directly in the home-manager block to pull in
+  the active theme fonts.
+
+The bundle is retired and its inputs (`dms`, `dms-plugin-registry`, `dcal`) are
+no longer declared in `flake.nix`, so this is reference only.
