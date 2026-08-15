@@ -1,14 +1,16 @@
-{ bundleLib, inputs, ... }:
-bundleLib.mkEnableModule [ "gaia" "services" "noctalia" ] {
-
+{
+  bundleLib,
+  inputs,
+  ...
+}:
+bundleLib.mkEnableModule ["gaia" "services" "noctalia"] {
   home-manager = {
-    imports = [ inputs.noctalia.homeModules.default ];
+    imports = [inputs.noctalia.homeModules.default];
 
     programs.noctalia = {
       enable = true;
       systemd.enable = true;
       settings = {
-
         # Status bar
         bar = {
           default = {
@@ -28,7 +30,7 @@ bundleLib.mkEnableModule [ "gaia" "services" "noctalia" ] {
             padding = 4;
             position = "left";
             shadow = false;
-            start = [ "workspaces" ];
+            start = ["workspaces"];
             capsule_group = [
               {
                 enabled = true;
@@ -66,7 +68,7 @@ bundleLib.mkEnableModule [ "gaia" "services" "noctalia" ] {
           };
           tray = {
             drawer = true;
-            pinned = [ "Steam" ];
+            pinned = ["Steam"];
           };
           volume = {
             show_label = false;
@@ -157,7 +159,7 @@ bundleLib.mkEnableModule [ "gaia" "services" "noctalia" ] {
 
         # Misc
         theme.pure_black_dark = true;
-        plugins.enabled = [ ];
+        plugins.enabled = [];
 
         shell = {
           date_format = "%A, %-d %B %Y";
@@ -177,5 +179,4 @@ bundleLib.mkEnableModule [ "gaia" "services" "noctalia" ] {
       };
     };
   };
-
 }

@@ -1,6 +1,4 @@
-{ bundleLib, ... }:
-bundleLib.mkEnableModule [ "gaia" "services" "kdeconnect" ] {
-
+{bundleLib, ...}:
+bundleLib.mkEnableModule ["gaia" "services" "kdeconnect"] {
   nixos.programs.kdeconnect.enable = true;
-
 }

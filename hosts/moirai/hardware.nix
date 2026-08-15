@@ -3,9 +3,12 @@
   inputs',
   lib,
   ...
-}:
-{
-  nixos = { modulesPath, pkgs, ... }: {
+}: {
+  nixos = {
+    modulesPath,
+    pkgs,
+    ...
+  }: {
     imports = [
       (modulesPath + "/installer/scan/not-detected.nix")
       inputs.nixos-apple-silicon.nixosModules.apple-silicon-support
@@ -23,7 +26,7 @@
       # nix hash path --algo sha256 /boot/vendorfw
     };
 
-    users.users.jamie.extraGroups = [ "video" ];
+    users.users.jamie.extraGroups = ["video"];
 
     services.udev.extraRules = ''
       ACTION=="add", SUBSYSTEM=="backlight", RUN+="${pkgs.coreutils}/bin/chgrp video %S/class/backlight/%k/brightness", RUN+="${pkgs.coreutils}/bin/chmod g+w %S/class/backlight/%k/brightness"
@@ -44,20 +47,20 @@
         efi.canTouchEfiVariables = lib.mkForce false;
       };
       initrd = {
-        availableKernelModules = [ "usb_storage" ];
-        kernelModules = [ ];
+        availableKernelModules = ["usb_storage"];
+        kernelModules = [];
         luks.devices."crypted".device = "/dev/disk/by-uuid/37cf79ca-1c79-4b61-a9d5-a3f8e2741673";
       };
       kernelPackages = lib.mkForce inputs'.asahix.packages.linux_asahi_fairydust;
-      kernelModules = [ ];
-      extraModulePackages = [ ];
+      kernelModules = [];
+      extraModulePackages = [];
     };
 
     fileSystems = {
       "/" = {
         device = "/dev/mapper/crypted";
         fsType = "btrfs";
-        options = [ "subvol=@" ];
+        options = ["subvol=@"];
       };
       "/boot" = {
         device = "/dev/disk/by-uuid/81C6-1501";
@@ -70,17 +73,17 @@
       "/home" = {
         device = "/dev/mapper/crypted";
         fsType = "btrfs";
-        options = [ "subvol=@home" ];
+        options = ["subvol=@home"];
       };
       "/nix" = {
         device = "/dev/mapper/crypted";
         fsType = "btrfs";
-        options = [ "subvol=@nix" ];
+        options = ["subvol=@nix"];
       };
       "/.swapvol" = {
         device = "/dev/mapper/crypted";
         fsType = "btrfs";
-        options = [ "subvol=@swap" ];
+        options = ["subvol=@swap"];
       };
     };
 
@@ -89,7 +92,5 @@
         device = "/.swapvol/swapfile";
       }
     ];
-
   };
-
 }

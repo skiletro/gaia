@@ -4,8 +4,7 @@
   self',
   lib,
   ...
-}:
-let
+}: let
   sharedStylixConfig = config: pkgs: {
     base16Scheme = "${pkgs.base16-schemes}/share/themes/rose-pine.yaml";
     polarity = "dark";
@@ -31,29 +30,29 @@ let
         terminal = 14;
       };
     };
-    image =
-      let
-        wallpaper = pkgs.fetchurl {
-          # tags: macro, plants, nature, depth of field
-          url = "https://w.wallhaven.cc/full/8o/wallhaven-8o8owk.png";
-          sha256 = "1cynpqlsid9fsvdcr834ppmq2672wls5incnx9l5arzfi765clrm";
-        };
-      in
-      pkgs.runCommand "output.png" { }
-        "${lib.getExe pkgs.lutgen} apply ${wallpaper} -o $out -- ${builtins.concatStringsSep " " config.lib.stylix.colors.toList}";
+    image = let
+      wallpaper = pkgs.fetchurl {
+        # tags: macro, plants, nature, depth of field
+        url = "https://w.wallhaven.cc/full/8o/wallhaven-8o8owk.png";
+        sha256 = "1cynpqlsid9fsvdcr834ppmq2672wls5incnx9l5arzfi765clrm";
+      };
+    in
+      pkgs.runCommand "output.png" {}
+      "${lib.getExe pkgs.lutgen} apply ${wallpaper} -o $out -- ${builtins.concatStringsSep " " config.lib.stylix.colors.toList}";
   };
-in
-{
-  nixos =
-    { config, pkgs, ... }:
-    {
-      imports = [ inputs.stylix.nixosModules.stylix ];
+in {
+  nixos = {
+    config,
+    pkgs,
+    ...
+  }: {
+    imports = [inputs.stylix.nixosModules.stylix];
 
-      stylix = {
+    stylix =
+      {
         enable = true;
         cursor = {
-          package =
-            with config.lib.stylix.colors.withHashtag;
+          package = with config.lib.stylix.colors.withHashtag;
             inputs'.cursors.packages.apple-cursor.override {
               background_color = base00;
               outline_color = base06;
@@ -70,18 +69,16 @@ in
         };
       }
       // (sharedStylixConfig config pkgs);
+  };
+
+  home-manager = {pkgs, ...}: {
+    stylix.icons = {
+      enable = true;
+      package = pkgs.morewaita-icon-theme;
+      dark = "MoreWaita";
+      light = "MoreWaita";
     };
 
-  home-manager =
-    { pkgs, ... }:
-    {
-      stylix.icons = {
-        enable = true;
-        package = pkgs.morewaita-icon-theme;
-        dark = "MoreWaita";
-        light = "MoreWaita";
-      };
-
-      home.pointerCursor.enable = true;
-    };
+    home.pointerCursor.enable = true;
+  };
 }

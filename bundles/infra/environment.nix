@@ -1,20 +1,17 @@
-{ lib, ... }:
-{
-  nixos =
-    { pkgs, ... }:
-    {
-      environment.defaultPackages = lib.mkForce [ pkgs.vim ];
+{lib, ...}: {
+  nixos = {pkgs, ...}: {
+    environment.defaultPackages = lib.mkForce [pkgs.vim];
 
-      programs.nano.enable = false;
+    programs.nano.enable = false;
 
-      environment.systemPackages = map (x: pkgs.${x}.terminfo) [
-        # keep-sorted start
-        "alacritty"
-        "foot"
-        "ghostty"
-        "kitty"
-        "wezterm"
-        # keep-sorted end
-      ];
-    };
+    environment.systemPackages = map (x: pkgs.${x}.terminfo) [
+      # keep-sorted start
+      "alacritty"
+      "foot"
+      "ghostty"
+      "kitty"
+      "wezterm"
+      # keep-sorted end
+    ];
+  };
 }

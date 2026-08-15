@@ -1,32 +1,29 @@
-{ inputs, ... }:
-{
-  imports = [ inputs.treefmt-nix.flakeModule ];
+{inputs, ...}: {
+  imports = [inputs.treefmt-nix.flakeModule];
 
-  perSystem =
-    { config, ... }:
-    {
-      formatter = config.treefmt.build.wrapper;
+  perSystem = {config, ...}: {
+    formatter = config.treefmt.build.wrapper;
 
-      treefmt = {
-        flakeCheck = true;
-        settings.global.excludes = [
-          "*.age"
-          "packages/_sources/generated.json"
-          "packages/_sources/generated.nix"
-          "docs/graveyard/**"
-          "docs/graveyard/packages/*"
-        ];
-        programs = {
-          # keep-sorted start
-          deadnix.enable = true;
-          just.enable = true;
-          keep-sorted.enable = true;
-          nixf-diagnose.enable = true;
-          nixfmt.enable = true;
-          statix.enable = true;
-          toml-sort.enable = true;
-          # keep-sorted end
-        };
+    treefmt = {
+      flakeCheck = true;
+      settings.global.excludes = [
+        "*.age"
+        "packages/_sources/generated.json"
+        "packages/_sources/generated.nix"
+        "docs/graveyard/**"
+        "docs/graveyard/packages/*"
+      ];
+      programs = {
+        # keep-sorted start
+        alejandra.enable = true;
+        deadnix.enable = true;
+        just.enable = true;
+        keep-sorted.enable = true;
+        nixf-diagnose.enable = true;
+        statix.enable = true;
+        toml-sort.enable = true;
+        # keep-sorted end
       };
     };
+  };
 }

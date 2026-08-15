@@ -9,7 +9,7 @@ stdenvNoCC.mkDerivation {
   version = "0.2";
 
   src = ./.;
-  buildInputs = [ nushell ];
+  buildInputs = [nushell];
 
   installPhase = ''
     runHook preInstall

@@ -4,8 +4,7 @@
   inputs',
   ...
 }:
-bundleLib.mkEnableModule [ "gaia" "programs" "vicinae" ] {
-
+bundleLib.mkEnableModule ["gaia" "programs" "vicinae"] {
   home-manager = {
     programs.vicinae = {
       enable = true;
@@ -63,11 +62,10 @@ bundleLib.mkEnableModule [ "gaia" "programs" "vicinae" ] {
               "wayvr"
               "yazi"
               # keep-sorted end
-            ] (n: lib.nameValuePair n { enabled = false; });
+            ] (n: lib.nameValuePair n {enabled = false;});
           };
         };
       };
     };
   };
-
 }

@@ -1,5 +1,4 @@
-{ lib, ... }:
-{
+{lib, ...}: {
   options.gaia.desktop = lib.mkOption {
     description = "Sets the desktop environment to use";
     default = null;

@@ -1,42 +1,44 @@
-{ inputs, lib, ... }:
 {
-  imports = [ inputs.bundle.flakeModules.default ];
+  inputs,
+  lib,
+  ...
+}: {
+  imports = [inputs.bundle.flakeModules.default];
 
-  bundle =
-    let
-      user = "jamie";
+  bundle = let
+    user = "jamie";
 
-      hosts = {
-        eris = {
-          system = "x86_64-linux";
-          systemPlatform = "nixos";
-        };
-
-        keres = {
-          system = "aarch64-linux";
-          systemPlatform = "nixos";
-        };
-
-        moirai = {
-          system = "aarch64-linux";
-          systemPlatform = "nixos";
-        };
-
-        hemera = {
-          system = "x86_64-linux";
-          systemPlatform = "nixos";
-        };
-
-        iso = {
-          system = "x86_64-linux";
-          systemPlatform = "nixos";
-        };
+    hosts = {
+      eris = {
+        system = "x86_64-linux";
+        systemPlatform = "nixos";
       };
-    in
-    {
-      inherit hosts;
 
-      users.${user}.hosts = lib.mapAttrs (host: attrs: {
+      keres = {
+        system = "aarch64-linux";
+        systemPlatform = "nixos";
+      };
+
+      moirai = {
+        system = "aarch64-linux";
+        systemPlatform = "nixos";
+      };
+
+      hemera = {
+        system = "x86_64-linux";
+        systemPlatform = "nixos";
+      };
+
+      iso = {
+        system = "x86_64-linux";
+        systemPlatform = "nixos";
+      };
+    };
+  in {
+    inherit hosts;
+
+    users.${user}.hosts =
+      lib.mapAttrs (host: attrs: {
         imports = [
           (inputs.import-tree ../bundles)
           (inputs.import-tree ../hosts/${host})
@@ -51,7 +53,7 @@
             };
           }
         ];
-      }) hosts;
-    };
-
+      })
+      hosts;
+  };
 }

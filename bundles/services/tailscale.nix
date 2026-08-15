@@ -1,15 +1,11 @@
-{ bundleLib, ... }:
-bundleLib.mkEnableModule [ "gaia" "services" "tailscale" ] {
+{bundleLib, ...}:
+bundleLib.mkEnableModule ["gaia" "services" "tailscale"] {
+  nixos = {config, ...}: {
+    sops.secrets."tailscale-auth-key" = {};
 
-  nixos =
-    { config, ... }:
-    {
-      sops.secrets."tailscale-auth-key" = { };
-
-      services.tailscale = {
-        enable = true;
-        authKeyFile = config.sops.secrets."tailscale-auth-key".path;
-      };
+    services.tailscale = {
+      enable = true;
+      authKeyFile = config.sops.secrets."tailscale-auth-key".path;
     };
-
+  };
 }

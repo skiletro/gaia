@@ -1,63 +1,63 @@
-{ bundleLib, lib, ... }:
-bundleLib.mkEnableModule [ "gaia" "programs" "suite" ] {
-
-  nixos =
-    { pkgs, ... }:
-    {
-      services = {
-        gnome = {
-          core-apps.enable = true;
-          gnome-keyring.enable = true;
-        };
-        gvfs.enable = true;
-        tumbler.enable = true;
-        udisks2.enable = true;
+{
+  bundleLib,
+  lib,
+  ...
+}:
+bundleLib.mkEnableModule ["gaia" "programs" "suite"] {
+  nixos = {pkgs, ...}: {
+    services = {
+      gnome = {
+        core-apps.enable = true;
+        gnome-keyring.enable = true;
       };
-      environment.pathsToLink = [ "share/thumbnailers" ];
-      environment.gnome.excludePackages = lib.mkDefault (
-        with pkgs;
-        [
-          # keep-sorted start
-          baobab
-          epiphany
-          evince
-          geary
-          gnome-calendar
-          gnome-characters
-          gnome-clocks
-          gnome-connections
-          gnome-console
-          gnome-contacts
-          gnome-disk-utility
-          gnome-font-viewer
-          gnome-maps
-          gnome-music
-          gnome-software
-          gnome-system-monitor
-          gnome-tour
-          gnome-weather
-          orca
-          seahorse
-          simple-scan
-          snapshot
-          totem
-          yelp
-          # keep-sorted end
-        ]
-      );
-
-      environment.systemPackages = with pkgs; [
-        # keep-sorted start
-        adwaita-icon-theme # fixes some missing icons
-        adwaita-icon-theme-legacy # fixes some missing icons
-        file-roller # archive manager (just use ouch on cli)
-        gapless # music player
-        gparted
-        libheif # nautilus heic img preview
-        libheif.out # nautilus heic img preview
-        # keep-sorted end
-      ];
+      gvfs.enable = true;
+      tumbler.enable = true;
+      udisks2.enable = true;
     };
+    environment.pathsToLink = ["share/thumbnailers"];
+    environment.gnome.excludePackages = lib.mkDefault (
+      with pkgs; [
+        # keep-sorted start
+        baobab
+        epiphany
+        evince
+        geary
+        gnome-calendar
+        gnome-characters
+        gnome-clocks
+        gnome-connections
+        gnome-console
+        gnome-contacts
+        gnome-disk-utility
+        gnome-font-viewer
+        gnome-maps
+        gnome-music
+        gnome-software
+        gnome-system-monitor
+        gnome-tour
+        gnome-weather
+        orca
+        seahorse
+        simple-scan
+        snapshot
+        totem
+        yelp
+        # keep-sorted end
+      ]
+    );
+
+    environment.systemPackages = with pkgs; [
+      # keep-sorted start
+      adwaita-icon-theme # fixes some missing icons
+      adwaita-icon-theme-legacy # fixes some missing icons
+      file-roller # archive manager (just use ouch on cli)
+      gapless # music player
+      gparted
+      libheif # nautilus heic img preview
+      libheif.out # nautilus heic img preview
+      # keep-sorted end
+    ];
+  };
 
   home-manager = {
     xdg.mimeApps = {
@@ -75,5 +75,4 @@ bundleLib.mkEnableModule [ "gaia" "programs" "suite" ] {
       };
     };
   };
-
 }

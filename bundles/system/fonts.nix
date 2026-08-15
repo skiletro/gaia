@@ -1,6 +1,9 @@
-{ bundleLib, self', ... }:
-bundleLib.mkEnableModule [ "gaia" "system" "fonts" ] {
-
+{
+  bundleLib,
+  self',
+  ...
+}:
+bundleLib.mkEnableModule ["gaia" "system" "fonts"] {
   nixos = {
     fonts = {
       fontDir.enable = true;
@@ -37,20 +40,17 @@ bundleLib.mkEnableModule [ "gaia" "system" "fonts" ] {
     };
   };
 
-  home-manager =
-    { pkgs, ... }:
-    {
-      fonts.fontconfig.enable = true;
+  home-manager = {pkgs, ...}: {
+    fonts.fontconfig.enable = true;
 
-      home.packages = with pkgs; [
-        corefonts # Microsoft Fonts
-        vista-fonts # More Microsoft Fonts
-        noto-fonts
-        noto-fonts-cjk-sans # Japanese, Korean, Chinese, etc
-        noto-fonts-color-emoji
-        self'.packages.pragmata-pro
-        self'.packages.pragmata-pro-nf
-      ];
-    };
-
+    home.packages = with pkgs; [
+      corefonts # Microsoft Fonts
+      vista-fonts # More Microsoft Fonts
+      noto-fonts
+      noto-fonts-cjk-sans # Japanese, Korean, Chinese, etc
+      noto-fonts-color-emoji
+      self'.packages.pragmata-pro
+      self'.packages.pragmata-pro-nf
+    ];
+  };
 }

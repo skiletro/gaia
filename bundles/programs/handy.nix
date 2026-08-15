@@ -1,13 +1,11 @@
-{ bundleLib, ... }:
-bundleLib.mkEnableModule [ "gaia" "programs" "handy" ] {
+{bundleLib, ...}:
+bundleLib.mkEnableModule ["gaia" "programs" "handy"] {
+  gaia.autoStart = ["handy --start-hidden"];
 
-  gaia.autoStart = [ "handy --start-hidden" ];
-
-  nixos = { pkgs, ... }: {
+  nixos = {pkgs, ...}: {
     environment.systemPackages = with pkgs; [
       handy
       wtype
     ];
   };
-
 }

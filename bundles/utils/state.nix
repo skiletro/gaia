@@ -1,5 +1,8 @@
-{ lib, config, ... }:
 {
+  lib,
+  config,
+  ...
+}: {
   options.gaia.state = {
     system = lib.mkOption {
       description = "Sets the system state version";

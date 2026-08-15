@@ -26,7 +26,6 @@
   wrapperDir ? "/run/wrappers/bin",
   ...
 }:
-
 stdenv.mkDerivation (finalAttrs: {
   pname = "gpu-screen-recorder-ui";
   version = "1.13.0";
@@ -82,22 +81,20 @@ stdenv.mkDerivation (finalAttrs: {
     (lib.mesonBool "capabilities" false)
   ];
 
-  postInstall =
-    let
-      gpu-screen-recorder-wrapped = gpu-screen-recorder.override {
-        inherit wrapperDir;
-      };
-    in
-    ''
-      wrapProgram "$out/bin/gsr-ui" \
-        --prefix PATH : "${wrapperDir}" \
-        --suffix PATH : "${
-          lib.makeBinPath [
-            gpu-screen-recorder-wrapped
-            gpu-screen-recorder-notification
-          ]
-        }"
-    '';
+  postInstall = let
+    gpu-screen-recorder-wrapped = gpu-screen-recorder.override {
+      inherit wrapperDir;
+    };
+  in ''
+    wrapProgram "$out/bin/gsr-ui" \
+      --prefix PATH : "${wrapperDir}" \
+      --suffix PATH : "${
+      lib.makeBinPath [
+        gpu-screen-recorder-wrapped
+        gpu-screen-recorder-notification
+      ]
+    }"
+  '';
 
   strictDeps = true;
   __structuredAttrs = true;
@@ -107,7 +104,7 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://git.dec05eba.com/gpu-screen-recorder-ui/about/";
     license = lib.licenses.gpl3Only;
     mainProgram = "gsr-ui";
-    maintainers = with lib.maintainers; [ js6pak ];
+    maintainers = with lib.maintainers; [js6pak];
     platforms = lib.platforms.linux;
   };
 })

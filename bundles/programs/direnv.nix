@@ -1,6 +1,5 @@
-{ bundleLib, ... }:
-bundleLib.mkEnableModule [ "gaia" "programs" "direnv" ] {
-
+{bundleLib, ...}:
+bundleLib.mkEnableModule ["gaia" "programs" "direnv"] {
   home-manager = {
     programs.direnv = {
       enable = true;
@@ -8,5 +7,4 @@ bundleLib.mkEnableModule [ "gaia" "programs" "direnv" ] {
       silent = true; # hides spam w/ a bunch of variables
     };
   };
-
 }

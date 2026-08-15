@@ -5,7 +5,6 @@
   ...
 }:
 lib.mkIf (config.gaia.desktop == "niri") {
-
   gaia = {
     programs = {
       vicinae.enable = true;
@@ -15,12 +14,12 @@ lib.mkIf (config.gaia.desktop == "niri") {
     services.noctalia.enable = true;
   };
 
-  nixos = { pkgs, ... }: {
-    imports = [ inputs.niri.nixosModules.niri ];
+  nixos = {pkgs, ...}: {
+    imports = [inputs.niri.nixosModules.niri];
 
     programs.niri.enable = true;
 
-    nixpkgs.overlays = [ inputs.niri.overlays.niri ];
+    nixpkgs.overlays = [inputs.niri.overlays.niri];
 
     programs.uwsm = {
       enable = true;
@@ -48,297 +47,293 @@ lib.mkIf (config.gaia.desktop == "niri") {
     ];
   };
 
-  home-manager =
-    { pkgs, ... }:
-    {
-      programs.niri.settings = {
-        prefer-no-csd = true;
+  home-manager = {pkgs, ...}: {
+    programs.niri.settings = {
+      prefer-no-csd = true;
 
-        input = {
-          keyboard.xkb = {
-            layout = "gb";
-            options = "ctrl:nocaps";
-          };
-          mouse = {
-            accel-speed = 0.6;
-            accel-profile = "flat";
-          };
-          touchpad = {
-            natural-scroll = true;
-            tap = false;
-            dwt = true; # disable when typing
-          };
-          focus-follows-mouse.enable = true;
-          power-key-handling.enable = false;
+      input = {
+        keyboard.xkb = {
+          layout = "gb";
+          options = "ctrl:nocaps";
         };
-
-        outputs = {
-          "AOC AG346UCD 2OQQ9JA00068" = {
-            mode = {
-              width = 3440;
-              height = 1440;
-              refresh = 175.0;
-            };
-            variable-refresh-rate = true;
-          };
-          "eDP-1" = {
-            mode = {
-              width = 2560;
-              height = 1600;
-              refresh = 60.0;
-            };
-            scale = 1.5;
-            variable-refresh-rate = true;
-          };
+        mouse = {
+          accel-speed = 0.6;
+          accel-profile = "flat";
         };
-
-        layout = {
-          always-center-single-column = true;
-          gaps = 6;
-          focus-ring.width = 1;
-          border.enable = true;
-          border.width = 1;
-          background-color = "transparent";
+        touchpad = {
+          natural-scroll = true;
+          tap = false;
+          dwt = true; # disable when typing
         };
-
-        cursor.hide-when-typing = true;
-
-        hotkey-overlay.skip-at-startup = true;
-
-        environment = {
-          "NIXOS_OZONE_WL" = "1";
-          "XDG_CURRENT_DESKTOP" = "niri";
-          "XDG_SESSION_DESKTOP" = "niri";
-        };
-
-        spawn-at-startup = [
-          {
-            argv = [
-              "${lib.getExe pkgs.tailscale}"
-              "systray"
-            ];
-          }
-          { argv = [ "${lib.getExe' pkgs.udiskie "udiskie"}" ]; }
-          {
-            argv = [
-              "${lib.getExe pkgs.wl-clip-persist}"
-              "--clipboard"
-              "regular"
-            ];
-          }
-        ];
-
-        binds =
-          let
-            strToList = str: lib.strings.splitString " " str;
-
-            noctalia = msg: strToList "noctalia msg ${msg}";
-            vicinae = deeplink: strToList "vicinae deeplink ${deeplink}";
-          in
-          {
-            # App shortcuts
-            "Mod+Return".action.spawn = "${lib.getExe pkgs.kitty}";
-            "Mod+Space".action.spawn = strToList "vicinae toggle";
-            "XF86Search".action.spawn = strToList "vicinae toggle";
-            "Mod+F".action.spawn = "helium";
-            "Mod+E".action.spawn = strToList "${lib.getExe pkgs.nautilus} --new-window";
-            "Ctrl+Space".action.spawn = strToList "pkill -USR2 -n handy";
-
-            # Window management
-            "Mod+Shift+Q".action.close-window = { };
-            "Mod+Shift+F".action.maximize-column = { };
-            "Mod+Ctrl+Shift+F".action.fullscreen-window = { };
-            "Mod+Shift+Space".action.toggle-window-floating = { };
-
-            # Resize window
-            "Mod+Minus".action.set-column-width = "-5%";
-            "Mod+Equal".action.set-column-width = "+5%";
-            "Mod+Shift+Minus".action.set-window-height = "-5%";
-            "Mod+Shift+Equal".action.set-window-height = "+5%";
-
-            "Mod+P".action.spawn =
-              vicinae "vicinae://launch/@leonkohli/vicinae-extension-process-manager-0/processes";
-            "Mod+Shift+P".action.spawn = vicinae "vicinae://launch/power";
-            "Mod+Period".action.spawn = vicinae "vicinae://launch/core/search-emojis";
-            "Mod+Delete".action.spawn = noctalia "session lock";
-            "Mod+Shift+S".action.spawn = noctalia "screenshot-region";
-
-            # Focus window
-            "Mod+H".action.focus-column-left = { };
-            "Mod+J".action.focus-window-down = { };
-            "Mod+K".action.focus-window-up = { };
-            "Mod+L".action.focus-column-right = { };
-            "Mod+Left".action.focus-column-left = { };
-            "Mod+Down".action.focus-window-down = { };
-            "Mod+Up".action.focus-window-up = { };
-            "Mod+Right".action.focus-column-right = { };
-
-            # Move window
-            "Mod+Shift+H".action.move-column-left = { };
-            "Mod+Shift+J".action.move-window-down = { };
-            "Mod+Shift+K".action.move-window-up = { };
-            "Mod+Shift+L".action.move-column-right = { };
-            "Mod+Shift+Left".action.move-column-left = { };
-            "Mod+Shift+Down".action.move-window-down = { };
-            "Mod+Shift+Up".action.move-window-up = { };
-            "Mod+Shift+Right".action.move-column-right = { };
-
-            # Workspaces
-          }
-          // (builtins.listToAttrs (
-            map (i: {
-              name = "Mod+${toString i}";
-              value = {
-                hotkey-overlay.hidden = true;
-                action.focus-workspace = i;
-              };
-            }) (lib.range 1 9)
-          ))
-          // (builtins.listToAttrs (
-            map (i: {
-              name = "Mod+Shift+${toString i}";
-              value = {
-                hotkey-overlay.hidden = true;
-                action.move-column-to-workspace = i;
-              };
-            }) (lib.range 1 9)
-          ))
-          // {
-            # Media keys (locked — work even when screen is locked)
-            "XF86AudioRaiseVolume" = {
-              allow-when-locked = true;
-              repeat = false;
-              action.spawn = noctalia "volume-up";
-            };
-            "XF86AudioLowerVolume" = {
-              allow-when-locked = true;
-              repeat = false;
-              action.spawn = noctalia "volume-down";
-            };
-            "XF86AudioMute" = {
-              allow-when-locked = true;
-              repeat = false;
-              action.spawn = noctalia "volume-mute";
-            };
-            "XF86AudioMicMute" = {
-              allow-when-locked = true;
-              repeat = false;
-              action.spawn = noctalia "mic-mute";
-            };
-            "XF86AudioNext" = {
-              allow-when-locked = true;
-              repeat = false;
-              action.spawn = noctalia "media next";
-            };
-            "XF86AudioPrev" = {
-              allow-when-locked = true;
-              repeat = false;
-              action.spawn = noctalia "media previous";
-            };
-            "XF86AudioPlay" = {
-              allow-when-locked = true;
-              repeat = false;
-              action.spawn = noctalia "media toggle";
-            };
-            "XF86PowerOff" = {
-              allow-when-locked = true;
-              repeat = false;
-              action.spawn = noctalia "session lock";
-            };
-            "XF86MonBrightnessUp" = {
-              allow-when-locked = true;
-              repeat = false;
-              action.spawn = noctalia "brightness-up current";
-            };
-            "XF86MonBrightnessDown" = {
-              allow-when-locked = true;
-              repeat = false;
-              action.spawn = noctalia "brightness-down current";
-            };
-          };
-
-        blur = {
-          enable = true;
-          passes = 2;
-          offset = 3.0;
-          noise = 0.03;
-          saturation = 1.0;
-        };
-
-        window-rules = [
-          {
-            geometry-corner-radius = {
-              bottom-left = 6.0;
-              bottom-right = 6.0;
-              top-left = 6.0;
-              top-right = 6.0;
-            };
-            clip-to-geometry = true;
-            background-effect = {
-              blur = true;
-              xray = false;
-            };
-          }
-
-          # Noctalia settings window
-          {
-            matches = [ { app-id = "dev.noctalia.Noctalia"; } ];
-            open-floating = true;
-            default-column-width.fixed = 1080;
-            default-window-height.fixed = 920;
-          }
-
-          # Steam notifications
-          {
-            matches = [
-              {
-                app-id = "steam";
-                title = ''r#"^notificationtoasts_\d+_desktop$"#'';
-              }
-            ];
-            default-floating-position = {
-              x = 10;
-              y = 10;
-              relative-to = "bottom-right";
-            };
-          }
-
-          # Float rules
-          {
-            matches = [
-              # Portals
-              { app-id = "org.freedesktop.impl.portal.desktop.gnome"; }
-              { app-id = "xdg-desktop-portal-gtk"; }
-
-              # File dialogs
-              { title = "^(Open File)(.*)$"; }
-              { title = "^(Select a File)(.*)$"; }
-              { title = "^(Open Folder)(.*)$"; }
-              { title = "^(Save As)(.*)$"; }
-              { title = "^(Library)(.*)$"; }
-              { title = "^(File Upload)(.*)$"; }
-              { title = "^(.*)(wants to save)$"; }
-              { title = "^(.*)(wants to open)$"; }
-
-              # Apps
-              { app-id = "crashreporter"; }
-              { app-id = "org\\.gnome\\.FileRoller"; }
-              { app-id = "org\\.gnome\\.NautilusPreviewer"; }
-              { app-id = "Emulator"; }
-            ];
-            open-floating = true;
-          }
-        ];
-
-        layer-rules = [
-          {
-            matches = [ { namespace = "^noctalia-wallpaper"; } ];
-            place-within-backdrop = true;
-          }
-        ];
-
-        overview.workspace-shadow.enable = false;
+        focus-follows-mouse.enable = true;
+        power-key-handling.enable = false;
       };
-    };
 
+      outputs = {
+        "AOC AG346UCD 2OQQ9JA00068" = {
+          mode = {
+            width = 3440;
+            height = 1440;
+            refresh = 175.0;
+          };
+          variable-refresh-rate = true;
+        };
+        "eDP-1" = {
+          mode = {
+            width = 2560;
+            height = 1600;
+            refresh = 60.0;
+          };
+          scale = 1.5;
+          variable-refresh-rate = true;
+        };
+      };
+
+      layout = {
+        always-center-single-column = true;
+        gaps = 6;
+        focus-ring.width = 1;
+        border.enable = true;
+        border.width = 1;
+        background-color = "transparent";
+      };
+
+      cursor.hide-when-typing = true;
+
+      hotkey-overlay.skip-at-startup = true;
+
+      environment = {
+        "NIXOS_OZONE_WL" = "1";
+        "XDG_CURRENT_DESKTOP" = "niri";
+        "XDG_SESSION_DESKTOP" = "niri";
+      };
+
+      spawn-at-startup = [
+        {
+          argv = [
+            "${lib.getExe pkgs.tailscale}"
+            "systray"
+          ];
+        }
+        {argv = ["${lib.getExe' pkgs.udiskie "udiskie"}"];}
+        {
+          argv = [
+            "${lib.getExe pkgs.wl-clip-persist}"
+            "--clipboard"
+            "regular"
+          ];
+        }
+      ];
+
+      binds = let
+        strToList = str: lib.strings.splitString " " str;
+
+        noctalia = msg: strToList "noctalia msg ${msg}";
+        vicinae = deeplink: strToList "vicinae deeplink ${deeplink}";
+      in
+        {
+          # App shortcuts
+          "Mod+Return".action.spawn = "${lib.getExe pkgs.kitty}";
+          "Mod+Space".action.spawn = strToList "vicinae toggle";
+          "XF86Search".action.spawn = strToList "vicinae toggle";
+          "Mod+F".action.spawn = "helium";
+          "Mod+E".action.spawn = strToList "${lib.getExe pkgs.nautilus} --new-window";
+          "Ctrl+Space".action.spawn = strToList "pkill -USR2 -n handy";
+
+          # Window management
+          "Mod+Shift+Q".action.close-window = {};
+          "Mod+Shift+F".action.maximize-column = {};
+          "Mod+Ctrl+Shift+F".action.fullscreen-window = {};
+          "Mod+Shift+Space".action.toggle-window-floating = {};
+
+          # Resize window
+          "Mod+Minus".action.set-column-width = "-5%";
+          "Mod+Equal".action.set-column-width = "+5%";
+          "Mod+Shift+Minus".action.set-window-height = "-5%";
+          "Mod+Shift+Equal".action.set-window-height = "+5%";
+
+          "Mod+P".action.spawn =
+            vicinae "vicinae://launch/@leonkohli/vicinae-extension-process-manager-0/processes";
+          "Mod+Shift+P".action.spawn = vicinae "vicinae://launch/power";
+          "Mod+Period".action.spawn = vicinae "vicinae://launch/core/search-emojis";
+          "Mod+Delete".action.spawn = noctalia "session lock";
+          "Mod+Shift+S".action.spawn = noctalia "screenshot-region";
+
+          # Focus window
+          "Mod+H".action.focus-column-left = {};
+          "Mod+J".action.focus-window-down = {};
+          "Mod+K".action.focus-window-up = {};
+          "Mod+L".action.focus-column-right = {};
+          "Mod+Left".action.focus-column-left = {};
+          "Mod+Down".action.focus-window-down = {};
+          "Mod+Up".action.focus-window-up = {};
+          "Mod+Right".action.focus-column-right = {};
+
+          # Move window
+          "Mod+Shift+H".action.move-column-left = {};
+          "Mod+Shift+J".action.move-window-down = {};
+          "Mod+Shift+K".action.move-window-up = {};
+          "Mod+Shift+L".action.move-column-right = {};
+          "Mod+Shift+Left".action.move-column-left = {};
+          "Mod+Shift+Down".action.move-window-down = {};
+          "Mod+Shift+Up".action.move-window-up = {};
+          "Mod+Shift+Right".action.move-column-right = {};
+
+          # Workspaces
+        }
+        // (builtins.listToAttrs (
+          map (i: {
+            name = "Mod+${toString i}";
+            value = {
+              hotkey-overlay.hidden = true;
+              action.focus-workspace = i;
+            };
+          }) (lib.range 1 9)
+        ))
+        // (builtins.listToAttrs (
+          map (i: {
+            name = "Mod+Shift+${toString i}";
+            value = {
+              hotkey-overlay.hidden = true;
+              action.move-column-to-workspace = i;
+            };
+          }) (lib.range 1 9)
+        ))
+        // {
+          # Media keys (locked — work even when screen is locked)
+          "XF86AudioRaiseVolume" = {
+            allow-when-locked = true;
+            repeat = false;
+            action.spawn = noctalia "volume-up";
+          };
+          "XF86AudioLowerVolume" = {
+            allow-when-locked = true;
+            repeat = false;
+            action.spawn = noctalia "volume-down";
+          };
+          "XF86AudioMute" = {
+            allow-when-locked = true;
+            repeat = false;
+            action.spawn = noctalia "volume-mute";
+          };
+          "XF86AudioMicMute" = {
+            allow-when-locked = true;
+            repeat = false;
+            action.spawn = noctalia "mic-mute";
+          };
+          "XF86AudioNext" = {
+            allow-when-locked = true;
+            repeat = false;
+            action.spawn = noctalia "media next";
+          };
+          "XF86AudioPrev" = {
+            allow-when-locked = true;
+            repeat = false;
+            action.spawn = noctalia "media previous";
+          };
+          "XF86AudioPlay" = {
+            allow-when-locked = true;
+            repeat = false;
+            action.spawn = noctalia "media toggle";
+          };
+          "XF86PowerOff" = {
+            allow-when-locked = true;
+            repeat = false;
+            action.spawn = noctalia "session lock";
+          };
+          "XF86MonBrightnessUp" = {
+            allow-when-locked = true;
+            repeat = false;
+            action.spawn = noctalia "brightness-up current";
+          };
+          "XF86MonBrightnessDown" = {
+            allow-when-locked = true;
+            repeat = false;
+            action.spawn = noctalia "brightness-down current";
+          };
+        };
+
+      blur = {
+        enable = true;
+        passes = 2;
+        offset = 3.0;
+        noise = 0.03;
+        saturation = 1.0;
+      };
+
+      window-rules = [
+        {
+          geometry-corner-radius = {
+            bottom-left = 6.0;
+            bottom-right = 6.0;
+            top-left = 6.0;
+            top-right = 6.0;
+          };
+          clip-to-geometry = true;
+          background-effect = {
+            blur = true;
+            xray = false;
+          };
+        }
+
+        # Noctalia settings window
+        {
+          matches = [{app-id = "dev.noctalia.Noctalia";}];
+          open-floating = true;
+          default-column-width.fixed = 1080;
+          default-window-height.fixed = 920;
+        }
+
+        # Steam notifications
+        {
+          matches = [
+            {
+              app-id = "steam";
+              title = ''r#"^notificationtoasts_\d+_desktop$"#'';
+            }
+          ];
+          default-floating-position = {
+            x = 10;
+            y = 10;
+            relative-to = "bottom-right";
+          };
+        }
+
+        # Float rules
+        {
+          matches = [
+            # Portals
+            {app-id = "org.freedesktop.impl.portal.desktop.gnome";}
+            {app-id = "xdg-desktop-portal-gtk";}
+
+            # File dialogs
+            {title = "^(Open File)(.*)$";}
+            {title = "^(Select a File)(.*)$";}
+            {title = "^(Open Folder)(.*)$";}
+            {title = "^(Save As)(.*)$";}
+            {title = "^(Library)(.*)$";}
+            {title = "^(File Upload)(.*)$";}
+            {title = "^(.*)(wants to save)$";}
+            {title = "^(.*)(wants to open)$";}
+
+            # Apps
+            {app-id = "crashreporter";}
+            {app-id = "org\\.gnome\\.FileRoller";}
+            {app-id = "org\\.gnome\\.NautilusPreviewer";}
+            {app-id = "Emulator";}
+          ];
+          open-floating = true;
+        }
+      ];
+
+      layer-rules = [
+        {
+          matches = [{namespace = "^noctalia-wallpaper";}];
+          place-within-backdrop = true;
+        }
+      ];
+
+      overview.workspace-shadow.enable = false;
+    };
+  };
 }

@@ -1,17 +1,15 @@
-{ bundleLib, ... }:
-bundleLib.mkEnableModule [ "gaia" "system" "bluetooth" ] {
-
+{bundleLib, ...}:
+bundleLib.mkEnableModule ["gaia" "system" "bluetooth"] {
   nixos = {
     hardware.bluetooth = {
       enable = true;
-      disabledPlugins = [ "sap" ];
+      disabledPlugins = ["sap"];
       settings.General = {
         JustWorksRepairing = "always";
         MultiProfile = "multiple";
       };
     };
 
-    boot.kernelModules = [ "btusb" ];
+    boot.kernelModules = ["btusb"];
   };
-
 }

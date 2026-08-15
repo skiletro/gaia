@@ -1,5 +1,4 @@
-{ self, ... }:
-{
+{self, ...}: {
   nixos = {
     programs.nh = {
       enable = true;

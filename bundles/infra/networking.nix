@@ -4,6 +4,6 @@
 
     systemd.services.NetworkManager-wait-online.enable = false;
 
-    users.users.jamie.extraGroups = [ "networkmanager" ];
+    users.users.jamie.extraGroups = ["networkmanager"];
   };
 }

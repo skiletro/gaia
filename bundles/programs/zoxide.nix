@@ -1,6 +1,4 @@
-{ bundleLib, ... }:
-bundleLib.mkEnableModule [ "gaia" "programs" "zoxide" ] {
-
+{bundleLib, ...}:
+bundleLib.mkEnableModule ["gaia" "programs" "zoxide"] {
   home-manager.programs.zoxide.enable = true;
-
 }

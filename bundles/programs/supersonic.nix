@@ -1,10 +1,6 @@
-{ bundleLib, ... }:
-bundleLib.mkEnableModule [ "gaia" "programs" "supersonic" ] {
-
-  home-manager =
-    { pkgs, ... }:
-    {
-      home.packages = [ pkgs.supersonic ];
-    };
-
+{bundleLib, ...}:
+bundleLib.mkEnableModule ["gaia" "programs" "supersonic"] {
+  home-manager = {pkgs, ...}: {
+    home.packages = [pkgs.supersonic];
+  };
 }

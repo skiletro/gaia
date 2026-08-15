@@ -16,6 +16,6 @@ stdenvNoCC.mkDerivation rec {
   meta = {
     description = "Compatibility tool for Steam Play based on Wine and additional components";
     license = lib.licenses.bsd3;
-    platforms = [ "x86_64-linux" ];
+    platforms = ["x86_64-linux"];
   };
 }

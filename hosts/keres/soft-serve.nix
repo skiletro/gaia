@@ -1,18 +1,16 @@
-{ lib, ... }:
-let
+{lib, ...}: let
   subdomain = "git";
   domain = "warm.vodka";
   httpPort = 23232;
   sshPort = 2200;
-in
-{
+in {
   nixos = {
     users.users.soft-serve = {
       isSystemUser = true;
       group = "soft-serve";
       home = "/srv/git";
     };
-    users.groups.soft-serve = { };
+    users.groups.soft-serve = {};
 
     systemd.tmpfiles.rules = [
       "d /srv/git 0750 soft-serve soft-serve - -"
@@ -26,7 +24,7 @@ in
         http = {
           listen_addr = "127.0.0.1:${toString httpPort}";
           public_url = "https://${subdomain}.${domain}";
-          cors.allowed_origins = [ "https://${subdomain}.${domain}" ];
+          cors.allowed_origins = ["https://${subdomain}.${domain}"];
         };
         git.listen_addr = "127.0.0.1:9418";
         ssh = {
@@ -49,8 +47,8 @@ in
       serviceConfig.WorkingDirectory = lib.mkForce "/srv/git";
       serviceConfig.ExecPaths = lib.mkForce "/srv/git";
       environment.SOFT_SERVE_DATA_PATH = lib.mkForce "/srv/git";
-      serviceConfig.CapabilityBoundingSet = lib.mkForce [ "CAP_NET_BIND_SERVICE" ];
-      serviceConfig.AmbientCapabilities = lib.mkForce [ "CAP_NET_BIND_SERVICE" ];
+      serviceConfig.CapabilityBoundingSet = lib.mkForce ["CAP_NET_BIND_SERVICE"];
+      serviceConfig.AmbientCapabilities = lib.mkForce ["CAP_NET_BIND_SERVICE"];
     };
 
     services.caddy.virtualHosts."${subdomain}.${domain}".extraConfig = ''
@@ -107,7 +105,8 @@ in
               </div>
             </body>
           </html>
-        ''}` 200
+        ''
+      }` 200
       }
 
       handle {
@@ -115,6 +114,6 @@ in
       }
     '';
 
-    networking.firewall.allowedTCPPorts = [ sshPort ];
+    networking.firewall.allowedTCPPorts = [sshPort];
   };
 }

@@ -1,4 +1,8 @@
-{ stdenvNoCC, fetchzip, ... }:
+{
+  stdenvNoCC,
+  fetchzip,
+  ...
+}:
 stdenvNoCC.mkDerivation {
   pname = "space-grotesk";
   version = "2.0.0";

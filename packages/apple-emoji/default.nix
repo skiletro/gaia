@@ -6,7 +6,7 @@
 stdenvNoCC.mkDerivation {
   inherit (sources.apple-emoji) pname version src;
 
-  phases = [ "installPhase" ];
+  phases = ["installPhase"];
 
   installPhase = ''
     mkdir -p $out/share/fonts/truetype

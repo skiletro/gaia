@@ -1,5 +1,8 @@
-{ lib, inputs, ... }:
 {
+  lib,
+  inputs,
+  ...
+}: {
   nixos = {
     imports = with inputs.nixos-hardware.nixosModules; [
       # keep-sorted start
@@ -22,10 +25,10 @@
       "xhci_pci"
       # keep-sorted end
     ];
-    boot.initrd.kernelModules = [ ];
-    boot.kernelModules = [ "kvm-amd" ];
-    boot.extraModulePackages = [ ];
-    boot.supportedFilesystems = [ "ntfs" ];
+    boot.initrd.kernelModules = [];
+    boot.kernelModules = ["kvm-amd"];
+    boot.extraModulePackages = [];
+    boot.supportedFilesystems = ["ntfs"];
 
     services.logind.settings.Login = {
       HandlePowerKey = "ignore"; # handle at desktop level
@@ -47,7 +50,7 @@
       ];
     };
 
-    swapDevices = lib.singleton { device = "/dev/disk/by-uuid/ae2dc9bc-8451-48f4-a42b-916e449f30b8"; };
+    swapDevices = lib.singleton {device = "/dev/disk/by-uuid/ae2dc9bc-8451-48f4-a42b-916e449f30b8";};
 
     hardware = {
       enableAllFirmware = true;

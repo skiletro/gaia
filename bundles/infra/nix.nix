@@ -1,5 +1,4 @@
-{ self, ... }:
-let
+{self, ...}: let
   flakeConfig = (import "${self}/flake.nix").nixConfig;
 
   megabytes = num: num * 1000 * 1000;
@@ -8,7 +7,8 @@ let
     nixpkgs = {
       overlays = [
         (_final: prev: {
-          inherit (prev.lixPackageSets.stable)
+          inherit
+            (prev.lixPackageSets.stable)
             nixpkgs-review
             nix-eval-jobs
             nix-fast-build
@@ -49,11 +49,8 @@ let
       };
     };
   };
-in
-{
-  nixos =
-    { pkgs, ... }:
-    {
-      inherit (settings pkgs) nix nixpkgs;
-    };
+in {
+  nixos = {pkgs, ...}: {
+    inherit (settings pkgs) nix nixpkgs;
+  };
 }

@@ -17,7 +17,6 @@
   pango,
   ...
 }:
-
 stdenv.mkDerivation (finalAttrs: {
   pname = "gpu-screen-recorder-notification";
   version = "1.3.3";
@@ -63,7 +62,7 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://git.dec05eba.com/gpu-screen-recorder-notification/about/";
     license = lib.licenses.gpl3Only;
     mainProgram = "gsr-notify";
-    maintainers = with lib.maintainers; [ js6pak ];
+    maintainers = with lib.maintainers; [js6pak];
     platforms = lib.platforms.linux;
   };
 })

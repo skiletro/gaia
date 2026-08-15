@@ -3,12 +3,11 @@
   inputs,
   ...
 }:
-bundleLib.mkEnableModule [ "gaia" "programs" "discord" ] {
-
-  gaia.autoStart = [ "equibop -m" ];
+bundleLib.mkEnableModule ["gaia" "programs" "discord"] {
+  gaia.autoStart = ["equibop -m"];
 
   home-manager = {
-    imports = [ inputs.nixcord.homeModules.nixcord ];
+    imports = [inputs.nixcord.homeModules.nixcord];
 
     programs.nixcord = {
       enable = true;
@@ -53,5 +52,4 @@ bundleLib.mkEnableModule [ "gaia" "programs" "discord" ] {
       "x-scheme-handler/discord" = "equibop.desktop";
     };
   };
-
 }

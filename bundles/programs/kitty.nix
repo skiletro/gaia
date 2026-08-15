@@ -1,7 +1,6 @@
-{ bundleLib, ... }:
-bundleLib.mkEnableModule [ "gaia" "programs" "kitty" ] {
-
-  home-manager = { pkgs, ... }: {
+{bundleLib, ...}:
+bundleLib.mkEnableModule ["gaia" "programs" "kitty"] {
+  home-manager = {pkgs, ...}: {
     programs.kitty = {
       enable = true;
       settings = {
@@ -54,7 +53,6 @@ bundleLib.mkEnableModule [ "gaia" "programs" "kitty" ] {
       '';
     };
 
-    home.packages = with pkgs; [ nerd-fonts.symbols-only ];
+    home.packages = with pkgs; [nerd-fonts.symbols-only];
   };
-
 }

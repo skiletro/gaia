@@ -1,16 +1,13 @@
-{ bundleLib, ... }:
-bundleLib.mkEnableModule [ "gaia" "programs" "ollama" ] {
-
-  nixos = { pkgs, ... }: {
+{bundleLib, ...}:
+bundleLib.mkEnableModule ["gaia" "programs" "ollama"] {
+  nixos = {pkgs, ...}: {
     services.ollama = {
       enable = true;
       package = pkgs.ollama-rocm.overrideAttrs (
-        _:
-        let
+        _: let
           version = "0.32.13";
           hash = "sha256-KSvw7LsvpUVeSm9BKJ4wIp/fWGHjMp8bOTMUpFJCDmw=";
-        in
-        {
+        in {
           inherit version;
           src = pkgs.fetchFromGitHub {
             owner = "ollama";
@@ -22,7 +19,6 @@ bundleLib.mkEnableModule [ "gaia" "programs" "ollama" ] {
       );
     };
 
-    environment.systemPackages = [ pkgs.alpaca ];
+    environment.systemPackages = [pkgs.alpaca];
   };
-
 }

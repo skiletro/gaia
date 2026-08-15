@@ -1,4 +1,8 @@
-{ stdenvNoCC, fetchgit, ... }:
+{
+  stdenvNoCC,
+  fetchgit,
+  ...
+}:
 # I have a license for this, I just don't know the best way to actually package
 # it so I can use it in my Nix flake :)
 stdenvNoCC.mkDerivation {
