@@ -40,6 +40,7 @@
       lsfg.enable = true;
       nu.enable = true;
       obs.enable = true;
+      ollama.enable = true;
       opencode.enable = true;
       proton.enable = true;
       qbittorrent.enable = true;
