@@ -7,6 +7,11 @@
 
     bundle.url = "github:different-name/bundle-of-nix";
 
+    caveman = {
+      url = "github:JuliusBrussee/caveman";
+      flake = false;
+    };
+
     cursors.url = "github:lilleaila/nix-cursors";
 
     dcal = {
@@ -58,6 +63,11 @@
       url = "github:kaylorben/nixcord";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-parts.follows = "flake-parts";
+    };
+
+    nixos-ai-skill = {
+      url = "github:marceloeatworld/nixos-ai-skill";
+      flake = false;
     };
 
     nixos-apple-silicon.url = "github:nix-community/nixos-apple-silicon";
