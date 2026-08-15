@@ -8,6 +8,7 @@ bundleLib.mkEnableModule ["gaia" "programs" "vicinae"] {
   home-manager = {
     programs.vicinae = {
       enable = true;
+      enableFirefoxIntegration = false;
       systemd.enable = true;
       extensions = with inputs'.vicinae-extensions.packages; [
         # keep-sorted start

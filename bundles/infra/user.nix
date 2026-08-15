@@ -59,6 +59,7 @@ in {
         TERMINFO = "${dataHome}/terminfo";
         TERMINFO_DIRS = "${dataHome}/terminfo\${TERMINFO_DIRS:+:$TERMINFO_DIRS}";
         VAGRANT_HOME = "${dataHome}/vagrant";
+        WGETRC = "${configHome}/wget/wgetrc";
         WINEPREFIX = "${dataHome}/wine";
         XCOMPOSECACHE = "${cacheHome}/X11/xcompose";
         _Z_DATA = "${dataHome}/z";
@@ -69,5 +70,11 @@ in {
     xresources.path = "${config.xdg.configHome}/.Xresources";
 
     xdg.portal.xdgOpenUsePortal = true;
+
+    xdg.configFile."wget/wgetrc" = {
+      text = ''
+        hsts-file = ${config.xdg.cacheHome}/wget/wget-hsts
+      '';
+    };
   };
 }
