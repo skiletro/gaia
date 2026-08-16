@@ -32,7 +32,7 @@
     };
 
     helium = {
-      url = "github:skiletro/nix-flake-helium-browser";
+      url = "github:warm-vodka/heliumix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

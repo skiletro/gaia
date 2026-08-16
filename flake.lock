@@ -593,16 +593,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1786526146,
-        "narHash": "sha256-Wa+usvDAom9E/S5R9zJLd7FBo09I9kKCc0nLWz+dJnE=",
-        "owner": "skiletro",
-        "repo": "nix-flake-helium-browser",
-        "rev": "a2b5c64962b0391f0270fddb877b1310c385d29f",
+        "lastModified": 1786869269,
+        "narHash": "sha256-YEZ9GABbNhDevg8jvdR9d4nJJdWQKTR0kWJEspSXeFk=",
+        "owner": "warm-vodka",
+        "repo": "heliumix",
+        "rev": "257c91fe3f40dc6dbd812a512cbd2e21a95a4007",
         "type": "github"
       },
       "original": {
-        "owner": "skiletro",
-        "repo": "nix-flake-helium-browser",
+        "owner": "warm-vodka",
+        "repo": "heliumix",
         "type": "github"
       }
     },
