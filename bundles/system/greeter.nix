@@ -23,6 +23,11 @@ bundleLib.mkEnableModule ["gaia" "system" "greeter"] {
             "--remember-user-session"
             "--asterisks"
 
+            # The VT console only supports 16 colours, so hex (truecolor)
+            # escapes are ignored. Named colours render on any console; a
+            # black-on-black border is invisible.
+            "--theme 'border=black;container=black;title=white'"
+
             "--sessions '${sessionPaths}'"
           ];
         };
