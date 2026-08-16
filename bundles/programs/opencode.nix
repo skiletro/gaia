@@ -36,6 +36,49 @@ bundleLib.mkEnableModule ["gaia" "programs" "opencode"] {
 
       skills = {
         caveman = "${inputs.caveman}/skills/caveman";
+        gitingest = ''
+          ---
+          name: gitingest
+          description: Use when you need to understand a repository that isn't already in context
+            — analyse a foreign codebase, summarise a repo, inspect dependencies, or gather
+            code context for review. Turns any git repo into a prompt-ready text digest.
+          ---
+
+          # gitingest
+
+          Turn a git repo into a plain-text digest for LLM consumption. The CLI is
+          installed via `pkgs.gitingest` (nixpkgs), so `gitingest` is on PATH wherever
+          opencode is enabled.
+
+          ## When to use
+
+          - A repo (or its relevant parts) is unknown and not yet read into context
+          - Summarising a whole repository before working in it
+          - Dependency / security analysis across many files
+          - Gathering a codebase as context for review
+
+          Skip when the relevant files are already small and read into context.
+
+          ## Usage
+
+          Basic digest to stdout:
+
+              gitingest https://github.com/user/repo -o -
+
+          Focus and filter (globs, size cap, branch):
+
+              gitingest <repo> -i "*.py" -e "node_modules/*" -s 51200 -b main -o -
+
+          Private repos: export GITHUB_TOKEN. See `gitingest --help` for all flags.
+
+          ## Output shape
+
+          Three sections: repo summary + token estimate, directory tree, then each file
+          wrapped in `==== FILE: <path> ====` delimiters.
+
+          Use the `-o -` stdout stream when the digest is large, and prefer
+          include/exclude patterns over ingesting whole monorepos.
+        '';
         nixos = "${inputs.nixos-ai-skill}";
       };
 
@@ -77,7 +120,7 @@ bundleLib.mkEnableModule ["gaia" "programs" "opencode"] {
       '';
     };
 
-    home.packages = [pkgs.snip];
+    home.packages = [pkgs.gitingest pkgs.snip];
 
     sops.secrets."opencode-api-key" = {};
   };
