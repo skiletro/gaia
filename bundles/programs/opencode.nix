@@ -14,11 +14,24 @@ bundleLib.mkEnableModule ["gaia" "programs" "opencode"] {
     programs.opencode = {
       enable = true;
       settings = {
-        model = "opencode-go/deepseek-v4-flash";
+        model = "opencode-go/gpt-5.6-luna";
         autoupdate = false;
         lsp = true;
 
         compaction.prune = true;
+
+        mcp = {
+          context7 = {
+            type = "remote";
+            url = "https://mcp.context7.com/mcp";
+          };
+
+          github = {
+            type = "remote";
+            url = "https://api.githubcopilot.com/mcp/";
+            oauth = {};
+          };
+        };
 
         provider."opencode-go".options.apiKey = "{file:${config.sops.secrets.opencode-api-key.path}}";
 
@@ -26,7 +39,7 @@ bundleLib.mkEnableModule ["gaia" "programs" "opencode"] {
           # keep-sorted start
           "@tarquinen/opencode-dcp@3.1.14"
           "opencode-notificator@git+https://github.com/panta82/opencode-notificator.git"
-          "opencode-snip@1.6.1"
+          "opencode-rtk"
           "opencode-vibeguard@0.1.0"
           "opencode-wakatime@1.3.9"
           "superpowers@git+https://github.com/obra/superpowers.git"
@@ -120,7 +133,7 @@ bundleLib.mkEnableModule ["gaia" "programs" "opencode"] {
       '';
     };
 
-    home.packages = [pkgs.gitingest pkgs.snip];
+    home.packages = [pkgs.gitingest pkgs.rtk];
 
     sops.secrets."opencode-api-key" = {};
   };
