@@ -1,22 +1,19 @@
-{inputs, ...}: {
+_: {
   perSystem = {pkgs, ...}: {
     devShells.default = pkgs.mkShellNoCC {
-      buildInputs = with pkgs;
-        [
-          # keep-sorted start ignore_prefixes=self'.packages.
-          git
-          lazygit
-          neovim
-          nh
-          nixos-rebuild
-          nvfetcher
-          sops
-          ssh-to-age
-          # keep-sorted end
-        ]
-        ++ [
-          inputs.deploy-rs.packages.${pkgs.system}.deploy-rs
-        ];
+      buildInputs = with pkgs; [
+        # keep-sorted start ignore_prefixes=self'.packages.
+        deploy-rs
+        git
+        lazygit
+        neovim
+        nh
+        nixos-rebuild
+        nvfetcher
+        sops
+        ssh-to-age
+        # keep-sorted end
+      ];
 
       JUST_LIST_HEADING = "";
       JUST_LIST_PREFIX = "";
