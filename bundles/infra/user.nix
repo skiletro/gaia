@@ -56,8 +56,6 @@ in {
         OMNISHARPHOME = "${configHome}/omnisharp";
         RUSTUP_HOME = "${dataHome}/rustup";
         STACK_ROOT = "${dataHome}/stack";
-        TERMINFO = "${dataHome}/terminfo";
-        TERMINFO_DIRS = "${dataHome}/terminfo\${TERMINFO_DIRS:+:$TERMINFO_DIRS}";
         VAGRANT_HOME = "${dataHome}/vagrant";
         WGETRC = "${configHome}/wget/wgetrc";
         WINEPREFIX = "${dataHome}/wine";
