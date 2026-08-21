@@ -20,6 +20,12 @@ bundleLib.mkEnableModule ["gaia" "programs" "opencode"] {
 
         compaction.prune = true;
 
+        permission.external_directory = {
+          "*" = "ask";
+          "/home/jamie/.local/share/rtk" = "allow";
+          "/home/jamie/.local/share/rtk/**" = "allow";
+        };
+
         mcp = {
           context7 = {
             type = "remote";
