@@ -41,11 +41,7 @@
       extraModprobeConfig = ''
         options hid_apple iso_layout=1
       '';
-      loader = {
-        systemd-boot.enable = lib.mkForce true;
-        limine.enable = lib.mkForce false;
-        efi.canTouchEfiVariables = lib.mkForce false;
-      };
+      loader.efi.canTouchEfiVariables = lib.mkForce false;
       initrd = {
         availableKernelModules = ["usb_storage"];
         kernelModules = [];
