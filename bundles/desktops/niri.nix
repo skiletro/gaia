@@ -78,6 +78,13 @@ lib.mkIf (config.gaia.desktop == "niri") {
           };
           variable-refresh-rate = true;
         };
+        "PNP(AOC) AG346UCD 0x000002A8" = {
+          mode = {
+            width = 3440;
+            height = 1440;
+            refresh = 100.0;
+          };
+        };
         "eDP-1" = {
           mode = {
             width = 2560;
