@@ -29,6 +29,7 @@
       nu.enable = true;
       opencode.enable = true;
       proton.enable = true;
+      qbittorrent.enable = true;
       signal.enable = true;
       term-utils.enable = true;
       zoxide.enable = true;
