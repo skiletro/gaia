@@ -31,6 +31,7 @@
       proton.enable = true;
       qbittorrent.enable = true;
       signal.enable = true;
+      spotify.enable = true;
       term-utils.enable = true;
       zoxide.enable = true;
       # keep-sorted end
