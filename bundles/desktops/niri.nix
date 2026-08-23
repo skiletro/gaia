@@ -9,7 +9,7 @@ lib.mkIf (config.gaia.desktop == "niri") {
     programs = {
       vicinae.enable = true;
       suite.enable = true;
-      kitty.enable = true;
+      rio.enable = true;
     };
     services.noctalia.enable = true;
   };
@@ -140,7 +140,7 @@ lib.mkIf (config.gaia.desktop == "niri") {
       in
         {
           # App shortcuts
-          "Mod+Return".action.spawn = "${lib.getExe pkgs.kitty}";
+          "Mod+Return".action.spawn = "rio";
           "Mod+Space".action.spawn = strToList "vicinae toggle";
           "XF86Search".action.spawn = strToList "vicinae toggle";
           "Mod+F".action.spawn = "helium";

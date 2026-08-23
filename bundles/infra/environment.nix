@@ -10,6 +10,7 @@
       "foot"
       "ghostty"
       "kitty"
+      "rio"
       "wezterm"
       # keep-sorted end
     ];
