@@ -1,15 +1,16 @@
 {
   bundleLib,
+  lib,
   inputs,
   inputs',
   ...
 }:
 bundleLib.mkEnableModule ["gaia" "programs" "spotify"] {
-  home-manager = {
+  home-manager = {pkgs, ...}: {
     imports = [inputs.spicetify.homeManagerModules.default];
 
     programs.spicetify = {
-      enable = true;
+      enable = lib.mkIf pkgs.stdenvNoCC.hostPlatform.isx86 true;
 
       enabledExtensions = with inputs'.spicetify.legacyPackages.extensions; [
         songStats
@@ -21,5 +22,9 @@ bundleLib.mkEnableModule ["gaia" "programs" "spotify"] {
         ncsVisualizer
       ];
     };
+  };
+
+  nixos = {pkgs, ...}: {
+    environment.systemPackages = [pkgs.spotatui];
   };
 }
