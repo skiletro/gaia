@@ -7,6 +7,7 @@ bundleLib.mkEnableModule ["gaia" "programs" "term-utils"] {
   home-manager = {pkgs, ...}: {
     home.packages = with pkgs; [
       # keep-sorted start ignore_prefixes=pkgs'.
+      brightnessctl
       dust # fancy du
       fd # find files
       ffmpeg
