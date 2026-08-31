@@ -41,6 +41,7 @@
       obs.enable = true;
       opencode.enable = true;
       proton.enable = true;
+      pwa.enable = true;
       qbittorrent.enable = true;
       rustdesk.enable = true;
       signal.enable = true;

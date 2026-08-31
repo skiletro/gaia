@@ -12,6 +12,11 @@
       flake = false;
     };
 
+    chromium-webapps = {
+      url = "github:warm-vodka/nix-chromium-webapps";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     cursors.url = "github:lilleaila/nix-cursors";
 
     dcal = {

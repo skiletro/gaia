@@ -166,6 +166,27 @@
         "type": "github"
       }
     },
+    "chromium-webapps": {
+      "inputs": {
+        "home-manager": "home-manager",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788192218,
+        "narHash": "sha256-+ZUDELe8j6VvJKAhbse6ctz8iOXSAyQ8XTwIgEUG8Pg=",
+        "owner": "warm-vodka",
+        "repo": "nix-chromium-webapps",
+        "rev": "0b80f0c8bcae4203650c822feb42589c7c75ab5b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "warm-vodka",
+        "repo": "nix-chromium-webapps",
+        "type": "github"
+      }
+    },
     "crane": {
       "locked": {
         "lastModified": 1785782307,
@@ -638,6 +659,27 @@
       }
     },
     "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "chromium-webapps",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788146656,
+        "narHash": "sha256-XmJmvk9rytTb7dCotO/aqR+YysB8HOqnprlOdv+LAF4=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "82c265faf4e3161d6015db07c9b0f1ee36a9029b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "home-manager_2": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
@@ -1672,6 +1714,7 @@
         "asahix": "asahix",
         "bundle": "bundle",
         "caveman": "caveman",
+        "chromium-webapps": "chromium-webapps",
         "cursors": "cursors",
         "dcal": "dcal",
         "deploy-rs": "deploy-rs",
@@ -1679,7 +1722,7 @@
         "flake-parts": "flake-parts",
         "helium": "helium",
         "helix": "helix",
-        "home-manager": "home-manager",
+        "home-manager": "home-manager_2",
         "hyprland": "hyprland",
         "import-tree": "import-tree",
         "niri": "niri",
