@@ -296,7 +296,7 @@ lib.mkIf (config.gaia.desktop == "niri") {
           matches = [
             {
               app-id = "steam";
-              title = ''r#"^notificationtoasts_\d+_desktop$"#'';
+              title = "^notificationtoasts_\d+_desktop$";
             }
           ];
           default-floating-position = {
