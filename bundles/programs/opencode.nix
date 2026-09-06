@@ -25,6 +25,7 @@ bundleLib.mkEnableModule ["gaia" "programs" "opencode"] {
             "/home/jamie/.local/share/rtk" = "allow";
             "/home/jamie/.local/share/rtk/**" = "allow";
             "/tmp/opencode/**" = "allow";
+            "/tmp/**" = "allow";
             "/nix/store/**" = "allow";
           };
           edit = {
