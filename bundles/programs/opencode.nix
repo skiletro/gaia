@@ -14,16 +14,27 @@ bundleLib.mkEnableModule ["gaia" "programs" "opencode"] {
     programs.opencode = {
       enable = true;
       settings = {
-        model = "opencode-go/gpt-5.6-luna";
         autoupdate = false;
         lsp = true;
 
         compaction.prune = true;
 
-        permission.external_directory = {
-          "*" = "ask";
-          "/home/jamie/.local/share/rtk" = "allow";
-          "/home/jamie/.local/share/rtk/**" = "allow";
+        permission = {
+          external_directory = {
+            "*" = "ask";
+            "/home/jamie/.local/share/rtk" = "allow";
+            "/home/jamie/.local/share/rtk/**" = "allow";
+            "/tmp/opencode/**" = "allow";
+            "/nix/store/**" = "allow";
+          };
+          edit = {
+            "/nix/store/**" = "deny";
+          };
+          bash = {
+            "find *" = "allow";
+            "grep *" = "allow";
+            "curl *" = "allow";
+          };
         };
 
         mcp = {
@@ -31,20 +42,14 @@ bundleLib.mkEnableModule ["gaia" "programs" "opencode"] {
             type = "remote";
             url = "https://mcp.context7.com/mcp";
           };
-
-          github = {
-            type = "remote";
-            url = "https://api.githubcopilot.com/mcp/";
-            oauth = {};
-          };
         };
 
         provider."opencode-go".options.apiKey = "{file:${config.sops.secrets.opencode-api-key.path}}";
 
         plugin = [
           # keep-sorted start
+          "@mohak34/opencode-notifier@latest"
           "@tarquinen/opencode-dcp@3.1.14"
-          "opencode-notificator@git+https://github.com/panta82/opencode-notificator.git"
           "opencode-rtk"
           "opencode-vibeguard@0.1.0"
           "opencode-wakatime@1.3.9"
@@ -139,7 +144,10 @@ bundleLib.mkEnableModule ["gaia" "programs" "opencode"] {
       '';
     };
 
-    home.packages = [pkgs.gitingest pkgs.rtk];
+    home.packages = [
+      pkgs.gitingest
+      pkgs.rtk
+    ];
 
     sops.secrets."opencode-api-key" = {};
   };
