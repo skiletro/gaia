@@ -127,7 +127,7 @@ lib.mkIf (config.gaia.desktop == "niri") {
           argv = [
             "${lib.getExe pkgs.wl-clip-persist}"
             "--clipboard"
-            "regular"
+            "both"
           ];
         }
       ];
