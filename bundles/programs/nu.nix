@@ -43,7 +43,6 @@ bundleLib.mkEnableModule ["gaia" "programs" "nu"] {
     };
 
     home.shellAliases = {
-      n = "cd ~/Projects/gaia";
       vf = "ssh -p 2200 git.warm.vodka";
     };
   };
