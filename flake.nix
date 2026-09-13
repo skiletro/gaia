@@ -66,8 +66,13 @@
 
     nixcord = {
       url = "github:kaylorben/nixcord";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.follows = "flake-parts";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nixpkgs-nixcord.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+        nix-darwin.follows = "";
+        treefmt-nix.follows = "";
+      };
     };
 
     nixos-ai-skill = {
