@@ -2,6 +2,7 @@
   lib,
   config,
   inputs,
+  inputs',
   ...
 }:
 lib.mkIf (config.gaia.desktop == "niri") {
@@ -14,7 +15,7 @@ lib.mkIf (config.gaia.desktop == "niri") {
     services.noctalia.enable = true;
   };
 
-  nixos = {pkgs, ...}: {
+  nixos = {
     imports = [inputs.niri.nixosModules.niri];
 
     programs.niri.enable = true;
@@ -42,9 +43,7 @@ lib.mkIf (config.gaia.desktop == "niri") {
 
     security.polkit.enable = true;
 
-    environment.systemPackages = with pkgs; [
-      xwayland-satellite
-    ];
+    environment.systemPackages = [inputs'.xwayland-satellite.packages.xwayland-satellite];
   };
 
   home-manager = {pkgs, ...}: {

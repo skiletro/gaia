@@ -134,6 +134,14 @@
       url = "github:mrnossiom/wakatime-ls";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    xwayland-satellite = {
+      url = "github:Supreeeme/xwayland-satellite";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        rust-overlay.follows = "";
+      };
+    };
     # keep-sorted end
   };
 
