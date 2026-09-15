@@ -49,11 +49,12 @@ bundleLib.mkEnableModule ["gaia" "programs" "opencode"] {
 
         plugin = [
           # keep-sorted start
-          "@mohak34/opencode-notifier@latest"
-          "@tarquinen/opencode-dcp@3.1.14"
+          "@mohak34/opencode-notifier"
+          "@simonwjackson/opencode-direnv"
+          "@tarquinen/opencode-dcp"
           "opencode-rtk"
-          "opencode-vibeguard@0.1.0"
-          "opencode-wakatime@1.3.9"
+          "opencode-vibeguard"
+          "opencode-wakatime"
           "superpowers@git+https://github.com/obra/superpowers.git"
           # keep-sorted end
         ];
