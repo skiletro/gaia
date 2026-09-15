@@ -41,6 +41,7 @@
       nu.enable = true;
       obs.enable = true;
       opencode.enable = true;
+      pi.enable = true;
       proton.enable = true;
       pwa.enable = true;
       qbittorrent.enable = true;
