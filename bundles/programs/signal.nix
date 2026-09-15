@@ -1,6 +1,6 @@
 {bundleLib, ...}:
 bundleLib.mkEnableModule ["gaia" "programs" "signal"] {
-  nixos = {
+  home-manager = {
     pkgs,
     config,
     ...
@@ -217,7 +217,7 @@ bundleLib.mkEnableModule ["gaia" "programs" "signal"] {
         }
       '';
   in {
-    environment.systemPackages = [
+    home.packages = [
       (pkgs.signal-desktop.overrideAttrs (oldAttrs: {
         patches =
           oldAttrs.patches

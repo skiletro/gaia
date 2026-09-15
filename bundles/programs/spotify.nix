@@ -22,9 +22,7 @@ bundleLib.mkEnableModule ["gaia" "programs" "spotify"] {
         ncsVisualizer
       ];
     };
-  };
 
-  nixos = {pkgs, ...}: {
-    environment.systemPackages = [pkgs.spotatui];
+    home.packages = [pkgs.spotatui];
   };
 }

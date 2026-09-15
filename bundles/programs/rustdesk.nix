@@ -1,6 +1,6 @@
 {bundleLib, ...}:
 bundleLib.mkEnableModule ["gaia" "programs" "rustdesk"] {
-  nixos = {pkgs, ...}: {
-    environment.systemPackages = [pkgs.rustdesk-flutter];
+  home-manager = {pkgs, ...}: {
+    home.packages = [pkgs.rustdesk-flutter];
   };
 }
