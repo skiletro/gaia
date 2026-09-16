@@ -142,6 +142,10 @@ lib.mkIf (config.gaia.desktop == "mango") {
         group_bar_decorate_focus_bg_color = opaque colors.base0D;
         group_bar_decorate_focus_fg_color = opaque colors.base00;
 
+        # Overview jump labels: digits first so the first nine windows
+        # answer to 1-9, letters after for overflow.
+        jump_labels = "123456789ASDFGHJKLQWERTYUIOPZXCVBNM";
+
         # Scroller is the closest thing to niri's scrolling layout.
         scroller_structs = 20;
         scroller_default_proportion = 0.5;
@@ -260,8 +264,10 @@ lib.mkIf (config.gaia.desktop == "mango") {
             "SUPER+CTRL+SHIFT,F,togglefullscreen"
             "SUPER+SHIFT,Space,togglefloating"
 
-            # Overview mode (all tags)
-            "SUPER,O,toggleoverview"
+            # Overview mode (all tags). Windows are labeled with jump_labels;
+            # pressing the bare label key focuses that window and closes the
+            # overview. SUPER+digit still switches tags via the binds below.
+            "SUPER,O,togglejump"
 
             # Resize window (niri: set-column-width / set-window-height ±5%,
             # stepped in pixels here). resizewin moves the split for tiled
