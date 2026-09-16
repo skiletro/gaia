@@ -14,23 +14,25 @@ bundleLib.mkEnableModule ["gaia" "services" "noctalia"] {
         # Status bar
         bar = {
           default = {
-            capsule = true;
-            capsule_fill = "surface";
+            start = [
+              "workspaces"
+            ];
             center = [
               "weather"
-              "clock"
+              "group:g2"
               "audio_visualizer"
             ];
-            contact_shadow = true;
             end = [
               "tray"
               "group:g1"
             ];
+            capsule = true;
+            capsule_fill = "surface";
+            contact_shadow = true;
             margin_ends = 0;
             padding = 4;
             position = "left";
             shadow = false;
-            start = ["workspaces"];
             capsule_group = [
               {
                 enabled = true;
@@ -43,6 +45,17 @@ bundleLib.mkEnableModule ["gaia" "services" "noctalia"] {
                   "volume"
                   "network"
                   "battery"
+                ];
+                opacity = 1.0;
+                padding = 6.0;
+              }
+              {
+                enabled = true;
+                fill = "surface";
+                id = "g2";
+                members = [
+                  "clock"
+                  "date"
                 ];
                 opacity = 1.0;
                 padding = 6.0;
@@ -158,7 +171,7 @@ bundleLib.mkEnableModule ["gaia" "services" "noctalia"] {
         };
 
         # Misc
-        theme.pure_black_dark = true;
+        theme.pure_black_dark = false;
         plugins.enabled = [];
 
         shell = {
