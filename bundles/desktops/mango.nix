@@ -269,6 +269,11 @@ lib.mkIf (config.gaia.desktop == "mango") {
             # overview. SUPER+digit still switches tags via the binds below.
             "SUPER,O,togglejump"
 
+            # Alt-tab style thumbnail switcher: hold SUPER, tap Tab to cycle,
+            # release to land on the selection.
+            "SUPER,Tab,switcher,all_tag_next"
+            "SUPER+SHIFT,Tab,switcher,all_tag_prev"
+
             # Resize window (niri: set-column-width / set-window-height ±5%,
             # stepped in pixels here). resizewin moves the split for tiled
             # windows, the proportion in scroller, and the size when floating.
