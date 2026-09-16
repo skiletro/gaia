@@ -112,9 +112,11 @@ lib.mkIf (config.gaia.desktop == "mango") {
         border_radius = 6;
         rootcolor = "0x00000000"; # transparent background (noctalia draws it)
 
-        # 0 keeps the master beside a single stack client instead of
-        # centering it, matching plain tiling.
-        center_when_single_stack = 0;
+        # Dwindle is the layout on every tag. Split axis follows the focused
+        # window's shape (wide: side-by-side, tall: stacked); 1 puts the new
+        # window to the right or below, never left, above, or cursor-dependent.
+        dwindle_hsplit = 1;
+        dwindle_vsplit = 1;
 
         # Stylix (rose-pine) colours
         focuscolor = opaque colors.base0D;
@@ -190,9 +192,10 @@ lib.mkIf (config.gaia.desktop == "mango") {
         # Environment
         env = ["NIXOS_OZONE_WL,1"];
 
-        # Tag 4 uses the scroller layout, the closest thing to niri's
-        # scrolling layout, on both monitors.
+        # Dwindle everywhere; tag 4 uses the scroller layout, the closest
+        # thing to niri's scrolling layout, on both monitors.
         tagrule = [
+          "id:*,layout_name:dwindle"
           "id:4,layout_name:scroller"
         ];
 
@@ -256,6 +259,9 @@ lib.mkIf (config.gaia.desktop == "mango") {
             "SUPER+SHIFT,F,togglemaximizescreen"
             "SUPER+CTRL+SHIFT,F,togglefullscreen"
             "SUPER+SHIFT,Space,togglefloating"
+
+            # Overview mode (all tags)
+            "SUPER,O,toggleoverview"
 
             # Resize window (niri: set-column-width / set-window-height ±5%,
             # stepped in pixels here). resizewin moves the split for tiled
