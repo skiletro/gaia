@@ -4,8 +4,6 @@ bundleLib.mkEnableModule ["gaia" "programs" "rio"] {
     programs.rio = {
       enable = true;
       settings = {
-        padding = [48];
-        cursor.shape = "beam";
         line-height = 1.2;
         navigation = {
           mode = "Plain";
