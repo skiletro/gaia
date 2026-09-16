@@ -47,70 +47,6 @@ lib.mkIf (config.gaia.desktop == "mango") {
     withAlpha = alpha: color: "0x${color}${alpha}";
     opaque = withAlpha "ff";
     mmsg = lib.getExe' config.wayland.windowManager.mango.package "mmsg";
-
-    # Auto layout on the ultrawide: a lone tiled window centers at the mfact
-    # width (roughly 16:9); two or more windows go back to plain tile. mango
-    # has no count-conditional layout, so watch the IPC and dispatch
-    # setlayout on the focused monitor when the count changes. Only acts on
-    # monitors with an aspect ratio of 2.0 or wider, leaves tags already on
-    # other layouts (scroller, monocle, ...) alone, and holds off while a
-    # client is maximized or fullscreen, since setlayout clears those states.
-    layoutWatcher = pkgs.writers.writePython3 "mango-layout-watcher" {} ''
-      import json
-      import subprocess
-      import sys
-
-      mmsg = sys.argv[1]
-
-
-      def blocked(mon_name):
-          out = subprocess.run(
-              [mmsg, "get", "all-clients"], capture_output=True, text=True
-          ).stdout
-          for c in json.loads(out).get("clients", []):
-              if (
-                  c.get("monitor") == mon_name
-                  and c.get("is_visible")
-                  and (c.get("is_maximized") or c.get("is_fullscreen"))
-              ):
-                  return True
-          return False
-
-
-      def corrections(mon):
-          if mon["width"] / mon["height"] < 2.0:
-              return
-          for tag in mon.get("tags", []):
-              if not tag.get("is_active"):
-                  continue
-              layout = tag.get("layout")
-              count = tag.get("client_count", 0)
-              if count == 1 and layout == "T":
-                  yield "center_tile"
-              elif count > 1 and layout == "CT":
-                  yield "tile"
-
-
-      def handle(event):
-          for mon in event.get("monitors", []):
-              if not mon.get("active"):
-                  continue
-              cmds = list(corrections(mon))
-              if not cmds or blocked(mon["name"]):
-                  continue
-              for layout in cmds:
-                  subprocess.run([mmsg, "dispatch", "setlayout," + layout])
-
-
-      for line in sys.stdin:
-          line = line.strip()
-          if not line:
-              continue
-          try:
-              handle(json.loads(line))
-          except (json.JSONDecodeError, KeyError, TypeError, ValueError):
-              continue
-    '';
   in {
     imports = [inputs.mango.hmModules.mango];
 
@@ -127,9 +63,6 @@ lib.mkIf (config.gaia.desktop == "mango") {
         ${lib.getExe pkgs.tailscale} systray &
         ${lib.getExe' pkgs.udiskie "udiskie"} &
         ${lib.getExe pkgs.wl-clip-persist} --clipboard both &
-
-        # Dynamic single-window layout (see layoutWatcher).
-        ${layoutWatcher} ${mmsg} &
 
         # Hot reload. home-manager replaces ~/.config/mango/config.conf with a
         # symlink to a new store path on every switch. Watch the directory and
@@ -179,10 +112,8 @@ lib.mkIf (config.gaia.desktop == "mango") {
         border_radius = 6;
         rootcolor = "0x00000000"; # transparent background (noctalia draws it)
 
-        # center_tile places the stack fully beside the master instead of
-        # splitting it around a centered master, so stacked windows keep a
-        # usable width. mfact for the 16:9-ish lone master comes from the AOC
-        # tagrule below, not from here.
+        # 0 keeps the master beside a single stack client instead of
+        # centering it, matching plain tiling.
         center_when_single_stack = 0;
 
         # Stylix (rose-pine) colours
@@ -259,13 +190,9 @@ lib.mkIf (config.gaia.desktop == "mango") {
         # Environment
         env = ["NIXOS_OZONE_WL,1"];
 
-        # On the 3440x1440 ultrawide, center_tile caps a single window at the
-        # mfact width (roughly 16:9) and centers it instead of stretching it
-        # across the screen like the default tile layout does. Everything
-        # without a matching rule (the 16:10 laptop panel) keeps plain tile.
-        # The tag 4 scroller rule comes after so it wins on both monitors.
+        # Tag 4 uses the scroller layout, the closest thing to niri's
+        # scrolling layout, on both monitors.
         tagrule = [
-          "id:*,monitor_make:AOC,layout_name:center_tile,mfact:0.74"
           "id:4,layout_name:scroller"
         ];
 
