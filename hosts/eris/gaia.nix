@@ -1,6 +1,6 @@
 {
   gaia = {
-    desktop = "niri";
+    desktop = "mango";
     system = {
       # keep-sorted start
       bluetooth.enable = true;
