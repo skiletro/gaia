@@ -328,11 +328,13 @@ lib.mkIf (config.gaia.desktop == "mango") {
 
         # The user config replaces /etc/mango/config.conf wholesale (mango
         # only reads the system config when the user config is missing), and
-        # nothing besides Ctrl+Alt+F1-12 is compiled in, so the mouse, wheel
-        # and touchpad bindings from the shipped default are restored here.
+        # nothing besides Ctrl+Alt+F1-12 is compiled in, so the mouse
+        # bindings from the shipped default are restored here. Middle click
+        # is deliberately left unbound so it reaches applications (paste,
+        # open link in new tab); the shipped default binds it to
+        # togglemaximizescreen, which made middle click fullscreen windows.
         mousebind = [
           "SUPER,btn_left,moveresize,curmove"
-          "NONE,btn_middle,togglemaximizescreen,0"
           "SUPER,btn_right,moveresize,curresize"
         ];
 
