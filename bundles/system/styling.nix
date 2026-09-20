@@ -32,9 +32,9 @@
     };
     image = let
       wallpaper = pkgs.fetchurl {
-        # tags: macro, plants, nature, depth of field
-        url = "https://w.wallhaven.cc/full/8o/wallhaven-8o8owk.png";
-        sha256 = "1cynpqlsid9fsvdcr834ppmq2672wls5incnx9l5arzfi765clrm";
+        # travel over the woods (https://www.reddit.com/r/WidescreenWallpaper/s/V5Sxr2PllV)
+        url = "https://files.catbox.moe/3nluri.png";
+        sha256 = "1vglkznf6lb79qa8fw8pa747yxb9rqp38b8nvnly7m682rkg3da7";
       };
     in
       pkgs.runCommand "output.png" {}
