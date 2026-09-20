@@ -1,9 +1,8 @@
-_: {
+{
   perSystem = {pkgs, ...}: {
     devShells.default = pkgs.mkShellNoCC {
       buildInputs = with pkgs; [
         # keep-sorted start ignore_prefixes=self'.packages.
-        deploy-rs
         git
         lazygit
         neovim

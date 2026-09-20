@@ -23,7 +23,6 @@ outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.impor
 
 - `systems.nix` - the architectures this flake supports (`x86_64-linux`, `aarch64-linux`)
 - `hosts.nix` - imports the bundle flake module and declares the hosts
-- `deploy.nix` - defines the deploy-rs nodes
 - `packages.nix` - builds every directory under `packages/` with `callPackage`, providing the nvfetcher `sources`
 - `sources.nix` - the `sources` option consumed by `packages.nix`
 - `shell.nix` - the devShell
