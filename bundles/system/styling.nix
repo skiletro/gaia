@@ -6,7 +6,7 @@
   ...
 }: let
   sharedStylixConfig = config: pkgs: {
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/rose-pine.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/penumbra-dark-contrast-plus.yaml";
     polarity = "dark";
     fonts = {
       sansSerif = {
