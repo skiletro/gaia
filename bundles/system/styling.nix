@@ -74,9 +74,12 @@ in {
   home-manager = {pkgs, ...}: {
     stylix.icons = {
       enable = true;
-      package = pkgs.morewaita-icon-theme;
-      dark = "MoreWaita";
-      light = "MoreWaita";
+      package = pkgs.whitesur-icon-theme.override {
+        alternativeIcons = true;
+        boldPanelIcons = true;
+      };
+      dark = "WhiteSur-dark";
+      light = "WhiteSur-light";
     };
 
     home.pointerCursor.enable = true;
