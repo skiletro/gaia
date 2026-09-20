@@ -71,7 +71,26 @@ in {
       // (sharedStylixConfig config pkgs);
   };
 
-  home-manager = {pkgs, ...}: {
+  home-manager = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: let
+    # Stylix ships its KDE config (kdeglobals fonts, cursor theme, color scheme
+    # name) as an entry in XDG_CONFIG_DIRS via home-manager's xdg.systemDirs.
+    # That variable gets mangled by uwsm, which exports the HM-generated
+    # `${XDG_CONFIG_DIRS:+:$XDG_CONFIG_DIRS}` suffix as a literal string, so the
+    # entry becomes a path that never exists. Qt/KDE apps then fall back to
+    # default palettes and fonts and render broken (dark text on dark themes,
+    # wrong typeface). Copy the files into ~/.config, which always takes
+    # precedence over XDG_CONFIG_DIRS.
+    stylixKdeConfig =
+      lib.findFirst
+      (dir: lib.hasSuffix "stylix-kde-config" dir)
+      null
+      config.xdg.systemDirs.config;
+  in {
     stylix.icons = {
       enable = true;
       package = pkgs.whitesur-icon-theme.override {
@@ -83,5 +102,16 @@ in {
     };
 
     home.pointerCursor.enable = true;
+
+    # KF6 apps read the icon theme from kdeglobals [Icons] and ignore qt6ct's
+    # setting, falling back to Breeze when it is missing. Stylix does not write
+    # an [Icons] section, so append one derived from stylix's icon theme.
+    xdg.configFile = lib.mkIf (stylixKdeConfig != null) {
+      "kdeglobals".text =
+        builtins.readFile "${stylixKdeConfig}/kdeglobals"
+        + "\n[Icons]\nTheme=${config.stylix.icons.dark}\n";
+      "kcminputrc".source = "${stylixKdeConfig}/kcminputrc";
+      "kded5rc".source = "${stylixKdeConfig}/kded5rc";
+    };
   };
 }
