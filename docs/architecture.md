@@ -12,7 +12,7 @@ outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.impor
 | path | purpose |
 |---|---|
 | `parts/` | flake-parts modules that wire everything together |
-| `bundles/` | feature modules, one per file, grouped by category |
+| `bundles/` | feature modules, one per file or directory, grouped by category |
 | `hosts/` | per-host configuration |
 | `packages/` | custom packages and their sources |
 | `docs/` | this documentation |
@@ -50,7 +50,10 @@ Declared hosts: `eris`, `keres`, `moirai`, `hemera`, `iso`.
 
 `bundles/` holds feature modules grouped by category: `programs`, `services`,
 `system`, `desktops`, `infra`, `utils`. Each bundle is a
-`bundleLib.mkEnableModule` module exposing an `enable` option. See
+`bundleLib.mkEnableModule` module exposing an `enable` option. A bundle is a
+single file (`<name>.nix`) or a directory (`<name>/default.nix`) when it needs
+additional files next to it, such as package patches applied with a relative
+path like `./fix-thing.patch`. See
 [adding-a-bundle.md](adding-a-bundle.md) and
 [bundle-reference.md](bundle-reference.md).
 

@@ -1,0 +1,83 @@
+--- a/include/mango/config/parse_config.h
++++ b/include/mango/config/parse_config.h
+@@ -369,6 +369,7 @@
+ 	int32_t dwindle_drop_simple_split;
+ 	int32_t dwindle_manual_split;
+ 	float dwindle_split_ratio;
++	float dwindle_aspect_threshold;
+
+ 	int32_t hotarea_size;
+ 	int32_t hotarea_corner;
+--- a/src/config/parse_config.c
++++ b/src/config/parse_config.c
+@@ -831,6 +831,8 @@
+ 		config->dwindle_manual_split = atoi(value);
+ 	} else if (strcmp(key, "dwindle_split_ratio") == 0) {
+ 		config->dwindle_split_ratio = atof(value);
++	} else if (strcmp(key, "dwindle_aspect_threshold") == 0) {
++		config->dwindle_aspect_threshold = atof(value);
+ 	} else if (strcmp(key, "hotarea_size") == 0) {
+ 		config->hotarea_size = atoi(value);
+ 	} else if (strcmp(key, "hotarea_corner") == 0) {
+@@ -3659,6 +3661,8 @@
+ 	config.dwindle_manual_split = CLAMP_INT(config.dwindle_manual_split, 0, 1);
+ 	config.dwindle_split_ratio =
+ 		CLAMP_FLOAT(config.dwindle_split_ratio, 0.05f, 0.95f);
++	config.dwindle_aspect_threshold =
++		CLAMP_FLOAT(config.dwindle_aspect_threshold, 0.1f, 10.0f);
+ 	config.hotarea_size = CLAMP_INT(config.hotarea_size, 1, 1000);
+ 	config.hotarea_corner = CLAMP_INT(config.hotarea_corner, 0, 3);
+ 	config.enable_hotarea = CLAMP_INT(config.enable_hotarea, 0, 1);
+@@ -3873,6 +3877,7 @@
+ 	config.dwindle_drop_simple_split = 1;
+ 	config.dwindle_manual_split = 0;
+ 	config.dwindle_split_ratio = 0.5f;
++	config.dwindle_aspect_threshold = 1.25f;
+
+ 	config.log_level = WLR_ERROR;
+ 	config.numlockon = 0;
+--- a/src/layout/dwindle.c
++++ b/src/layout/dwindle.c
+@@ -179,7 +179,7 @@
+ 	}
+
+ 	if (!node->split_locked && node->container_w == 0 && node->container_h == 0)
+-		node->split_h = (aw >= ah);
++		node->split_h = ((float)aw >= (float)ah * config.dwindle_aspect_threshold);
+ 	node->container_x = ax;
+ 	node->container_y = ay;
+ 	node->container_w = aw;
+@@ -374,7 +374,8 @@
+ 		}
+ 	}
+
+-	bool split_h = area.width >= area.height;
++	bool split_h = ((float)area.width >=
++					 (float)area.height * config.dwindle_aspect_threshold);
+ 	bool as_first = split_h ? c_cx < (tgeom.x + tgeom.width / 2)
+ 							: c_cy < (tgeom.y + tgeom.height / 2);
+
+@@ -572,8 +573,11 @@
+ 		}
+ 		lock = true; // lock split direction
+ 	} else {
+-		// normal mode, auto split
+-		bool likely_h = (fg->width >= fg->height);
++		// normal mode, auto split. The threshold biases the axis on very wide
++		// monitors: a value above 1 stacks new windows earlier instead of
++		// producing ever more columns.
++		bool likely_h = ((float)fg->width >=
++						 (float)fg->height * config.dwindle_aspect_threshold);
+ 		split_h = likely_h;
+
+ 		if (likely_h) {
+--- a/docs/window-management/layouts.md
++++ b/docs/window-management/layouts.md
+@@ -104,6 +104,7 @@
+ | `dwindle_smart_resize` | `0` | When dragging to resize, move the split toward the cursor regardless of which side was grabbed. |
+ | `dwindle_drop_simple_split` | `1` | Drag-to-tile drop preview. `1` = 2-zone preview matching `dwindle_split_ratio`, `0` = 4-quadrant preview. |
+ | `dwindle_manual_split` | `0` | Manually split windows mode. |
++| `dwindle_aspect_threshold` | `1.25` | Split axis threshold: a side-by-side split is chosen when the focused window's width is at least its height times this value. Above `1.0`, new windows stack sooner on very wide monitors. |
+
+ ```ini
+ # Example dwindle configuration

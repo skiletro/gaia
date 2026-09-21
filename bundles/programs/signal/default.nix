@@ -222,21 +222,7 @@ bundleLib.mkEnableModule ["gaia" "programs" "signal"] {
         patches =
           oldAttrs.patches
           ++ [
-            (pkgs.writeText "more-fps.patch" ''
-              diff --git a/ts/calling/constants.std.ts b/ts/calling/constants.std.ts
-              index df863d7a3..29d84b964 100644
-              --- a/ts/calling/constants.std.ts
-              +++ b/ts/calling/constants.std.ts
-              @@ -14,7 +14,7 @@ export const REQUESTED_GROUP_VIDEO_HEIGHT = 480;
-               export const REQUESTED_SCREEN_SHARE_WIDTH = 2880;
-               export const REQUESTED_SCREEN_SHARE_HEIGHT = 1800;
-               // 15fps is much nicer but takes up a lot more CPU.
-              -export const REQUESTED_SCREEN_SHARE_FRAMERATE = 5;
-              +export const REQUESTED_SCREEN_SHARE_FRAMERATE = 20;
-
-               export const MAX_FRAME_WIDTH = 2880;
-               export const MAX_FRAME_HEIGHT = 1800;
-            '')
+            ./more-fps.patch
           ];
 
         preBuild =

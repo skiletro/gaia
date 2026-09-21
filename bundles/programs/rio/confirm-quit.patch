@@ -1,0 +1,72 @@
+diff --git a/frontends/rioterm/src/application.rs b/frontends/rioterm/src/application.rs
+index e0bbfbd..c7525da 100644
+--- a/frontends/rioterm/src/application.rs
++++ b/frontends/rioterm/src/application.rs
+@@ -629,7 +629,13 @@ impl ApplicationHandler<EventPayload> for Application<'_> {
+             }
+             RioEventType::Rio(RioEvent::Exit | RioEvent::Quit) => {
+                 if let Some(route) = self.router.routes.get_mut(&window_id) {
+-                    if self.config.confirm_before_quit {
++                    if self.config.confirm_before_quit
++                        && route
++                            .window
++                            .screen
++                            .context_manager
++                            .has_foreground_process()
++                    {
+                         route.confirm_quit();
+                     } else {
+                         route.quit();
+@@ -1185,7 +1191,13 @@ impl ApplicationHandler<EventPayload> for Application<'_> {
+                     return;
+                 }
+
+-                if self.config.confirm_before_quit {
++                let has_foreground_process = route
++                    .window
++                    .screen
++                    .context_manager
++                    .has_foreground_process();
++
++                if self.config.confirm_before_quit && has_foreground_process {
+                     route.confirm_quit();
+                     return;
+                 } else {
+diff --git a/frontends/rioterm/src/context/mod.rs b/frontends/rioterm/src/context/mod.rs
+index 750585a..367cd74 100644
+--- a/frontends/rioterm/src/context/mod.rs
++++ b/frontends/rioterm/src/context/mod.rs
+@@ -91,6 +91,19 @@ impl<T: EventListener> Context<T> {
+         self.renderable_content.selection_range = selection_range;
+     }
+
++    /// Returns true when the pty's foreground process group differs from the
++    /// shell itself, meaning a program is currently running in the terminal.
++    #[cfg(not(target_os = "windows"))]
++    pub fn has_foreground_process(&self) -> bool {
++        let foreground = unsafe { libc::tcgetpgrp(*self.main_fd) };
++        foreground > 0 && foreground != self.shell_pid as libc::pid_t
++    }
++
++    #[cfg(target_os = "windows")]
++    pub fn has_foreground_process(&self) -> bool {
++        false
++    }
++
+     #[inline]
+     pub fn cursor_from_ref(&self) -> Cursor {
+         Cursor {
+@@ -914,6 +927,13 @@ impl<T: EventListener + Clone + std::marker::Send + 'static> ContextManager<T> {
+         self.contexts[self.current_index].current()
+     }
+
++    /// True when any tab or split runs a foreground process other than its shell.
++    pub fn has_foreground_process(&self) -> bool {
++        self.contexts
++            .iter()
++            .any(|context| context.current().has_foreground_process())
++    }
++
+     #[inline]
+     pub fn current_mut(&mut self) -> &mut Context<T> {
+         self.contexts[self.current_index].current_mut()
