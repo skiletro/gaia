@@ -28,7 +28,7 @@ bundleLib.mkEnableModule ["gaia" "services" "noctalia"] {
             ];
             capsule = true;
             capsule_fill = "surface";
-            contact_shadow = true;
+            contact_shadow = false;
             margin_ends = 0;
             padding = 4;
             position = "left";
@@ -117,6 +117,7 @@ bundleLib.mkEnableModule ["gaia" "services" "noctalia"] {
           reserve_space = false;
           show_dots = true;
           smart_auto_hide = true;
+          shadow = false;
         };
 
         # Idle behaviour (autolocking)
@@ -188,6 +189,7 @@ bundleLib.mkEnableModule ["gaia" "services" "noctalia"] {
           };
           screenshot.save_to_file = false;
           launch_apps_as_systemd_services = true;
+          panel.shadow = false;
         };
       };
     };

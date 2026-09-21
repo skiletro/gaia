@@ -5,14 +5,7 @@
   inputs',
   ...
 }: let
-  # dwindle picks the split axis from the focused window's aspect ratio, so on
-  # a 21:9 monitor it keeps making columns until the third split (|V|V|V&H|).
-  # dwindle_aspect_threshold biases that axis: above 1.0 new windows stack
-  # sooner on very wide monitors. The 1.25 default is a no-op on 16:9 and
-  # 16:10 displays because their window aspect ratios never enter the 1.0 to
-  # 1.25 band, so no per-host configuration is needed. Upstream default 1.0
-  # keeps the unpatched behavior.
-  mango-aspect-threshold = inputs'.mango.packages.mango.overrideAttrs (old: {
+  package = inputs'.mango.packages.mango.overrideAttrs (old: {
     patches = (old.patches or []) ++ [./dwindle-aspect-threshold.patch];
   });
 in
@@ -29,10 +22,10 @@ in
     nixos = {
       imports = [inputs.mango.nixosModules.mango];
 
-      programs.mango.enable = true;
-
-      # Patched with dwindle_aspect_threshold; see comment at the top of the file.
-      programs.mango.package = mango-aspect-threshold;
+      programs.mango = {
+        enable = true;
+        inherit package;
+      };
 
       programs.uwsm = {
         enable = true;
@@ -43,9 +36,8 @@ in
         };
       };
 
-      services.displayManager.defaultSession = "mango-uwsm";
-
       services = {
+        displayManager.defaultSession = "mango-uwsm";
         power-profiles-daemon.enable = true;
         upower.enable = true;
       };
@@ -67,10 +59,7 @@ in
 
       wayland.windowManager.mango = {
         enable = true;
-
-        # Same patched package as the system level so the compositor, the mmsg
-        # helper and the HM config validation all agree on the config keys.
-        package = mango-aspect-threshold;
+        inherit package;
 
         # uwsm owns the graphical session and imports the environment into
         # systemd; mango's own mango-session.target would be redundant here.
@@ -163,7 +152,7 @@ in
 
           # Overview jump labels: digits first so the first nine windows
           # answer to 1-9, letters after for overflow.
-          jump_labels = "123456789ASDFGHJKLQWERTYUIOPZXCVBNM";
+          jump_labels = "123456789RUTYEIWOQPGHFKDLS";
 
           # Scroller is the closest thing to niri's scrolling layout.
           scroller_structs = 20;
@@ -182,11 +171,12 @@ in
           # Noctalia Mango integration docs).
           blur = 1;
           blur_layer = 1;
-          blur_optimized = 1;
-          blur_params_radius = 3;
+          blur_optimized = 0;
+          blur_params_radius = 5;
           blur_params_num_passes = 2;
-          blur_params_noise = 0.03;
+          blur_params_noise = 0.04;
           blur_params_saturation = 1.0;
+          blur_params_contrast = 0.9;
 
           # Window shadows (Noctalia draws its own layer shadows)
           shadows = 1;
@@ -207,10 +197,13 @@ in
           animation_duration_close = 200;
           animation_duration_move = 250;
           animation_duration_tag = 250;
-          animation_curve_open = "0.16,1.0,0.3,1.0";
-          animation_curve_close = "0.16,1.0,0.3,1.0";
-          animation_curve_move = "0.16,1.0,0.3,1.0";
-          animation_curve_tag = "0.16,1.0,0.3,1.0";
+          animation_curve_open = "0.46,1.0,0.29,1";
+          animation_curve_move = "0.46,1.0,0.29,1";
+          animation_curve_tag = "0.46,1.0,0.29,1";
+          animation_curve_close = "0.08,0.92,0,1";
+          animation_curve_focus = "0.46,1.0,0.29,1";
+          animation_curve_opafadeout = "0.5,0.5,0.5,0.5";
+          animation_curve_opafadein = "0.46,1.0,0.29,1";
 
           # Environment
           env = ["NIXOS_OZONE_WL,1"];
@@ -225,7 +218,7 @@ in
           # No compositor blur on noctalia's shell layers (bar, dock, panel,
           # notifications, osd, wallpaper): they render their own background and
           # layer blur smears the wallpaper behind them.
-          layerrule = ["noblur:1,layer_name:^noctalia"];
+          # layerrule = [ "noblur:1,layer_name:^noctalia" ];
 
           # The identifiers below come from niri's output strings. If a monitor
           # is not picked up, run `mmsg get all-monitors` on the running session
