@@ -1,4 +1,4 @@
-let
+{self', ...}: let
   username = "jamie";
   sshKeys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINnFEMa0S9zuA5cVg+Ktazz9gEevkDCNYIDX0WAMxcAC eos"
@@ -29,7 +29,11 @@ in {
     };
   };
 
-  home-manager = {config, ...}: {
+  home-manager = {
+    config,
+    pkgs,
+    ...
+  }: {
     home = {
       inherit username;
       homeDirectory = "/home/${username}";
@@ -63,6 +67,27 @@ in {
         _Z_DATA = "${dataHome}/z";
         # keep-sorted end
       };
+      packages = with pkgs; [
+        # keep-sorted start ignore_prefixes=self'.packages.
+        dust # fancy du
+        self'.packages.eos-helpers
+        fd # find files
+        file # identify files
+        fzf # fuzzy finder
+        gdu # disk utiliser
+        heh # hex editor
+        jq # json processor
+        just # make file but better
+        libnotify # notifs through scripts
+        nixfmt # nix formatter
+        ouch # cli for compressing and decompressing formats
+        outfieldr # `tldr` client
+        pik # Interactive pkill
+        tree
+        unrar
+        wget
+        # keep-sorted end
+      ];
     };
 
     xresources.path = "${config.xdg.configHome}/.Xresources";

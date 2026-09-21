@@ -23,7 +23,6 @@ bundleLib.mkEnableModule ["gaia" "programs" "wivrn"] {
     };
 
     environment.systemPackages = with pkgs; [
-      android-tools
       wayvr
       bs-manager
     ];
