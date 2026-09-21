@@ -27,7 +27,6 @@
       helium.enable = true;
       helix.enable = true;
       nu.enable = true;
-      opencode.enable = true;
       proton.enable = true;
       qbittorrent.enable = true;
       signal.enable = true;

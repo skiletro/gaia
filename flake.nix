@@ -7,11 +7,6 @@
 
     bundle.url = "github:different-name/bundle-of-nix";
 
-    caveman = {
-      url = "github:JuliusBrussee/caveman";
-      flake = false;
-    };
-
     chromium-webapps = {
       url = "github:warm-vodka/nix-chromium-webapps";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -76,11 +71,6 @@
         nix-darwin.follows = "";
         treefmt-nix.follows = "";
       };
-    };
-
-    nixos-ai-skill = {
-      url = "github:marceloeatworld/nixos-ai-skill";
-      flake = false;
     };
 
     nixos-apple-silicon.url = "github:nix-community/nixos-apple-silicon";

@@ -150,22 +150,6 @@
         "type": "github"
       }
     },
-    "caveman": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1788769183,
-        "narHash": "sha256-GuCK3oy0DsMOQq7gHjIY/aeaukJcTvelfg+tp7R7Du4=",
-        "owner": "JuliusBrussee",
-        "repo": "caveman",
-        "rev": "15581d14007fd01fb3f132016741962f34936ca2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "JuliusBrussee",
-        "repo": "caveman",
-        "type": "github"
-      }
-    },
     "chromium-webapps": {
       "inputs": {
         "home-manager": "home-manager",
@@ -1310,22 +1294,6 @@
         "type": "github"
       }
     },
-    "nixos-ai-skill": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1789367503,
-        "narHash": "sha256-qfPgAKfYo2r+KCANlMwCOTAIRBwKIDtABKwtim4DeUc=",
-        "owner": "marceloeatworld",
-        "repo": "nixos-ai-skill",
-        "rev": "a3180357e25edd241911f60ffba50d4b00eacc9d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "marceloeatworld",
-        "repo": "nixos-ai-skill",
-        "type": "github"
-      }
-    },
     "nixos-apple-silicon": {
       "inputs": {
         "flake-compat": "flake-compat_3",
@@ -1725,7 +1693,6 @@
       "inputs": {
         "asahix": "asahix",
         "bundle": "bundle",
-        "caveman": "caveman",
         "chromium-webapps": "chromium-webapps",
         "cursors": "cursors",
         "dcal": "dcal",
@@ -1741,7 +1708,6 @@
         "nix-index-database": "nix-index-database",
         "nix-minecraft": "nix-minecraft",
         "nixcord": "nixcord",
-        "nixos-ai-skill": "nixos-ai-skill",
         "nixos-apple-silicon": "nixos-apple-silicon",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_8",
