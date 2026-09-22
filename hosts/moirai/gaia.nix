@@ -32,6 +32,7 @@
       signal.enable = true;
       spotify.enable = true;
       term-utils.enable = true;
+      zellij.enable = true;
       zoxide.enable = true;
       # keep-sorted end
     };

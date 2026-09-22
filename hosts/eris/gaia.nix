@@ -54,6 +54,7 @@
       wine.enable = true;
       wivrn.enable = true;
       zed.enable = true;
+      zellij.enable = true;
       zoxide.enable = true;
       # keep-sorted end
     };
