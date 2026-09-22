@@ -32,9 +32,10 @@
     };
     image = let
       wallpaper = pkgs.fetchurl {
-        # travel over the woods (https://www.reddit.com/r/WidescreenWallpaper/s/V5Sxr2PllV)
-        url = "https://files.catbox.moe/3nluri.png";
-        sha256 = "1vglkznf6lb79qa8fw8pa747yxb9rqp38b8nvnly7m682rkg3da7";
+        # tags: sky, rain, sunset, clouds
+        # src: https://wallhaven.cc/w/e8v9j8
+        url = "https://raw.githubusercontent.com/skiletro/wallpapers/7a44be7d7ce96aaa74aaa4814b8fc56d82c9f318/wallhaven-e8v9j8.jpg";
+        sha256 = "0ibcf91c0pagj94zx7iw8xcalrcw2cyxba50fr5kcq937pkf2iq1";
       };
     in
       pkgs.runCommand "output.png" {}
