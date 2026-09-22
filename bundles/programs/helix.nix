@@ -96,7 +96,7 @@ bundleLib.mkEnableModule ["gaia" "programs" "helix"] {
             {
               name = "nix";
               formatter = {
-                command = lib.getExe pkgs.nixfmt;
+                command = lib.getExe pkgs.alejandra;
                 auto-format = true;
               };
               language-servers = [
