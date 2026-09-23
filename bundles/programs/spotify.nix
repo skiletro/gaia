@@ -1,6 +1,5 @@
 {
   bundleLib,
-  lib,
   inputs,
   inputs',
   ...
@@ -10,7 +9,10 @@ bundleLib.mkEnableModule ["gaia" "programs" "spotify"] {
     imports = [inputs.spicetify.homeManagerModules.default];
 
     programs.spicetify = {
-      enable = lib.mkIf pkgs.stdenvNoCC.hostPlatform.isx86 true;
+      enable =
+        if pkgs.stdenvNoCC.hostPlatform.isx86
+        then true
+        else throw "gaia: spotify is x86 only :(";
 
       enabledExtensions = with inputs'.spicetify.legacyPackages.extensions; [
         songStats
