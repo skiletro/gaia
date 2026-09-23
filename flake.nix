@@ -9,7 +9,10 @@
 
     chromium-webapps = {
       url = "github:warm-vodka/nix-chromium-webapps";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
     };
 
     cursors.url = "github:lilleaila/nix-cursors";
@@ -47,12 +50,16 @@
 
     mango = {
       url = "github:mangowm/mango";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
     };
 
     niri = {
       url = "github:epireyn/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.
+        nixpkgs.follows = "nixpkgs";
     };
 
     nix-index-database = {
@@ -104,7 +111,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    stylix.url = "github:nix-community/stylix";
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.flake-parts.follows = "flake-parts";
+    };
 
     tangled.url = "git+https://tangled.org/tangled.org/core";
 
