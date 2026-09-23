@@ -60,34 +60,31 @@ in
       wayland.windowManager.mango = {
         enable = true;
         inherit package;
+        systemd.enable = false; # use uwsm instead
 
-        # uwsm owns the graphical session and imports the environment into
-        # systemd; mango's own mango-session.target would be redundant here.
-        systemd.enable = false;
+        autostart_sh =
+          # sh
+          ''
+            ${lib.getExe pkgs.tailscale} systray &
+            ${lib.getExe' pkgs.udiskie "udiskie"} &
+            ${lib.getExe pkgs.wl-clip-persist} --clipboard both &
 
-        # Called from mango's exec-once. The HM module wraps this in a bash
-        # script and adds `exec-once=~/.config/mango/autostart.sh`.
-        autostart_sh = ''
-          ${lib.getExe pkgs.tailscale} systray &
-          ${lib.getExe' pkgs.udiskie "udiskie"} &
-          ${lib.getExe pkgs.wl-clip-persist} --clipboard both &
-
-          # Hot reload. home-manager replaces ~/.config/mango/config.conf with a
-          # symlink to a new store path on every switch. Watch the directory and
-          # dispatch reload_config so mango picks the new file up without a
-          # restart, the way niri reloads its config automatically.
-          (
-            ${lib.getExe' pkgs.inotify-tools "inotifywait"} -m -q \
-              -e close_write,moved_to,create --format '%f' \
-              "$HOME/.config/mango" |
-              while read -r changed; do
-                if [ "$changed" = "config.conf" ]; then
-                  sleep 0.3
-                  ${mmsg} dispatch reload_config
-                fi
-              done
-          ) &
-        '';
+            # Hot reload. home-manager replaces ~/.config/mango/config.conf with a
+            # symlink to a new store path on every switch. Watch the directory and
+            # dispatch reload_config so mango picks the new file up without a
+            # restart, the way niri reloads its config automatically.
+            (
+              ${lib.getExe' pkgs.inotify-tools "inotifywait"} -m -q \
+                -e close_write,moved_to,create --format '%f' \
+                "$HOME/.config/mango" |
+                while read -r changed; do
+                  if [ "$changed" = "config.conf" ]; then
+                    sleep 0.3
+                    ${mmsg} dispatch reload_config
+                  fi
+                done
+            ) &
+          '';
 
         settings = {
           # Behaviour
@@ -105,8 +102,8 @@ in
 
           trackpad_natural_scrolling = 1;
           trackpad_disable_while_typing = 1;
+          trackpad_click_method = 2;
           tap_to_click = 0;
-          tap_and_drag = 0;
 
           # Cursor
           cursor_hide_on_keypress = 1; # hide-when-typing
@@ -126,7 +123,6 @@ in
           dwindle_hsplit = 1;
           dwindle_vsplit = 1;
 
-          # Stylix (rose-pine) colours
           focuscolor = opaque colors.base0D;
           bordercolor = opaque colors.base03;
           urgentcolor = opaque colors.base08;
@@ -138,12 +134,14 @@ in
           overlaycolor = opaque colors.base0E;
           shadowscolor = opaque colors.base00;
 
-          # Overview jump labels and monocle group bar
+          # Overview jump labels
           jump_label_decorate_bg_color = opaque colors.base01;
           jump_label_decorate_border_color = opaque colors.base0D;
           jump_label_decorate_fg_color = opaque colors.base05;
           jump_label_decorate_focus_bg_color = opaque colors.base0D;
           jump_label_decorate_focus_fg_color = opaque colors.base00;
+
+          # monocle group bar
           group_bar_decorate_bg_color = opaque colors.base01;
           group_bar_decorate_border_color = opaque colors.base0D;
           group_bar_decorate_fg_color = opaque colors.base05;
@@ -159,16 +157,11 @@ in
           scroller_default_proportion = 0.5;
           scroller_default_proportion_single = 0.5;
           scroller_ignore_proportion_single = 0;
-          scroller_focus_center = 1;
+          scroller_focus_center = 0;
           scroller_prefer_center = 0;
           scroller_prefer_overspread = 0;
           scroller_proportion_preset = "0.5,0.8,1.0";
 
-          # Blur. Layer blur is on so layer-shell launchers (vicinae) get a
-          # blurred backdrop. Noctalia's shell surfaces render their own
-          # background and mango's layer blur does not filter by surface
-          # opacity, so those layers are excluded via layerrule below (see the
-          # Noctalia Mango integration docs).
           blur = 1;
           blur_layer = 1;
           blur_optimized = 0;
@@ -212,17 +205,9 @@ in
           # thing to niri's scrolling layout, on both monitors.
           tagrule = [
             "id:*,layout_name:dwindle"
-            "id:4,layout_name:scroller"
+            "id:4,monitor_make:AOC,monitor_model:AG346UCD,layout_name:scroller"
           ];
 
-          # No compositor blur on noctalia's shell layers (bar, dock, panel,
-          # notifications, osd, wallpaper): they render their own background and
-          # layer blur smears the wallpaper behind them.
-          # layerrule = [ "noblur:1,layer_name:^noctalia" ];
-
-          # The identifiers below come from niri's output strings. If a monitor
-          # is not picked up, run `mmsg get all-monitors` on the running session
-          # and replace make/model/serial with the real values.
           monitorrule = [
             # AOC AG346UCD (175 Hz)
             "make:AOC,model:AG346UCD,serial:2OQQ9JA00068,width:3440,height:1440,refresh:175,vrr:1"
@@ -237,7 +222,7 @@ in
             "isfloating:1,width:1080,height:920,appid:dev.noctalia.Noctalia"
 
             # Steam notification toasts, bottom-right
-            "isfloating:1,offsetx:100,offsety:100,title:^notificationtoasts_\\d+_desktop$,appid:steam"
+            "isfloating:1,offsetx:25,offsety:25,title:^notificationtoasts_\\d+_desktop$,appid:steam"
 
             # Portals
             "isfloating:1,appid:org\\.freedesktop\\.impl\\.portal\\.desktop\\.gnome"
@@ -269,37 +254,28 @@ in
               "SUPER,F,spawn,helium"
               "SUPER,E,spawn,${lib.getExe pkgs.nautilus} --new-window"
               "CTRL,Space,spawn,pkill -USR2 -n handy"
+              "SUPER,P,spawn,vicinae deeplink vicinae://launch/@leonkohli/vicinae-extension-process-manager-0/processes"
+              "SUPER+SHIFT,P,spawn,vicinae deeplink vicinae://launch/power"
+              "SUPER,Period,spawn,vicinae deeplink vicinae://launch/core/search-emojis"
+              "SUPER,Delete,spawn,noctalia msg session lock"
+              "SUPER+SHIFT,S,spawn,noctalia msg screenshot-region"
 
               # Window management
               "SUPER+SHIFT,Q,killclient"
               "SUPER+SHIFT,F,togglemaximizescreen"
               "SUPER+CTRL+SHIFT,F,togglefullscreen"
               "SUPER+SHIFT,Space,togglefloating"
-
-              # Overview mode (all tags). Windows are labeled with jump_labels;
-              # pressing the bare label key focuses that window and closes the
-              # overview. SUPER+digit still switches tags via the binds below.
               "SUPER,O,togglejump"
 
-              # Alt-tab style thumbnail switcher: hold SUPER, tap Tab to cycle,
-              # release to land on the selection.
+              # Alt-tab style thumbnail switcher
               "SUPER,Tab,switcher,all_tag_next"
               "SUPER+SHIFT,Tab,switcher,all_tag_prev"
 
-              # Resize window (niri: set-column-width / set-window-height ±5%,
-              # stepped in pixels here). resizewin moves the split for tiled
-              # windows, the proportion in scroller, and the size when floating.
+              # Resize window
               "SUPER,Minus,resizewin,-60,0"
               "SUPER,Equal,resizewin,+60,0"
               "SUPER+SHIFT,Minus,resizewin,0,-60"
               "SUPER+SHIFT,Equal,resizewin,0,+60"
-
-              # Vicinae / noctalia
-              "SUPER,P,spawn,vicinae deeplink vicinae://launch/@leonkohli/vicinae-extension-process-manager-0/processes"
-              "SUPER+SHIFT,P,spawn,vicinae deeplink vicinae://launch/power"
-              "SUPER,Period,spawn,vicinae deeplink vicinae://launch/core/search-emojis"
-              "SUPER,Delete,spawn,noctalia msg session lock"
-              "SUPER+SHIFT,S,spawn,noctalia msg screenshot-region"
 
               # Focus window
               "SUPER,H,focusdir,left"
@@ -338,13 +314,6 @@ in
             "NONE,XF86MonBrightnessDown,spawn,noctalia msg brightness-down current"
           ];
 
-          # The user config replaces /etc/mango/config.conf wholesale (mango
-          # only reads the system config when the user config is missing), and
-          # nothing besides Ctrl+Alt+F1-12 is compiled in, so the mouse
-          # bindings from the shipped default are restored here. Middle click
-          # is deliberately left unbound so it reaches applications (paste,
-          # open link in new tab); the shipped default binds it to
-          # togglemaximizescreen, which made middle click fullscreen windows.
           mousebind = [
             "SUPER,btn_left,moveresize,curmove"
             "SUPER,btn_right,moveresize,curresize"
@@ -356,12 +325,8 @@ in
           ];
 
           gesturebind = [
-            "none,left,3,focusdir,left"
-            "none,right,3,focusdir,right"
-            "none,up,3,focusdir,up"
-            "none,down,3,focusdir,down"
-            "none,right,4,viewprev_have_client"
-            "none,left,4,viewnext_have_client"
+            "none,up,3,viewnext_have_client"
+            "none,down,3,viewprev_have_client"
             "none,up,4,enteroverview"
             "none,down,4,leaveoverview"
           ];
