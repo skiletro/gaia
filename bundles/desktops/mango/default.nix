@@ -266,6 +266,7 @@ in
               "SUPER+CTRL+SHIFT,F,togglefullscreen"
               "SUPER+SHIFT,Space,togglefloating"
               "SUPER,O,togglejump"
+              "SUPER,M,spawn,noctalia msg panel-toggle ezequiel/mango_layouts:panel"
 
               # Alt-tab style thumbnail switcher
               "SUPER,Tab,switcher,all_tag_next"

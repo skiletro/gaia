@@ -4,7 +4,7 @@
   ...
 }:
 bundleLib.mkEnableModule ["gaia" "services" "noctalia"] {
-  home-manager = {
+  home-manager = {pkgs, ...}: {
     imports = [inputs.noctalia.homeModules.default];
 
     programs.noctalia = {
@@ -173,7 +173,45 @@ bundleLib.mkEnableModule ["gaia" "services" "noctalia"] {
 
         # Misc
         theme.pure_black_dark = false;
-        plugins.enabled = [];
+
+        # Plugins
+        plugins = {
+          enabled = ["ezequiel/mango_layouts"];
+          source = [
+            {
+              name = "community";
+              kind = "git";
+              location = "https://github.com/noctalia-dev/community-plugins";
+              enabled = true;
+            }
+          ];
+        };
+
+        home.packages = with pkgs; [
+          # packages required by plugins
+
+          # keep-sorted start
+          jq
+          # keep-sorted end
+        ];
+
+        plugin_settings = {
+          "ezequiel/mango_layouts" = {
+            list_mode = true;
+            panel_placement = "attached";
+            panel_position = "center";
+            show_center_tile = false;
+            show_fair = false;
+            show_monocle = false;
+            show_right_tile = false;
+            show_tile = false;
+            show_vertical_deck = false;
+            show_vertical_fair = false;
+            show_vertical_grid = false;
+            show_vertical_scroller = false;
+            show_vertical_tile = false;
+          };
+        };
 
         shell = {
           date_format = "%A, %-d %B %Y";
