@@ -24,7 +24,5 @@ bundleLib.mkEnableModule ["gaia" "programs" "spotify"] {
         ncsVisualizer
       ];
     };
-
-    home.packages = [pkgs.spotatui];
   };
 }

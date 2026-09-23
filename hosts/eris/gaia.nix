@@ -46,6 +46,7 @@
       qbittorrent.enable = true;
       rustdesk.enable = true;
       signal.enable = true;
+      spotatui.enable = true;
       spotify.enable = true;
       steam.enable = true;
       supersonic.enable = true;

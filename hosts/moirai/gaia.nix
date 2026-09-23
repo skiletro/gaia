@@ -31,7 +31,7 @@
       proton.enable = true;
       qbittorrent.enable = true;
       signal.enable = true;
-      spotify.enable = true;
+      spotatui.enable = true;
       term-utils.enable = true;
       zellij.enable = true;
       zoxide.enable = true;
