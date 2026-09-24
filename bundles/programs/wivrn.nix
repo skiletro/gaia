@@ -26,5 +26,7 @@ bundleLib.mkEnableModule ["gaia" "programs" "wivrn"] {
       wayvr
       bs-manager
     ];
+
+    system.tools.nixos-version.enable = true; # bs-manager requirement
   };
 }
