@@ -96,6 +96,7 @@ bundleLib.mkEnableModule ["gaia" "services" "noctalia"] {
             inactive_pill_size = 1.5;
             occupied_color = "surface_variant";
             scale = 1.25;
+            hide_when_empty = true;
           };
         };
 
