@@ -1,14 +1,17 @@
 {
   bundleLib,
+  lib,
   inputs,
   ...
 }:
 bundleLib.mkEnableModule ["gaia" "programs" "pwa"] {
-  home-manager = {
+  home-manager = {osConfig, ...}: {
     imports = [inputs.chromium-webapps.homeManagerModules.default];
 
     programs.chromium-webapps = {
       enable = true;
+      package =
+        lib.mkIf osConfig.programs.helium.enable osConfig.programs.helium.package;
       webApps = [
         {
           name = "Instagram";
