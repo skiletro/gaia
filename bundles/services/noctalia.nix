@@ -217,6 +217,8 @@ bundleLib.mkEnableModule ["gaia" "services" "noctalia"] {
           };
         };
 
+        location.auto_locate = true;
+
         shell = {
           date_format = "%A, %-d %B %Y";
           password_style = "random";
