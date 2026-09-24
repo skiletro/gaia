@@ -29,6 +29,7 @@
       nu.enable = true;
       pi.enable = true;
       proton.enable = true;
+      pwa.enable = true;
       qbittorrent.enable = true;
       signal.enable = true;
       spotatui.enable = true;
