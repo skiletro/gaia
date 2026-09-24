@@ -205,7 +205,6 @@ in
           # thing to niri's scrolling layout, on both monitors.
           tagrule = [
             "id:*,layout_name:dwindle"
-            "id:4,monitor_make:AOC,monitor_model:AG346UCD,layout_name:scroller"
           ];
 
           monitorrule = [
