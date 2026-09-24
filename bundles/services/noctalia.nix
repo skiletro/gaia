@@ -75,6 +75,10 @@ bundleLib.mkEnableModule ["gaia" "services" "noctalia"] {
             anchor = true;
             format = "{:%I:%M}";
           };
+          date = {
+            color = "on_surface_variant";
+            format = "{:%d\\n%m\\n%y}";
+          };
           network = {
             interactive = false;
             show_label = false;
