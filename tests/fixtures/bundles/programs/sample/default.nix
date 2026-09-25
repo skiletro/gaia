@@ -1,3 +1,0 @@
-{
-  fixture.value = 1;
-}
