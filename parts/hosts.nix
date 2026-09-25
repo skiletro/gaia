@@ -45,10 +45,7 @@
       lib.mapAttrs (host: attrs: {
         imports = [
           (inputs.import-tree ../core)
-          ((inputs.import-tree.filter (file: lib.hasSuffix "/default.nix" file)).map wrapBundle ../bundles/programs)
-          ((inputs.import-tree.filter (file: lib.hasSuffix "/default.nix" file)).map wrapBundle ../bundles/services)
-          ((inputs.import-tree.filter (file: lib.hasSuffix "/default.nix" file)).map wrapBundle ../bundles/system)
-          (inputs.import-tree ../bundles/desktops)
+          ((inputs.import-tree.filter (file: lib.hasSuffix "/default.nix" file)).map wrapBundle ../bundles)
           (inputs.import-tree ../hosts/${host})
           {
             ${attrs.systemPlatform} = {

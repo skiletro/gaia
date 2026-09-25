@@ -1,10 +1,8 @@
 {
   lib,
-  config,
   inputs',
   ...
-}:
-lib.mkIf (config.gaia.desktop == "hyprland") {
+}: {
   gaia = {
     programs = {
       vicinae.enable = true;
@@ -22,8 +20,6 @@ lib.mkIf (config.gaia.desktop == "hyprland") {
     };
 
     security.polkit.enable = true;
-
-    services.displayManager.defaultSession = "hyprland-uwsm";
   };
 
   home-manager = {pkgs, ...}: {

@@ -1,11 +1,9 @@
 {
   lib,
-  config,
   inputs,
   inputs',
   ...
-}:
-lib.mkIf (config.gaia.desktop == "niri") {
+}: {
   gaia = {
     programs = {
       vicinae.enable = true;

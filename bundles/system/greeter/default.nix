@@ -4,7 +4,8 @@
   config,
   ...
 }: let
-  desktop = config.gaia.desktop;
+  select = import ../../../lib/desktop-selection.nix {inherit lib;};
+  desktop = select.default config.gaia.desktops;
 in {
   nixos = {config, ...}: let
     sessionData = config.services.displayManager.sessionData.desktops;
@@ -13,11 +14,8 @@ in {
       "${sessionData}/share/wayland-sessions"
     ];
 
-    # tuigreet's --remember-user-session stores the .desktop path, which is a
-    # different nix store path on every update, so the remembered session
-    # never matches and it falls back to the first entry (the plain, non-uwsm
-    # session). --cmd sets the session to run when nothing matched, keeping
-    # the uwsm session the default after updates.
+    # tuigreet remembers .desktop paths in the Nix store, which change after
+    # rebuilds. With one enabled desktop, --cmd keeps its UWSM entry as fallback.
     defaultSessionArg =
       lib.optional (desktop != null)
       "--cmd '${lib.getExe config.programs.uwsm.package} start -- ${desktop}-uwsm.desktop'";

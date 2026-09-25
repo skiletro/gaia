@@ -3,7 +3,8 @@
   config,
   ...
 }: let
-  desktop = config.gaia.desktop;
+  select = import ../../../lib/desktop-selection.nix {inherit lib;};
+  desktop = select.single config.gaia.desktops;
 in {
   nixos = {
     config,

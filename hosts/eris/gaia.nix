@@ -1,6 +1,6 @@
 {
   gaia = {
-    desktop = "mango";
+    desktops.mango.enable = true;
     system = {
       # keep-sorted start
       bluetooth.enable = true;
