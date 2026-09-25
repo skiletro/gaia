@@ -34,8 +34,25 @@ multiple enabled sessions; with exactly one enabled desktop, it uses that
 bundle's UWSM session as the fallback. Autologin bypasses the chooser and
 requires exactly one enabled desktop.
 
-Bundles can enable other bundles by setting their generated flags, for example
-`gaia.programs.wakatime.enable = true;`.
+## Bundle Requirements
+
+Declare bundle dependencies with top-level `requires` metadata:
+
+```nix
+{
+  requires = [ "wakatime" ];
+  home-manager.programs.helix.enable = true;
+}
+```
+
+A bare name resolves within the bundle's category, so Helix requires
+`gaia.programs.wakatime.enable`. Qualify cross-category dependencies with their
+category, such as `"services.noctalia"` or `"programs.vicinae"`.
+
+Requirements do not enable dependencies. If an enabled bundle's requirement is
+disabled or missing, NixOS evaluation fails and names the required flags. A
+disabled bundle does not enforce its requirements. Set required bundle flags
+explicitly in each host configuration.
 
 ## Inputs and Packages
 

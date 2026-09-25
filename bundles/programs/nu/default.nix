@@ -1,5 +1,5 @@
 {lib, ...}: {
-  gaia.programs.starship.enable = true;
+  requires = ["starship"];
 
   home-manager = {config, ...}: {
     programs.nushell = {

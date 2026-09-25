@@ -67,9 +67,10 @@ styling is under `core/system/`. Core defines options such as `gaia.state` and
 `system`, and `desktops`. Every bundle lives at
 `bundles/<category>/<name>/default.nix`. Its path generates a default-off option:
 `bundles/programs/broot/default.nix` provides
-`gaia.programs.broot.enable`. Bundle files contain configuration only; they do
-not declare their own enable option. Put relative assets, such as patches, next
-to `default.nix`. See [adding-a-bundle.md](adding-a-bundle.md) and
+`gaia.programs.broot.enable`. Bundle files hold feature configuration and
+optional `requires` metadata; they do not declare their own enable option. Put
+relative assets, such as patches, next to `default.nix`. See
+[adding-a-bundle.md](adding-a-bundle.md) and
 [bundle-reference.md](bundle-reference.md).
 
 A future `modules/` directory can hold reusable custom NixOS and Home Manager

@@ -12,9 +12,10 @@ bundles/programs/broot/default.nix
 ```
 
 The path generates `gaia.programs.broot.enable`, defaulting to `false`. The
-import wrapper creates and gates the option. Bundle files contain configuration
-only; do not call `bundleLib.mkEnableModule` or declare an option path yourself.
-Another example is `bundles/programs/spotify/default.nix`.
+import wrapper creates and gates the option. Bundle files contain feature
+configuration and optional `requires` metadata. Do not call
+`bundleLib.mkEnableModule` or declare an option path yourself. Another example
+is `bundles/programs/spotify/default.nix`.
 
 Only `default.nix` files are bundle entry points. Keep helper modules and
 relative assets, such as package patches, beside that file. Import helper files
@@ -49,6 +50,10 @@ Both may appear in one bundle:
 If the bundle needs top-level module arguments, use a module function, for
 example `{lib, inputs', ...}: { ... }`. Platform blocks also receive their
 usual module arguments, including `pkgs` and `config`.
+
+If the bundle depends on another bundle, declare `requires` metadata and enable
+the dependency separately on each host. See
+[bundle-reference.md](bundle-reference.md#bundle-requirements).
 
 Always-on option definitions and shared configuration belong under `core/`,
 not in a bundle. Core modules do not need enable flags. A future `modules/`

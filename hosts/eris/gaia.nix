@@ -16,6 +16,7 @@
       appimage.enable = true;
       flatpak.enable = true;
       kdeconnect.enable = true;
+      noctalia.enable = true;
       printing.enable = true;
       sunshine.enable = true;
       syncthing.enable = true;
@@ -44,14 +45,19 @@
       proton.enable = true;
       pwa.enable = true;
       qbittorrent.enable = true;
+      rio.enable = true;
       rustdesk.enable = true;
       signal.enable = true;
       spotatui.enable = true;
       spotify.enable = true;
+      starship.enable = true;
       steam.enable = true;
+      suite.enable = true;
       supersonic.enable = true;
       term-utils.enable = true;
       vial.enable = true;
+      vicinae.enable = true;
+      wakatime.enable = true;
       wine.enable = true;
       wivrn.enable = true;
       zed.enable = true;

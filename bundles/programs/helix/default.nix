@@ -3,7 +3,7 @@
   lib,
   ...
 }: {
-  gaia.programs.wakatime.enable = true;
+  requires = ["wakatime"];
 
   home-manager = {pkgs, ...}: {
     programs.helix = {

@@ -31,6 +31,9 @@ order is enforced. Keep entries sorted as you edit them. This applies to
   `gaia.programs.broot.enable`.
 - Do not call `bundleLib.mkEnableModule` from bundle files. The importer derives
   and gates the option from the path.
+- Declare bundle dependencies with `requires = [ "name" ]`; use `category.name`
+  for cross-category dependencies. Requirements check flags but never enable
+  bundles. Enable required bundles explicitly in each host.
 - Only `default.nix` is imported as a bundle entry point. Keep helper Nix files
   and relative assets, such as patches, next to it.
 - Enable bundles per host in `hosts/<host>/gaia.nix`, keeping sorted blocks

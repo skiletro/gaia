@@ -4,14 +4,12 @@
   inputs',
   ...
 }: {
-  gaia = {
-    programs = {
-      vicinae.enable = true;
-      suite.enable = true;
-      rio.enable = true;
-    };
-    services.noctalia.enable = true;
-  };
+  requires = [
+    "programs.rio"
+    "programs.suite"
+    "programs.vicinae"
+    "services.noctalia"
+  ];
 
   nixos = {
     imports = [inputs.niri.nixosModules.niri];

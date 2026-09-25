@@ -3,13 +3,11 @@
   inputs',
   ...
 }: {
-  gaia = {
-    programs = {
-      vicinae.enable = true;
-      suite.enable = true;
-    };
-    services.noctalia.enable = true;
-  };
+  requires = [
+    "programs.suite"
+    "programs.vicinae"
+    "services.noctalia"
+  ];
 
   nixos = {
     programs.hyprland = {

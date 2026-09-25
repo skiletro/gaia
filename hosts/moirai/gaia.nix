@@ -13,6 +13,7 @@
     services = {
       # keep-sorted start
       flatpak.enable = true;
+      noctalia.enable = true;
       printing.enable = true;
       wireguard.enable = true;
       # keep-sorted end
@@ -31,9 +32,14 @@
       proton.enable = true;
       pwa.enable = true;
       qbittorrent.enable = true;
+      rio.enable = true;
       signal.enable = true;
       spotatui.enable = true;
+      starship.enable = true;
+      suite.enable = true;
       term-utils.enable = true;
+      vicinae.enable = true;
+      wakatime.enable = true;
       zellij.enable = true;
       zoxide.enable = true;
       # keep-sorted end
