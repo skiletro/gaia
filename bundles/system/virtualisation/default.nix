@@ -1,9 +1,4 @@
-{
-  bundleLib,
-  lib,
-  ...
-}:
-bundleLib.mkEnableModule ["gaia" "system" "virtualisation"] {
+{lib, ...}: {
   nixos = {pkgs, ...}: {
     virtualisation = {
       libvirtd = {

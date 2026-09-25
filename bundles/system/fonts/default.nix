@@ -1,9 +1,4 @@
-{
-  bundleLib,
-  self',
-  ...
-}:
-bundleLib.mkEnableModule ["gaia" "system" "fonts"] {
+{self', ...}: {
   nixos = {
     fonts = {
       fontDir.enable = true;

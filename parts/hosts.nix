@@ -47,7 +47,7 @@
           (inputs.import-tree ../core)
           ((inputs.import-tree.filter (file: lib.hasSuffix "/default.nix" file)).map wrapBundle ../bundles/programs)
           ((inputs.import-tree.filter (file: lib.hasSuffix "/default.nix" file)).map wrapBundle ../bundles/services)
-          (inputs.import-tree ../bundles/system)
+          ((inputs.import-tree.filter (file: lib.hasSuffix "/default.nix" file)).map wrapBundle ../bundles/system)
           (inputs.import-tree ../bundles/desktops)
           (inputs.import-tree ../hosts/${host})
           {

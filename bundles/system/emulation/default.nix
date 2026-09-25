@@ -1,9 +1,4 @@
-{
-  bundleLib,
-  lib,
-  ...
-}:
-bundleLib.mkEnableModule ["gaia" "system" "emulation"] {
+{lib, ...}: {
   nixos = {pkgs, ...}: {
     nix.settings.extra-sandbox-paths = [
       "/run/binfmt"
