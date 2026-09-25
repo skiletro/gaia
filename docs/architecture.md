@@ -9,15 +9,17 @@ outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.impor
 
 ## Layout
 
-| path | purpose |
+|path|purpose|
 |---|---|
-| `parts/` | flake-parts modules that wire everything together |
-| `bundles/` | feature modules, one per file or directory, grouped by category |
-| `hosts/` | per-host configuration |
-| `packages/` | custom packages and their sources |
-| `docs/` | this documentation |
-| `.secrets.yaml` | sops-nix encrypted secrets |
-| `.justfile` | just recipes for common tasks |
+|`parts/`|flake-parts modules that wire everything together|
+|`lib/`|helpers for generated bundle options and desktop selection|
+|`core/`|always-imported system, infrastructure, and utility configuration|
+|`bundles/`|opt-in feature modules, grouped by category and name|
+|`hosts/`|per-host configuration|
+|`packages/`|custom packages and their sources|
+|`docs/`|this documentation|
+|`.secrets.yaml`|sops-nix encrypted secrets|
+|`.justfile`|just recipes for common tasks|
 
 ## Parts
 
@@ -31,31 +33,48 @@ outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.impor
 ## Hosts
 
 `parts/hosts.nix` imports `inputs.bundle.flakeModules.default` (bundle-of-nix)
-and declares the hosts. For each host it imports `../bundles` and
-`../hosts/${host}` with import-tree:
+and declares the hosts. Each host imports all modules under `core/`, the
+`default.nix` bundle entries under `bundles/`, and all modules under its host
+directory:
 
 ```nix
-imports = [
-  (inputs.import-tree ../bundles)
+imports = let
+  wrapBundle = import ../lib/optional-bundle.nix {
+    inherit lib;
+    root = ../bundles;
+  };
+in [
+  (inputs.import-tree ../core)
+  ((inputs.import-tree.filter (file: lib.hasSuffix "/default.nix" file)).map wrapBundle ../bundles)
   (inputs.import-tree ../hosts/${host})
 ];
 ```
 
-import-tree means every `.nix` file in those directories is imported as a module
-automatically. Adding a file is enough, there is no registration step.
+The bundle wrapper derives each enable option from its path. Helper files next
+to a bundle, such as patches, are not imported as modules. Host files remain
+automatically imported by import-tree.
 
 Declared hosts: `eris`, `keres`, `moirai`, `hemera`, `iso`.
 
-## Bundles
+## Core and Bundles
 
-`bundles/` holds feature modules grouped by category: `programs`, `services`,
-`system`, `desktops`, `infra`, `utils`. Each bundle is a
-`bundleLib.mkEnableModule` module exposing an `enable` option. A bundle is a
-single file (`<name>.nix`) or a directory (`<name>/default.nix`) when it needs
-additional files next to it, such as package patches applied with a relative
-path like `./fix-thing.patch`. See
-[adding-a-bundle.md](adding-a-bundle.md) and
+`core/` contains configuration that every host imports. Infrastructure is under
+`core/infra/`, shared helpers and options are under `core/utils/`, and always-on
+styling is under `core/system/`. Core defines options such as `gaia.state` and
+`gaia.autoStart`; hosts can set these without enabling another module.
+
+`bundles/` contains opt-in features grouped under `programs`, `services`,
+`system`, and `desktops`. Every bundle lives at
+`bundles/<category>/<name>/default.nix`. Its path generates a default-off option:
+`bundles/programs/broot/default.nix` provides
+`gaia.programs.broot.enable`. Bundle files contain configuration only; they do
+not declare their own enable option. Put relative assets, such as patches, next
+to `default.nix`. See [adding-a-bundle.md](adding-a-bundle.md) and
 [bundle-reference.md](bundle-reference.md).
+
+A future `modules/` directory can hold reusable custom NixOS and Home Manager
+modules. Core configuration and feature bundles can import those modules as
+needed.
 
 ## Host Config
 

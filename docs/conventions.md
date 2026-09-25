@@ -15,21 +15,32 @@ Run `nix fmt` locally before committing.
 
 ## keep-sorted
 
-Blocks that sit between the formatter's start and end markers are sorted
-automatically and the order is enforced. Keep the entries sorted as you edit
-them; the formatter does not fix them for you in every case. This applies to
+Blocks between formatter start and end markers are sorted automatically and the
+order is enforced. Keep entries sorted as you edit them. This applies to
 `flake.nix` inputs and substituters as well as bundle and host config.
 
-## Bundles
+## Core and Bundles
 
-- One feature per file at `bundles/<category>/<name>.nix`.
-- Categories: `programs`, `services`, `system`, `desktops`, `infra`, `utils`.
-- The option path is `["gaia" "<category>" "<name>"]`, which creates
-  `gaia.<category>.<name>.enable`.
-- Enable bundles per host in `hosts/<host>/gaia.nix`, keeping entries sorted.
-- `gaia.desktop = "niri"` selects the desktop. Desktops are conditional on this
-  option, so enable exactly one.
-- `gaia.state.system` sets the system state version; `gaia.state.home` defaults
+- Always-on configuration belongs under `core/`. Infrastructure lives in
+  `core/infra/`, shared options and helpers in `core/utils/`, and always-on
+  styling in `core/system/`.
+- Optional features belong under `bundles/<category>/<name>/default.nix`.
+  Categories are `programs`, `services`, `system`, and `desktops`.
+- Each bundle path generates a default-off option. For example,
+  `bundles/programs/broot/default.nix` creates
+  `gaia.programs.broot.enable`.
+- Do not call `bundleLib.mkEnableModule` from bundle files. The importer derives
+  and gates the option from the path.
+- Only `default.nix` is imported as a bundle entry point. Keep helper Nix files
+  and relative assets, such as patches, next to it.
+- Enable bundles per host in `hosts/<host>/gaia.nix`, keeping sorted blocks
+  ordered. `gaia.desktops.mango.enable = true` enables Mango.
+- Greeters can offer multiple enabled desktop sessions. Autologin requires
+  exactly one enabled desktop.
+- Use a future `modules/` directory for reusable custom NixOS or Home Manager
+  modules if that becomes useful. Do not put always-on policy or optional
+  feature selection there.
+- `gaia.state.system` sets the system state version. `gaia.state.home` defaults
   to it when unset.
 
 ## Generated Files
@@ -48,9 +59,9 @@ them; the formatter does not fix them for you in every case. This applies to
 ## Gotchas
 
 - `parts/hosts.nix` hardcodes the user (`jamie`) and the home-manager username.
-  `bundles/infra/user.nix` declares the user account with `mutableUsers = false`
+  `core/infra/user.nix` declares the user account with `mutableUsers = false`
   and a hashed password.
 - `hosts/<host>/hardware.nix` is machine specific. Do not copy it between hosts.
-- The `iso` host only enables a minimal program set and adds disko to the image.
-- Host-specific services live under `hosts/<host>/`, not in `bundles/`. The
-  keres host is the main example.
+- The `iso` host enables a minimal program set and adds disko to the image.
+- Host-specific services live under `hosts/<host>/`, not in bundles. The Keres
+  host is the main example.

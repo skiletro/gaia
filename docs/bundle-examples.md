@@ -6,9 +6,8 @@ home modules from flake inputs, and reads `config.stylix` inside the
 home-manager block.
 
 ```nix
-{ bundleLib, inputs, ... }:
-bundleLib.mkEnableModule [ "gaia" "services" "dms" ] {
-
+{ inputs, ... }:
+{
   nixos = {
     imports = with inputs; [
       dms.nixosModules.dank-material-shell

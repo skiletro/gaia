@@ -1,58 +1,69 @@
 # Adding a Bundle
 
-## Create the File
+## Create the Bundle Directory
 
-Create `bundles/<category>/<name>.nix`, using the category that fits the
-feature: `programs`, `services`, `system`, `desktops`, `infra`, `utils`.
+Create `bundles/<category>/<name>/default.nix`. Use one of the feature
+categories: `programs`, `services`, `system`, or `desktops`.
 
-Start from this template:
+For example:
+
+```text
+bundles/programs/broot/default.nix
+```
+
+The path generates `gaia.programs.broot.enable`, defaulting to `false`. The
+import wrapper creates and gates the option. Bundle files contain configuration
+only; do not call `bundleLib.mkEnableModule` or declare an option path yourself.
+Another example is `bundles/programs/spotify/default.nix`.
+
+Only `default.nix` files are bundle entry points. Keep helper modules and
+relative assets, such as package patches, beside that file. Import helper files
+from `default.nix` when needed.
+
+## Write the Configuration
+
+A bundle with no top-level module arguments can be a plain attrset:
 
 ```nix
-{bundleLib, ...}:
-bundleLib.mkEnableModule ["gaia" "<category>" "<name>"] {
-  nixos = {
-  };
-  home-manager = {
-  };
+{
+  home-manager.programs.broot.enable = true;
 }
 ```
 
-`mkEnableModule` takes the path where the `enable` option is created. This
-exposes `gaia.<category>.<name>.enable`. Nothing in the bundle is applied until
-that option is enabled.
+Use `nixos` for system configuration and `home-manager` for user configuration.
+Both may appear in one bundle:
 
-## Fill in the Blocks
-
-- `nixos` for system config. Add `pkgs` to the function args when you need it:
-
-  ```nix
+```nix
+{
   nixos = {pkgs, ...}: {
     services.foo.enable = true;
     environment.systemPackages = [pkgs.foo];
   };
-  ```
 
-- `home-manager` for user config, same pattern:
-
-  ```nix
-  home-manager = {pkgs, config, ...}: {
+  home-manager = {pkgs, ...}: {
     home.packages = [pkgs.foo];
   };
-  ```
-
-Both blocks can be used in the same bundle. The minimal case is a single line:
-
-```nix
-{bundleLib, ...}:
-bundleLib.mkEnableModule ["gaia" "programs" "opencode"] {
-  home-manager.programs.opencode.enable = true;
 }
 ```
 
+If the bundle needs top-level module arguments, use a module function, for
+example `{lib, inputs', ...}: { ... }`. Platform blocks also receive their
+usual module arguments, including `pkgs` and `config`.
+
+Always-on option definitions and shared configuration belong under `core/`,
+not in a bundle. Core modules do not need enable flags. A future `modules/`
+directory may hold reusable custom NixOS or Home Manager modules imported by
+core or bundles.
+
 ## Enable on a Host
 
-Add the flag to `hosts/<host>/gaia.nix`, keeping the block sorted:
+Add the generated flag to `hosts/<host>/gaia.nix`:
 
 ```nix
-gaia.programs.<name>.enable = true;
+gaia.programs.broot.enable = true;
 ```
+
+Desktop environments use the same rule. A host with Mango sets
+`gaia.desktops.mango.enable = true`. A greeter can offer multiple enabled
+desktop sessions. Autologin requires exactly one enabled desktop because it
+starts that session directly.
