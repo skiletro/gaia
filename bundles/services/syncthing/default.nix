@@ -1,5 +1,4 @@
-{bundleLib, ...}:
-bundleLib.mkEnableModule ["gaia" "services" "syncthing"] {
+{
   nixos = {pkgs, ...}: {
     services.syncthing = {
       enable = true;

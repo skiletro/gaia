@@ -1,5 +1,4 @@
-{bundleLib, ...}:
-bundleLib.mkEnableModule ["gaia" "services" "wireguard"] {
+{
   nixos = {pkgs, ...}: {
     environment.systemPackages = [pkgs.wireguard-tools];
 

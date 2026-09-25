@@ -1,5 +1,4 @@
-{bundleLib, ...}:
-bundleLib.mkEnableModule ["gaia" "services" "tailscale"] {
+{
   nixos = {config, ...}: {
     sops.secrets."tailscale-auth-key" = {};
 

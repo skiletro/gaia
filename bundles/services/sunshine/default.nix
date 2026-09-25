@@ -1,9 +1,4 @@
-{
-  bundleLib,
-  lib,
-  ...
-}:
-bundleLib.mkEnableModule ["gaia" "services" "sunshine"] {
+{lib, ...}: {
   nixos = {pkgs, ...}: {
     services.sunshine = {
       enable = true;

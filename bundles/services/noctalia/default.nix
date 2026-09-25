@@ -1,9 +1,4 @@
-{
-  bundleLib,
-  inputs,
-  ...
-}:
-bundleLib.mkEnableModule ["gaia" "services" "noctalia"] {
+{inputs, ...}: {
   home-manager = {pkgs, ...}: {
     imports = [inputs.noctalia.homeModules.default];
 

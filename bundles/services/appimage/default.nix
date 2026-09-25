@@ -1,5 +1,4 @@
-{bundleLib, ...}:
-bundleLib.mkEnableModule ["gaia" "services" "appimage"] {
+{
   nixos = {pkgs, ...}: let
     appimage-run = pkgs.appimage-run.override {
       extraPkgs = pkgs:

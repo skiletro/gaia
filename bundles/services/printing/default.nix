@@ -1,6 +1,5 @@
 # The purpose of this file is to act as a sort of template to allow for quicker bundle creation.
-{bundleLib, ...}:
-bundleLib.mkEnableModule ["gaia" "services" "printing"] {
+{
   nixos = {pkgs, ...}: {
     services = {
       avahi = {
