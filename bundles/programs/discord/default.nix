@@ -1,7 +1,7 @@
 {inputs, ...}: {
   gaia.autoStart = ["equibop -m"];
 
-  home-manager = {
+  home-manager = {pkgs, ...}: {
     imports = [inputs.nixcord.homeModules.nixcord];
 
     programs.nixcord = {
@@ -14,6 +14,27 @@
       equibop = {
         enable = true;
         autoscroll.enable = true;
+        package = pkgs.equibop.overrideAttrs (_: {
+          desktopItems = pkgs.makeDesktopItem {
+            name = "equibop";
+            desktopName = "Discord";
+            exec = "equibop %U";
+            icon = "discord";
+            startupWMClass = "Equibop";
+            genericName = "Internet Messenger";
+            keywords = [
+              "discord"
+              "equibop"
+              "electron"
+              "chat"
+            ];
+            categories = [
+              "Network"
+              "InstantMessaging"
+              "Chat"
+            ];
+          };
+        });
       };
       config = {
         useQuickCss = true;
