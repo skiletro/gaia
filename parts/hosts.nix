@@ -7,6 +7,10 @@
 
   bundle = let
     user = "jamie";
+    wrapBundle = import ../lib/optional-bundle.nix {
+      inherit lib;
+      root = ../bundles;
+    };
 
     hosts = {
       eris = {
@@ -41,7 +45,10 @@
       lib.mapAttrs (host: attrs: {
         imports = [
           (inputs.import-tree ../core)
-          (inputs.import-tree ../bundles)
+          ((inputs.import-tree.filter (file: lib.hasSuffix "/default.nix" file)).map wrapBundle ../bundles/programs)
+          (inputs.import-tree ../bundles/services)
+          (inputs.import-tree ../bundles/system)
+          (inputs.import-tree ../bundles/desktops)
           (inputs.import-tree ../hosts/${host})
           {
             ${attrs.systemPlatform} = {

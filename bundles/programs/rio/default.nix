@@ -1,5 +1,4 @@
-{bundleLib, ...}:
-bundleLib.mkEnableModule ["gaia" "programs" "rio"] {
+{
   home-manager = {pkgs, ...}: {
     programs.rio = {
       enable = true;

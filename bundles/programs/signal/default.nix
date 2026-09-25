@@ -1,5 +1,4 @@
-{bundleLib, ...}:
-bundleLib.mkEnableModule ["gaia" "programs" "signal"] {
+{
   home-manager = {
     pkgs,
     config,
