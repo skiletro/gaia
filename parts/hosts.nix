@@ -40,6 +40,7 @@
     users.${user}.hosts =
       lib.mapAttrs (host: attrs: {
         imports = [
+          (inputs.import-tree ../core)
           (inputs.import-tree ../bundles)
           (inputs.import-tree ../hosts/${host})
           {
