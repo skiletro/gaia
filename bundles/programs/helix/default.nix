@@ -93,10 +93,8 @@
             }
             {
               name = "nix";
-              formatter = {
-                command = lib.getExe pkgs.alejandra;
-                auto-format = true;
-              };
+              formatter.command = lib.getExe pkgs.alejandra;
+              auto-format = true;
               language-servers = [
                 "nixd"
                 "nil"
