@@ -4,9 +4,7 @@
     domain = "warm.vodka";
     port = 3010;
   in {
-    sops.secrets."pocketid-miniflux-secret" = {
-      mode = "444";
-    };
+    sops.secrets."pocketid-miniflux-secret" = {};
 
     services.miniflux = {
       enable = true;
@@ -20,12 +18,16 @@
         OAUTH2_PROVIDER = "oidc";
         OAUTH2_OIDC_PROVIDER_NAME = "Methanol";
         OAUTH2_CLIENT_ID = "266a4351-916b-49b5-aa29-f841f127b662";
-        OAUTH2_CLIENT_SECRET_FILE = config.sops.secrets.pocketid-miniflux-secret.path;
+        OAUTH2_CLIENT_SECRET_FILE = "%d/oidc-client-secret";
         OAUTH2_REDIRECT_URL = "https://${subdomain}.${domain}/oauth2/oidc/callback";
         OAUTH2_OIDC_DISCOVERY_ENDPOINT = "https://sso.${domain}";
         OAUTH2_USER_CREATION = 1;
       };
     };
+
+    systemd.services.miniflux.serviceConfig.LoadCredential = [
+      "oidc-client-secret:${config.sops.secrets.pocketid-miniflux-secret.path}"
+    ];
 
     services.caddy.virtualHosts."${subdomain}.${domain}".extraConfig = ''
       reverse_proxy :${toString port}

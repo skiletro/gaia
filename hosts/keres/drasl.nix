@@ -4,9 +4,7 @@
     domain = "warm.vodka";
     port = 3002;
   in {
-    sops.secrets."pocketid-drasl-secret" = {
-      mode = "444";
-    };
+    sops.secrets."pocketid-drasl-secret" = {};
 
     services.drasl = {
       enable = true;
