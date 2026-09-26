@@ -25,6 +25,12 @@ in {
       reverse_proxy :${toString port}
     '';
 
+    # beets runs as user jamie and needs to write its library database and
+    # music files into navidrome's StateDirectory.
+    systemd.tmpfiles.rules = [
+      "Z /srv/navidrome 0775 navidrome navidrome -"
+    ];
+
     users.users.jamie.extraGroups = ["navidrome"];
   };
 
@@ -32,7 +38,9 @@ in {
     programs.beets = {
       enable = true;
       settings = {
-        library = MusicFolder;
+        # library is the beets database file, not the music location
+        library = "${RootFolder}/library.db";
+        directory = MusicFolder;
 
         plugins = [
           # keep-sorted start
@@ -48,7 +56,13 @@ in {
         ];
 
         fetchart = {
-          sources = "coverart itunes amazon albumart filesystem";
+          sources = [
+            "coverart"
+            "itunes"
+            "amazon"
+            "albumart"
+            "filesystem"
+          ];
           cautious = true;
           store_source = true;
           minwidth = 1200;
