@@ -12,7 +12,7 @@
         };
         custom = let
           powerprofile = profile: "${lib.getExe pkgs.power-profiles-daemon} set ${profile}";
-          notif = title: content: "${lib.getExe' pkgs.libnotify "notify-send"} notify-send -u low -a 'Gamemode' '${title}' '${content}'";
+          notif = title: content: "${lib.getExe' pkgs.libnotify "notify-send"} -u low -a 'Gamemode' '${title}' '${content}'";
         in {
           start =
             (
