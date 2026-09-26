@@ -34,6 +34,7 @@
       qbittorrent.enable = true;
       rio.enable = true;
       signal.enable = true;
+      sonora.enable = true;
       spotatui.enable = true;
       starship.enable = true;
       suite.enable = true;

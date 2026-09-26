@@ -48,8 +48,8 @@
       rio.enable = true;
       rustdesk.enable = true;
       signal.enable = true;
+      sonora.enable = true;
       spotatui.enable = true;
-      spotify.enable = true;
       starship.enable = true;
       steam.enable = true;
       suite.enable = true;
