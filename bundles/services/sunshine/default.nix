@@ -1,5 +1,11 @@
 {lib, ...}: {
-  nixos = {pkgs, ...}: {
+  requires = ["desktops.mango"];
+
+  nixos = {
+    config,
+    pkgs,
+    ...
+  }: {
     services.sunshine = {
       enable = true;
       autoStart = true;
@@ -33,8 +39,8 @@
                 sunshineMode = "\${SUNSHINE_CLIENT_WIDTH}x\${SUNSHINE_CLIENT_HEIGHT}@\${SUNSHINE_CLIENT_FPS}Hz";
               in [
                 {
-                  do = ''sh -c "hyprctl keyword monitor ${monitor},${sunshineMode},auto,auto"'';
-                  undo = ''sh -c "hyprctl reload"'';
+                  do = ''sh -c '${lib.getExe pkgs.wlr-randr} --output ${monitor} --custom-mode "${sunshineMode}"' '';
+                  undo = "${lib.getExe' config.programs.mango.package "mmsg"} dispatch reload_config";
                 }
               ];
             }
