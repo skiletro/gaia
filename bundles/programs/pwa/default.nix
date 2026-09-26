@@ -9,7 +9,7 @@
     programs.chromium-webapps = {
       enable = true;
       package =
-        lib.mkIf osConfig.programs.helium.enable osConfig.programs.helium.package;
+        lib.mkIf (osConfig.programs.helium.enable or false) osConfig.programs.helium.package;
       webApps = [
         {
           name = "Instagram";
