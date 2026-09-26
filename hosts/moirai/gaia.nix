@@ -28,6 +28,7 @@
       helium.enable = true;
       helix.enable = true;
       nu.enable = true;
+      omp.enable = true;
       pi.enable = true;
       proton.enable = true;
       pwa.enable = true;

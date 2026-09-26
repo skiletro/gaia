@@ -41,6 +41,7 @@
       lsfg.enable = true;
       nu.enable = true;
       obs.enable = true;
+      omp.enable = true;
       pi.enable = true;
       proton.enable = true;
       pwa.enable = true;
