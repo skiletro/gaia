@@ -6,6 +6,7 @@
 }: let
   package = inputs'.mango.packages.mango.overrideAttrs (old: {
     patches = (old.patches or []) ++ [./dwindle-aspect-threshold.patch];
+    postBuild = "rm -f $out/share/wayland-sessions/mango.desktop";
   });
 in {
   requires = [
