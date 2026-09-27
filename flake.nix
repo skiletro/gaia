@@ -53,6 +53,7 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-parts.follows = "flake-parts";
+        scenefx.follows = "scenefx";
       };
     };
 
@@ -103,6 +104,11 @@
 
     quickshell = {
       url = "git+https://git.outfoxxed.me/quickshell/quickshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    scenefx = {
+      url = "github:wlrfx/scenefx";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

@@ -38,6 +38,11 @@ in {
     };
 
     security.polkit.enable = true;
+
+    xdg.portal.wlr.settings.screencast = {
+      chooser_type = "dmenu";
+      chooser_cmd = "noctalia dmenu -p 'Select a source to share:'";
+    };
   };
 
   home-manager = {
