@@ -1,16 +1,28 @@
 {inputs, ...}: {
   imports = [inputs.treefmt-nix.flakeModule];
 
-  perSystem = {config, ...}: {
+  perSystem = {
+    pkgs,
+    config,
+    ...
+  }: {
     formatter = config.treefmt.build.wrapper;
 
     treefmt = {
       flakeCheck = true;
-      settings.global.excludes = [
-        "*.age"
-        "packages/_sources/generated.json"
-        "packages/_sources/generated.nix"
-      ];
+      settings = {
+        global.excludes = [
+          "*.age"
+          "packages/_sources/generated.json"
+          "packages/_sources/generated.nix"
+        ];
+        formatter = {
+          nufmt = {
+            command = "${pkgs.nufmt}/bin/nufmt";
+            includes = ["*.nu"];
+          };
+        };
+      };
       programs = {
         # keep-sorted start
         alejandra.enable = true;
