@@ -3,7 +3,7 @@
   inputs',
   ...
 }: {
-  home-manager = {
+  home-manager = {config, ...}: {
     programs.vicinae = {
       enable = true;
       enableFirefoxIntegration = false;
@@ -17,6 +17,10 @@
       ];
       settings = {
         close_on_focus_loss = false;
+        theme = {
+          dark.icon_theme = config.stylix.icons.dark;
+          light.icon_theme = config.stylix.icons.light;
+        };
         launcher_window.compact_mode.enabled = true;
         font.rendering = "native";
         providers = {
