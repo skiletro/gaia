@@ -42,7 +42,6 @@
       nu.enable = true;
       obs.enable = true;
       omp.enable = true;
-      pi.enable = true;
       proton.enable = true;
       pwa.enable = true;
       qbittorrent.enable = true;
@@ -50,11 +49,9 @@
       rustdesk.enable = true;
       signal.enable = true;
       sonora.enable = true;
-      spotatui.enable = true;
       starship.enable = true;
       steam.enable = true;
       suite.enable = true;
-      supersonic.enable = true;
       term-utils.enable = true;
       vial.enable = true;
       vicinae.enable = true;
