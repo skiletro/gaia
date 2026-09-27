@@ -16,6 +16,7 @@
             }
             highlight_resolved_externals: true
           };
+          source ${./aliases.nu};
         '';
       loginFile.text =
         # nu
