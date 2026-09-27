@@ -16,7 +16,7 @@ in {
     "services.noctalia"
   ];
 
-  nixos = {
+  nixos = {pkgs, ...}: {
     imports = [inputs.mango.nixosModules.mango];
 
     programs.mango = {
@@ -40,9 +40,30 @@ in {
 
     security.polkit.enable = true;
 
-    xdg.portal.wlr.settings.screencast = {
-      chooser_type = "dmenu";
-      chooser_cmd = "noctalia dmenu -p 'Select a source to share:'";
+    xdg.portal = {
+      enable = true;
+      wlr = {
+        enable = true;
+        settings.screencast = {
+          chooser_type = "simple";
+          chooser_cmd = lib.getExe' pkgs.wlr-utils "wlr-chooser";
+        };
+      };
+      xdgOpenUsePortal = false;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-gnome
+      ];
+      config = {
+        common = {
+          # Defaults https://mangowm.github.io/docs/configuration/xdg-portals
+          default = ["gtk"];
+          "org.freedesktop.impl.portal.ScreenCast" = "wlr";
+          "org.freedesktop.impl.portal.Screenshot" = "wlr";
+          "org.freedesktop.impl.portal.Secret" = "gnome-keyring";
+          "org.freedesktop.impl.portal.Inhibit" = "none";
+        };
+      };
     };
   };
 
@@ -54,8 +75,31 @@ in {
     colors = config.lib.stylix.colors;
     withAlpha = alpha: color: "0x${color}${alpha}";
     opaque = withAlpha "ff";
-    mmsg = lib.getExe' config.wayland.windowManager.mango.package "mmsg";
   in {
+    # wlr-chooser reads colours and fonts from theme.toml. Screens are
+    # outlined in screen-accent and windows in window-accent so the two
+    # cannot be confused; backdrop dims the desktop behind the card.
+    xdg.configFile."wlr-chooser/theme.toml".text = with colors;
+    with config.stylix.fonts;
+    # toml
+      ''
+        backdrop      = "#${base00}cc"
+        bg            = "#${base00}"
+        card          = "#${base01}"
+        tile          = "#${base01}"
+        tile-hover    = "#${base02}"
+        tile-selected = "#${base03}"
+        thumb         = "#${base00}"
+        text          = "#${base05}"
+        text-dim      = "#${base04}"
+        accent        = "#${base0D}"
+        screen-accent = "#${base0C}"
+        window-accent = "#${base0E}"
+
+        font      = "${monospace.name}"
+        font-size = ${toString sizes.applications}
+      '';
+
     imports = [inputs.mango.hmModules.mango];
 
     wayland.windowManager.mango = {
@@ -81,7 +125,7 @@ in {
               while read -r changed; do
                 if [ "$changed" = "config.conf" ]; then
                   sleep 0.3
-                  ${mmsg} dispatch reload_config
+                  mmsg dispatch reload_config
                 fi
               done
           ) &
