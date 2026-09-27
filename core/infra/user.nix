@@ -92,8 +92,6 @@ in {
 
     xresources.path = "${config.xdg.configHome}/.Xresources";
 
-    xdg.portal.xdgOpenUsePortal = true;
-
     xdg.configFile."wget/wgetrc" = {
       text = ''
         hsts-file = ${config.xdg.cacheHome}/wget/wget-hsts
