@@ -89,8 +89,7 @@ disko installer image.
 
 Every directory under `packages/` is a callable package. Sources are declared in
 `packages/nvfetcher.toml` and generated into `packages/_sources/` by nvfetcher.
-Packages that only need local files, like `eos-helpers`, use `src = ./.` and
-need no nvfetcher entry. See [package-examples.md](package-examples.md).
+See [package-examples.md](package-examples.md).
 
 ## Secrets
 

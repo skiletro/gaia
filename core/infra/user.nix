@@ -1,4 +1,4 @@
-{self', ...}: let
+let
   username = "jamie";
   sshKeys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINnFEMa0S9zuA5cVg+Ktazz9gEevkDCNYIDX0WAMxcAC eos"
@@ -70,7 +70,6 @@ in {
       packages = with pkgs; [
         # keep-sorted start ignore_prefixes=self'.packages.
         dust # fancy du
-        self'.packages.eos-helpers
         fd # find files
         file # identify files
         fzf # fuzzy finder
