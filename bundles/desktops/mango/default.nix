@@ -100,7 +100,7 @@ in {
         font-size = ${toString sizes.applications}
       '';
 
-    imports = [inputs.mango.hmModules.mango];
+    imports = [inputs.mango.hmModules.mango ./power-blur.nix];
 
     wayland.windowManager.mango = {
       enable = true;
@@ -207,6 +207,7 @@ in {
         scroller_prefer_overspread = 0;
         scroller_proportion_preset = "0.5,0.8,1.0";
 
+        # mango-power-blur selects blur settings for the current power source.
         blur = 1;
         blur_layer = 1;
         blur_optimized = 0;
@@ -376,6 +377,7 @@ in {
           "none,down,4,leaveoverview"
         ];
       };
+      extraConfig = "source-optional=~/.config/mango/power.conf";
     };
   };
 }
