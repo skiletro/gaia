@@ -11,7 +11,9 @@
         ./dwindle-aspect-threshold.patch
         ./workspace-ipc-heartbeat.patch
       ];
-    postBuild = "rm -f $out/share/wayland-sessions/mango.desktop";
+    postInstall = ''
+      rm -f $out/share/wayland-sessions/mango.desktop
+    '';
   });
 in {
   requires = [
@@ -26,6 +28,7 @@ in {
 
     programs.mango = {
       enable = true;
+      addLoginEntry = false;
       inherit package;
     };
 
