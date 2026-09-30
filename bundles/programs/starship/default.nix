@@ -44,17 +44,16 @@
           format = "in [$path]($style)[$read_only]($read_only_style) ";
 
           substitutions = lib.mapAttrs' (n: v: lib.nameValuePair "${home_symbol}/${n}" v) {
-            # # keep-sorted start
-            ".config" = " ";
+            # keep-sorted start
+            ".config" = "󱁿 ";
             "Documents" = "󰈙 ";
             "Downloads" = " ";
-            "Games" = " ";
+            "Games" = "󱎓 ";
             "Music" = " ";
             "Pictures" = " ";
             "Projects" = "󱌢 ";
-            "Projects/gaia" = "󰳊 ";
             "Videos" = " ";
-            # # keep-sorted end
+            # keep-sorted end
           };
         };
 
