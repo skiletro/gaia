@@ -17,14 +17,14 @@
           icon = "instagram";
         }
         {
-          name = "Proton Mail";
-          url = "https://mail.proton.me/u/0/";
-          icon = "proton-mail";
-        }
-        {
           name = "WhatsApp";
           url = "https://web.whatsapp.com/";
           icon = "whatsapp";
+        }
+        {
+          name = "Jellyfin";
+          url = "https://lukef.in/";
+          icon = "jellyfin";
         }
       ];
     };
