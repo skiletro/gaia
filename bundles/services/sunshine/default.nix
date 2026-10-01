@@ -24,10 +24,6 @@
               "${lib.getExe' pkgs.xdg-utils "xdg-open"} steam://open/bigpicture"
             ];
           }
-          {
-            name = "Pegasus";
-            cmd = "${lib.getExe' pkgs.xdg-utils "xdg-open"} ${lib.getExe pkgs.pegasus-frontend}";
-          }
         ]
         (
           attr:
