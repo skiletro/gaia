@@ -15,6 +15,7 @@
       flatpak.enable = true;
       noctalia.enable = true;
       printing.enable = true;
+      tailscale.enable = true;
       wireguard.enable = true;
       # keep-sorted end
     };
