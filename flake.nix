@@ -95,8 +95,6 @@
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    noctalia.url = "github:noctalia-dev/noctalia/cachix";
-
     omp = {
       url = "github:can1357/oh-my-pi";
       inputs.nixpkgs.follows = "nixpkgs";
