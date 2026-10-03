@@ -63,6 +63,7 @@
             color_2 = "secondary";
             mirrored = false;
             show_when_idle = true;
+            actions.left = "panel-toggle control-center media";
           };
           clock = {
             anchor = true;
@@ -75,6 +76,7 @@
           network = {
             interactive = false;
             show_label = false;
+            actions.left = "panel-toggle control-center network";
           };
           tray = {
             drawer = true;
@@ -149,6 +151,14 @@
         lockscreen = {
           blurred_desktop = true;
           fingerprint = false;
+          transition = ["wipe"];
+          transition_duration = 500; # ms
+        };
+
+        wallpaper = {
+          transition = ["wipe"];
+          transition_duration = 500; # ms
+          transition_on_startup = true;
         };
 
         # night light
