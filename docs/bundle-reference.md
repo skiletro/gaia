@@ -34,6 +34,10 @@ multiple enabled sessions; with exactly one enabled desktop, it uses that
 bundle's UWSM session as the fallback. Autologin bypasses the chooser and
 requires exactly one enabled desktop.
 
+The Tailscale service bundle starts `tailscale systray` as a user service tied
+to `graphical-session.target`, so it follows the graphical session lifecycle
+instead of a compositor-specific autostart.
+
 ## Bundle Requirements
 
 Declare bundle dependencies with top-level `requires` metadata:

@@ -111,12 +111,6 @@
       };
 
       spawn-at-startup = [
-        {
-          argv = [
-            "${lib.getExe pkgs.tailscale}"
-            "systray"
-          ];
-        }
         {argv = ["${lib.getExe' pkgs.udiskie "udiskie"}"];}
         {
           argv = [

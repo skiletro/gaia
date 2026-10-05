@@ -151,7 +151,6 @@
         ];
 
         exec-once = map (x: "uwsm app -- ${x}") [
-          "${lib.getExe pkgs.tailscale} systray"
           "${lib.getExe' pkgs.udiskie "udiskie"}"
           "${lib.getExe pkgs.wl-clip-persist} --clipboard regular"
           "${lib.getExe pkgs.hyprsunset}"

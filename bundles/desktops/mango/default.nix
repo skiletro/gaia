@@ -118,7 +118,6 @@ in {
       autostart_sh =
         # sh
         ''
-          ${lib.getExe pkgs.tailscale} systray &
           ${lib.getExe' pkgs.udiskie "udiskie"} &
           ${lib.getExe pkgs.wl-clip-persist} --clipboard both &
 
