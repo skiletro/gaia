@@ -110,6 +110,24 @@ in {
 
     imports = [inputs.mango.hmModules.mango ./power-blur.nix];
 
+    services.udiskie = {
+      enable = true;
+      settings.program_options.file_manager = lib.getExe pkgs.nautilus;
+    };
+
+    systemd.user.services.wl-clip-persist = {
+      Unit = {
+        Description = "Persist Wayland clipboard contents";
+        After = ["graphical-session.target"];
+        PartOf = ["graphical-session.target"];
+      };
+      Service = {
+        ExecStart = "${lib.getExe pkgs.wl-clip-persist} --clipboard both";
+        Restart = "on-failure";
+      };
+      Install.WantedBy = ["graphical-session.target"];
+    };
+
     wayland.windowManager.mango = {
       enable = true;
       inherit package;
@@ -118,9 +136,6 @@ in {
       autostart_sh =
         # sh
         ''
-          ${lib.getExe' pkgs.udiskie "udiskie"} &
-          ${lib.getExe pkgs.wl-clip-persist} --clipboard both &
-
           # Hot reload. home-manager replaces ~/.config/mango/config.conf with a
           # symlink to a new store path on every switch. Watch the directory and
           # dispatch reload_config so mango picks the new file up without a
