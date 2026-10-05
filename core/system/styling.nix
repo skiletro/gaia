@@ -248,7 +248,10 @@ in {
 
     home.pointerCursor.enable = true;
 
-    home.packages = [pkgs.kdePackages.plasma-integration];
+    home.packages = [
+      pkgs.kdePackages.plasma-integration
+      self'.packages.modern-minimal-ui-sounds
+    ];
 
     # KF6 apps read the icon theme from kdeglobals [Icons] and ignore qt6ct's
     # setting, falling back to Breeze when it is missing. Stylix does not write
@@ -268,6 +271,13 @@ in {
         + "\n";
       "kcminputrc".source = "${stylixKdeConfig}/kcminputrc";
       "kded5rc".source = "${stylixKdeConfig}/kded5rc";
+    };
+
+    gtk = let
+      soundTheme = "Modern Minimal UI";
+    in {
+      gtk3.extraConfig."gtk-sound-theme-name" = soundTheme;
+      gtk4.extraConfig."gtk-sound-theme-name" = soundTheme;
     };
 
     xdg.dataFile."color-schemes/${colorschemeSlug}.colors".text =

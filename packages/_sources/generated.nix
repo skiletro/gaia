@@ -14,6 +14,17 @@
       sha256 = "sha256-43x69iZaxKCvbVe8ZehhCad22ZZug0MzRVf2PaSCUW8=";
     };
   };
+  modern-minimal-ui-sounds = {
+    pname = "modern-minimal-ui-sounds";
+    version = "V1.2";
+    src = fetchFromGitHub {
+      owner = "cadecomposer";
+      repo = "modern-minimal-ui-sounds";
+      rev = "V1.2";
+      fetchSubmodules = false;
+      sha256 = "sha256-l8/nxuzBns2cyhGFral+XrTGSbI6jasoBvowQz72VOI=";
+    };
+  };
   proton-cachyos_x86_64_v3 = {
     pname = "proton-cachyos_x86_64_v3";
     version = "cachyos-11.0-20260703-slr";

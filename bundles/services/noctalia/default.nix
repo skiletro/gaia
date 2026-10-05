@@ -1,4 +1,4 @@
-{
+{self', ...}: {
   home-manager = {pkgs, ...}: {
     programs.noctalia = {
       enable = true;
@@ -201,6 +201,9 @@
           # keep-sorted start
           jq
           # keep-sorted end
+
+          # other packages
+          self'.packages.modern-minimal-ui-sounds
         ];
 
         plugin_settings = {
@@ -222,6 +225,8 @@
         };
 
         location.auto_locate = true;
+
+        audio.sound_theme = "Modern Minimal UI";
 
         shell = {
           date_format = "%A, %-d %B %Y";

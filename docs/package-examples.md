@@ -50,6 +50,16 @@ Not every derivation needs the same build phases. The active
 [`proton-cachyos_x86_64_v3`](../packages/proton-cachyos_x86_64_v3/default.nix)
 package unpacks a fetched archive and adjusts its compatibility tool metadata.
 
+
+## Installing a sound theme
+
+Install sound theme packages through `home.packages`; their
+`$out/share/sounds/<theme>` contents are then available through the user's
+profile data directory. Select the theme in the relevant desktop setting, such
+as GTK's `gtk-sound-theme-name`. See
+[`modern-minimal-ui-sounds`](../packages/modern-minimal-ui-sounds/default.nix)
+and its activation in [`styling.nix`](../core/system/styling.nix).
+
 ## Update package sources
 
 Edit the relevant entry in `packages/nvfetcher.toml`, then run

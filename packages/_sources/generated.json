@@ -14,6 +14,27 @@
         },
         "version": "macos-26-20260722-484daf4e"
     },
+    "modern-minimal-ui-sounds": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "modern-minimal-ui-sounds",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "cadecomposer",
+            "repo": "modern-minimal-ui-sounds",
+            "rev": "V1.2",
+            "sha256": "sha256-l8/nxuzBns2cyhGFral+XrTGSbI6jasoBvowQz72VOI=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "V1.2"
+    },
     "proton-cachyos_x86_64_v3": {
         "cargoLock": null,
         "date": null,
