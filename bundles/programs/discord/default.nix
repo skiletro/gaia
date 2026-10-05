@@ -1,6 +1,4 @@
 {inputs, ...}: {
-  gaia.autoStart = ["equibop -m"];
-
   home-manager = {pkgs, ...}: {
     imports = [inputs.nixcord.homeModules.nixcord];
 

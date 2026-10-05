@@ -3,8 +3,6 @@
   inputs',
   ...
 }: {
-  gaia.autoStart = ["steam -silent -console"];
-
   nixos = {pkgs, ...}: {
     programs.steam = {
       enable = true;
