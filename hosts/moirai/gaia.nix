@@ -41,6 +41,7 @@
       term-utils.enable = true;
       vicinae.enable = true;
       wakatime.enable = true;
+      yazi.enable = true;
       zellij.enable = true;
       zoxide.enable = true;
       # keep-sorted end

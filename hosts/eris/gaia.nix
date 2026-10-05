@@ -58,6 +58,7 @@
       wakatime.enable = true;
       wine.enable = true;
       wivrn.enable = true;
+      yazi.enable = true;
       zed.enable = true;
       zellij.enable = true;
       zoxide.enable = true;
