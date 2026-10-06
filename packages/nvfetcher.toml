@@ -6,6 +6,11 @@ src.github = "samuelngs/apple-emoji-linux"
 fetch.github = "cadecomposer/modern-minimal-ui-sounds"
 src.github = "cadecomposer/modern-minimal-ui-sounds"
 
+[photocraft]
+cargo_lock = ["Cargo.lock"]
+fetch.github = "storytold/photocraft"
+src.github = "storytold/photocraft"
+
 [proton-cachyos_x86_64_v3]
 fetch.url = "https://github.com/CachyOS/proton-cachyos/releases/download/$ver/proton-$ver-x86_64_v3.tar.xz"
 src.github = "CachyOS/proton-cachyos"

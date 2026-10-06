@@ -43,6 +43,7 @@
       nu.enable = true;
       obs.enable = true;
       omp.enable = true;
+      photocraft.enable = true;
       proton.enable = true;
       pwa.enable = true;
       qbittorrent.enable = true;

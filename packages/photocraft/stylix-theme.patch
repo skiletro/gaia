@@ -1,0 +1,215 @@
+diff --git a/crates/ui-egui/src/theme.rs b/crates/ui-egui/src/theme.rs
+--- a/crates/ui-egui/src/theme.rs
++++ b/crates/ui-egui/src/theme.rs
+@@ -22,10 +22,11 @@
+     Studio,
+     StudioLight,
+     Classic,
++    Stylix,
+ }
+ 
+ impl ThemeKind {
+-    pub const ALL: [ThemeKind; 5] = [ThemeKind::Pro, ThemeKind::ProMedium, ThemeKind::Studio, ThemeKind::StudioLight, ThemeKind::Classic];
++    pub const ALL: [ThemeKind; 6] = [ThemeKind::Pro, ThemeKind::ProMedium, ThemeKind::Studio, ThemeKind::StudioLight, ThemeKind::Classic, ThemeKind::Stylix];
+     pub fn label(self) -> &'static str {
+         match self {
+             ThemeKind::Pro => "Pro (Dark)",
+@@ -33,6 +34,7 @@
+             ThemeKind::Studio => "Studio (Dark)",
+             ThemeKind::StudioLight => "Studio (Light)",
+             ThemeKind::Classic => "Classic",
++            ThemeKind::Stylix => "Stylix",
+         }
+     }
+     pub fn next(self) -> Self {
+@@ -46,6 +48,7 @@
+             "studio" | "studiodark" => Some(ThemeKind::Studio),
+             "studiolight" | "light" => Some(ThemeKind::StudioLight),
+             "classic" | "win2000" | "retro" => Some(ThemeKind::Classic),
++            "stylix" => Some(ThemeKind::Stylix),
+             _ => None,
+         }
+     }
+@@ -101,6 +104,35 @@
+ impl Tokens {
+     pub fn for_kind(kind: ThemeKind) -> Self {
+         match kind {
++            ThemeKind::Stylix => Tokens {
++                kind,
++                chrome: @base01@,
++                canvas: @base00@,
++                canvas_dot: @base00@,
++                dock: @base00@,
++                card: @base01@,
++                card_border: @base02@,
++                field: @base00@,
++                field_border: @base02@,
++                hover: @base02@,
++                pressed: @base03@,
++                text: @base05@,
++                text_dim: @base04@,
++                text_faint: @base03@,
++                icon: @base05@,
++                accent: @base0D@,
++                accent_soft: @base02@,
++                accent_border: @base0D@,
++                accent_text: @base00@,
++                separator: @base02@,
++                primary_bg: @base0D@,
++                primary_text: @base00@,
++                danger: @base08@,
++                warning: @base0A@,
++                tab_strip: @base00@,
++                row_selected: @base02@,
++                ..Tokens::for_kind(ThemeKind::Pro)
++            },
+             // Sampled from Photoshop 2026's default brightness (raw display values).
+             ThemeKind::ProMedium => Tokens {
+                 kind,
+@@ -267,20 +299,37 @@
+     }
+ 
+     pub fn dark(&self) -> bool {
+-        matches!(self.kind, ThemeKind::Studio | ThemeKind::Pro | ThemeKind::ProMedium)
+-    }
+-}
+-
+-/// Register Inter (UI) and JetBrains Mono (numbers) plus named weights.
+-pub fn install_fonts(ctx: &egui::Context) {
++        if self.kind == ThemeKind::Stylix {
++            @dark@
++        } else {
++            matches!(self.kind, ThemeKind::Studio | ThemeKind::Pro | ThemeKind::ProMedium)
++        }
++    }
++}
++
++/// Register the selected theme's UI and monospace fonts, including named weights.
++pub fn install_fonts(ctx: &egui::Context, kind: ThemeKind) {
+     let mut fonts = FontDefinitions::default();
+-    let add = |fonts: &mut FontDefinitions, name: &str, bytes: &'static [u8]| {
+-        fonts.font_data.insert(name.to_owned(), Arc::new(FontData::from_static(bytes)));
++    let faces: [(&'static [u8], u32); 4] = if kind == ThemeKind::Stylix {
++        [
++            (include_bytes!("@sansRegular@"), @sansRegularIndex@),
++            (include_bytes!("@sansMedium@"), @sansMediumIndex@),
++            (include_bytes!("@sansSemibold@"), @sansSemiboldIndex@),
++            (include_bytes!("@monospace@"), @monospaceIndex@),
++        ]
++    } else {
++        [
++            (include_bytes!("../../../assets/fonts/Inter-Regular.ttf"), 0),
++            (include_bytes!("../../../assets/fonts/Inter-Medium.ttf"), 0),
++            (include_bytes!("../../../assets/fonts/Inter-SemiBold.ttf"), 0),
++            (include_bytes!("../../../assets/fonts/JetBrainsMono-Regular.ttf"), 0),
++        ]
+     };
+-    add(&mut fonts, "Inter", include_bytes!("../../../assets/fonts/Inter-Regular.ttf"));
+-    add(&mut fonts, "Inter-Medium", include_bytes!("../../../assets/fonts/Inter-Medium.ttf"));
+-    add(&mut fonts, "Inter-SemiBold", include_bytes!("../../../assets/fonts/Inter-SemiBold.ttf"));
+-    add(&mut fonts, "JetBrainsMono", include_bytes!("../../../assets/fonts/JetBrainsMono-Regular.ttf"));
++    for (name, (bytes, index)) in ["Inter", "Inter-Medium", "Inter-SemiBold", "JetBrainsMono"].into_iter().zip(faces) {
++        let mut data = FontData::from_static(bytes);
++        data.index = index;
++        fonts.font_data.insert(name.to_owned(), Arc::new(data));
++    }
+     fonts.families.entry(FontFamily::Proportional).or_default().insert(0, "Inter".to_owned());
+     fonts.families.entry(FontFamily::Monospace).or_default().insert(0, "JetBrainsMono".to_owned());
+     // Named weights fall back to the default stack for missing glyphs.
+diff --git a/crates/engine/src/prefs.rs b/crates/engine/src/prefs.rs
+--- a/crates/engine/src/prefs.rs
++++ b/crates/engine/src/prefs.rs
+@@ -55,7 +55,7 @@
+ choice!(PointSize { PostScript = "postScript", Traditional = "traditional" } default PostScript);
+ choice!(Interpolation { BicubicAutomatic = "bicubicAutomatic", Nearest = "nearestNeighbor", Bilinear = "bilinear", Bicubic = "bicubic", BicubicSmoother = "bicubicSmoother", BicubicSharper = "bicubicSharper", PreserveDetails = "preserveDetails" } default BicubicAutomatic);
+ choice!(ColorPicker { Adobe = "adobe", System = "system" } default Adobe);
+-choice!(Theme { Pro = "pro", ProMedium = "proMedium", Studio = "studio", StudioLight = "studioLight", Classic = "classic" } default ProMedium);
++choice!(Theme { Pro = "pro", ProMedium = "proMedium", Studio = "studio", StudioLight = "studioLight", Classic = "classic", Stylix = "stylix" } default ProMedium);
+ choice!(CanvasColor { Default = "default", Black = "black", DarkGray = "darkGray", MediumGray = "mediumGray", LightGray = "lightGray", Custom = "custom" } default Default);
+ choice!(CanvasBorder { DropShadow = "dropShadow", Line = "line", None = "none" } default DropShadow);
+ choice!(UiScale { Auto = "auto", P100 = "100", P200 = "200" } default Auto);
+diff --git a/crates/ui-egui/src/prefs_ui.rs b/crates/ui-egui/src/prefs_ui.rs
+--- a/crates/ui-egui/src/prefs_ui.rs
++++ b/crates/ui-egui/src/prefs_ui.rs
+@@ -74,6 +74,7 @@
+         Theme::Studio => ThemeKind::Studio,
+         Theme::StudioLight => ThemeKind::StudioLight,
+         Theme::Classic => ThemeKind::Classic,
++        Theme::Stylix => ThemeKind::Stylix,
+     }
+ }
+ 
+@@ -84,6 +85,7 @@
+         ThemeKind::Studio => Theme::Studio,
+         ThemeKind::StudioLight => Theme::StudioLight,
+         ThemeKind::Classic => Theme::Classic,
++        ThemeKind::Stylix => Theme::Stylix,
+     }
+ }
+ 
+diff --git a/crates/ui-egui/src/menus.rs b/crates/ui-egui/src/menus.rs
+--- a/crates/ui-egui/src/menus.rs
++++ b/crates/ui-egui/src/menus.rs
+@@ -50,6 +50,7 @@
+     ("window.theme.studio", "Studio Theme", &["Window", "Theme"], None),
+     ("window.theme.studioLight", "Studio Light Theme", &["Window", "Theme"], None),
+     ("window.theme.classic", "Classic Theme", &["Window", "Theme"], None),
++    ("window.theme.stylix", "Stylix Theme", &["Window", "Theme"], None),
+     ("edit.search", "Search…", &["Edit"], Some("Cmd+K")),
+     ("help.discord", "Join the ArtCraft Discord…", &["Help"], None),
+     ("help.website", "PhotoCraft Website", &["Help"], None),
+@@ -271,7 +272,7 @@
+             app.set_theme(ctx, next);
+             Ok(Value::Null)
+         }
+-        "window.theme.pro" | "window.theme.proMedium" | "window.theme.studio" | "window.theme.studioLight" | "window.theme.classic" => {
++        "window.theme.pro" | "window.theme.proMedium" | "window.theme.studio" | "window.theme.studioLight" | "window.theme.classic" | "window.theme.stylix" => {
+             let k = crate::theme::ThemeKind::from_name(&id["window.theme.".len()..]).unwrap_or_default();
+             app.set_theme(ctx, k);
+             Ok(Value::Null)
+diff --git a/crates/ui-egui/src/control.rs b/crates/ui-egui/src/control.rs
+--- a/crates/ui-egui/src/control.rs
++++ b/crates/ui-egui/src/control.rs
+@@ -153,7 +153,7 @@
+             if let Some(name) = s("theme") {
+                 match crate::theme::ThemeKind::from_name(name) {
+                     Some(k) => app.set_theme(ctx, k),
+-                    None => return err(format!("unknown theme `{name}` (studio, studioLight, classic)")),
++                    None => return err(format!("unknown theme `{name}` (pro, proMedium, studio, studioLight, classic, stylix)")),
+                 }
+             }
+             if let Some(i) = u("brushSection") {
+diff --git a/crates/ui-egui/src/view_cmds.rs b/crates/ui-egui/src/view_cmds.rs
+--- a/crates/ui-egui/src/view_cmds.rs
++++ b/crates/ui-egui/src/view_cmds.rs
+@@ -197,7 +197,7 @@
+ 
+ /// Window › <panel>: (panel, dock tab) for panels that live as tabs of a dock card.
+ fn panel_tab(app: &PhotocraftApp, id: &str) -> Option<(&'static str, usize)> {
+-    let pro = matches!(app.ui.theme, crate::theme::ThemeKind::Pro | crate::theme::ThemeKind::ProMedium);
++    let pro = matches!(app.ui.theme, crate::theme::ThemeKind::Pro | crate::theme::ThemeKind::ProMedium | crate::theme::ThemeKind::Stylix);
+     Some(match id {
+         "window.panel.info" => ("navigator", 2),
+         "window.panel.histogram" => ("navigator", 1),
+diff --git a/crates/ui-egui/src/lib.rs b/crates/ui-egui/src/lib.rs
+--- a/crates/ui-egui/src/lib.rs
++++ b/crates/ui-egui/src/lib.rs
+@@ -750,6 +750,9 @@
+ 
+ impl PhotocraftApp {
+     pub fn set_theme(&mut self, ctx: &egui::Context, kind: theme::ThemeKind) {
++        if (self.ui.theme == theme::ThemeKind::Stylix) != (kind == theme::ThemeKind::Stylix) {
++            theme::install_fonts(ctx, kind);
++        }
+         self.ui.theme = kind;
+         theme::apply(ctx, kind);
+         self.checker = None;
+@@ -860,7 +863,7 @@
+     /// Install fonts, image loaders and the theme. Call from the app creator when possible so the
+     /// very first frame renders; otherwise `logic` does it and the first frame is skipped.
+     pub fn setup_context(ctx: &egui::Context, kind: theme::ThemeKind) {
+-        theme::install_fonts(ctx);
++        theme::install_fonts(ctx, kind);
+         egui_extras::install_image_loaders(ctx);
+         theme::apply(ctx, kind);
+         // egui's own ⌘+ / ⌘- / ⌘0 scale the whole interface; PhotoCraft zooms the canvas instead

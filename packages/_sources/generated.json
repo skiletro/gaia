@@ -35,6 +35,32 @@
         },
         "version": "V1.2"
     },
+    "photocraft": {
+        "cargoLock": {
+            "Cargo.lock": [
+                "sha256-4zwDB+4pccU3cB1YxTd6g1v13e5VCaaS3giZMsUKTJs=/Cargo.lock",
+                {}
+            ]
+        },
+        "date": null,
+        "extract": null,
+        "name": "photocraft",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "storytold",
+            "repo": "photocraft",
+            "rev": "v0.2.0",
+            "sha256": "sha256-4zwDB+4pccU3cB1YxTd6g1v13e5VCaaS3giZMsUKTJs=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "v0.2.0"
+    },
     "proton-cachyos_x86_64_v3": {
         "cargoLock": null,
         "date": null,

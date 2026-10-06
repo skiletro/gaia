@@ -25,6 +25,23 @@
       sha256 = "sha256-l8/nxuzBns2cyhGFral+XrTGSbI6jasoBvowQz72VOI=";
     };
   };
+  photocraft = {
+    pname = "photocraft";
+    version = "v0.2.0";
+    src = fetchFromGitHub {
+      owner = "storytold";
+      repo = "photocraft";
+      rev = "v0.2.0";
+      fetchSubmodules = false;
+      sha256 = "sha256-4zwDB+4pccU3cB1YxTd6g1v13e5VCaaS3giZMsUKTJs=";
+    };
+    cargoLock."Cargo.lock" = {
+      lockFile = ./. + "/sha256-4zwDB+4pccU3cB1YxTd6g1v13e5VCaaS3giZMsUKTJs=/Cargo.lock";
+      outputHashes = {
+        
+      };
+    };
+  };
   proton-cachyos_x86_64_v3 = {
     pname = "proton-cachyos_x86_64_v3";
     version = "cachyos-11.0-20260703-slr";
