@@ -9,7 +9,6 @@
       (old.patches or [])
       ++ [
         ./dwindle-aspect-threshold.patch
-        ./workspace-ipc-heartbeat.patch
       ];
     postInstall = ''
       rm -f $out/share/wayland-sessions/mango.desktop
