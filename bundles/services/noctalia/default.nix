@@ -13,7 +13,6 @@
             center = [
               "weather"
               "group:g2"
-              "audio_visualizer"
             ];
             end = [
               "tray"
@@ -59,12 +58,6 @@
 
         # Status bar widgets
         widget = {
-          audio_visualizer = {
-            color_2 = "secondary";
-            mirrored = false;
-            show_when_idle = true;
-            actions.left = "panel-toggle control-center media";
-          };
           clock = {
             anchor = true;
             format = "{:%I:%M}";
