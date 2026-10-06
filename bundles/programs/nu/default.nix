@@ -16,7 +16,6 @@
             }
             highlight_resolved_externals: true
           };
-          source ${./aliases.nu};
         '';
       loginFile.text =
         # nu
@@ -40,6 +39,7 @@
 
     home.shellAliases = {
       vf = "ssh -p 2200 git.warm.vodka";
+      n = "nix";
     };
   };
 
