@@ -37,6 +37,7 @@
       handy.enable = true;
       helium.enable = true;
       helix.enable = true;
+      jellyfin.enable = true;
       libreoffice.enable = true;
       lsfg.enable = true;
       nu.enable = true;

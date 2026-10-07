@@ -21,11 +21,6 @@
           url = "https://web.whatsapp.com/";
           icon = "whatsapp";
         }
-        {
-          name = "Jellyfin";
-          url = "https://lukef.in/";
-          icon = "jellyfin";
-        }
       ];
     };
   };

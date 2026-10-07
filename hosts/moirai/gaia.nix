@@ -28,6 +28,7 @@
       git.enable = true;
       helium.enable = true;
       helix.enable = true;
+      jellyfin.enable = true;
       nu.enable = true;
       omp.enable = true;
       proton.enable = true;
