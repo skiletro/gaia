@@ -9,6 +9,7 @@
       (old.patches or [])
       ++ [
         ./dwindle-aspect-threshold.patch
+        ./drop-area-outline.patch
       ];
     postInstall = ''
       rm -f $out/share/wayland-sessions/mango.desktop

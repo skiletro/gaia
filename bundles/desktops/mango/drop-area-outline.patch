@@ -1,0 +1,215 @@
+--- a/include/mango/manage/client.h
++++ b/include/mango/manage/client.h
+@@ -69,6 +69,11 @@
+ 	struct wlr_scene_tree *scene;
+ 	struct wlr_scene_rect *border; /* top, bottom, left, right */
+ 	struct wlr_scene_rect *droparea;
++	struct {
++		bool running;
++		uint32_t time_started, duration;
++		struct wlr_box initial, target;
++	} drop_animation;
+ 	struct wlr_scene_rect *splitindicator[4];
+ 	struct wlr_scene_shadow *shadow;
+ 	struct wlr_scene_rect *shield;
+--- a/src/animation/client.c
++++ b/src/animation/client.c
+@@ -786,6 +786,59 @@
+ 
+ 	return offset;
+ }
++static void client_draw_drop_outline(Client *c, const struct wlr_box *box) {
++	int32_t stroke =
++		MANGO_MIN(3, MANGO_MAX(1, MANGO_MIN(box->width, box->height) / 2));
++	int32_t radius =
++		MANGO_MIN(config.border_radius, MANGO_MIN(box->width, box->height) / 2);
++	struct clipped_region clipped_region = {
++		.area = {stroke, stroke, GEZERO(box->width - 2 * stroke),
++				 GEZERO(box->height - 2 * stroke)},
++		.corners = corner_radii_all(MANGO_MAX(0, radius - stroke)),
++	};
++
++	wlr_scene_node_set_position(&c->droparea->node, box->x, box->y);
++	wlr_scene_rect_set_size(c->droparea, box->width, box->height);
++	wlr_scene_rect_set_corner_radii(c->droparea, corner_radii_all(radius));
++	wlr_scene_rect_set_clipped_region(c->droparea, clipped_region);
++}
++
++static bool client_step_drop_animation(Client *c) {
++	if (!c->droparea || !c->droparea->node.enabled)
++		return false;
++	if (!c->enable_drop_area_draw || !c->scene->node.enabled || !c->mon ||
++		!VISIBLEON(c, c->mon)) {
++		c->drop_animation.running = false;
++		wlr_scene_node_set_enabled(&c->droparea->node, false);
++		return false;
++	}
++	if (!c->drop_animation.running)
++		return false;
++
++	uint32_t elapsed = get_now_in_ms() - c->drop_animation.time_started;
++	if (!config.animations || elapsed >= c->drop_animation.duration) {
++		c->drop_animation.running = false;
++		client_draw_drop_outline(c, &c->drop_animation.target);
++		return false;
++	}
++
++	double progress = find_animation_curve_at(
++		(double)elapsed / c->drop_animation.duration, MOVE);
++	progress = MANGO_MIN(1.0, MANGO_MAX(0.0, progress));
++	const struct wlr_box *initial = &c->drop_animation.initial;
++	const struct wlr_box *target = &c->drop_animation.target;
++	struct wlr_box box = {
++		.x = (int32_t)round(initial->x + (target->x - initial->x) * progress),
++		.y = (int32_t)round(initial->y + (target->y - initial->y) * progress),
++		.width = (int32_t)round(initial->width +
++							   (target->width - initial->width) * progress),
++		.height = (int32_t)round(initial->height +
++								(target->height - initial->height) * progress),
++	};
++	client_draw_drop_outline(c, &box);
++	return true;
++}
++
+ void client_set_drop_area(Client *c) {
+ 	bool first_draw = false;
+ 	int32_t drop_direction = UNDIR;
+@@ -793,6 +846,9 @@
+ 	if (!c || !c->mon)
+ 		return;
+ 
++	if (!c->enable_drop_area_draw)
++		c->drop_animation.running = false;
++
+ 	if (!c->enable_drop_area_draw && !c->droparea->node.enabled)
+ 		return;
+ 
+@@ -801,6 +857,7 @@
+ 		wlr_scene_node_set_enabled(&c->droparea->node, false);
+ 		return;
+ 	} else if (c->enable_drop_area_draw && !c->droparea->node.enabled) {
++		wlr_scene_node_reparent(&c->droparea->node, c->scene->node.parent);
+ 		wlr_scene_node_raise_to_top(&c->droparea->node);
+ 		wlr_scene_node_set_enabled(&c->droparea->node, true);
+ 		first_draw = true;
+@@ -811,6 +868,7 @@
+ 	int32_t client_height = c->geom.height - 2 * bw;
+ 
+ 	if (client_width <= 0 || client_height <= 0) {
++		c->drop_animation.running = false;
+ 		wlr_scene_node_set_enabled(&c->droparea->node, false);
+ 		return;
+ 	}
+@@ -969,12 +1027,49 @@
+ 		}
+ 	}
+ 
+-	if (!first_draw && c->drop_direction == drop_direction)
+-		return;
+ 	c->drop_direction = drop_direction;
+ 
+-	wlr_scene_node_set_position(&c->droparea->node, drop_box.x, drop_box.y);
+-	wlr_scene_rect_set_size(c->droparea, drop_box.width, drop_box.height);
++	/* Keep the destination visible beneath an inset, rounded outline. */
++	int32_t inset = MANGO_MIN(
++		6, MANGO_MAX(0, (MANGO_MIN(drop_box.width, drop_box.height) - 1) / 2));
++	drop_box.x += inset;
++	drop_box.y += inset;
++	drop_box.width -= 2 * inset;
++	drop_box.height -= 2 * inset;
++	int32_t parent_x, parent_y;
++	wlr_scene_node_coords(&c->droparea->node.parent->node, &parent_x, &parent_y);
++	drop_box.x += c->geom.x - parent_x;
++	drop_box.y += c->geom.y - parent_y;
++	if (!first_draw && wlr_box_equal(&c->drop_animation.target, &drop_box))
++		return;
++	c->drop_animation.target = drop_box;
++
++	/* On a target switch, continue from the previous guide's screen position. */
++	Client *previous = first_draw ? server.drop_client : NULL;
++	bool transfer = previous && previous != c && previous->mon == c->mon;
++	if (!config.animations || (first_draw && !transfer)) {
++		c->drop_animation.running = false;
++		client_draw_drop_outline(c, &drop_box);
++		return;
++	}
++
++	struct wlr_scene_rect *from = transfer ? previous->droparea : c->droparea;
++	int32_t x = from->node.x, y = from->node.y;
++	if (transfer) {
++		/* Convert the previous layer's position to the new guide's layer. */
++		wlr_scene_node_coords(&from->node, &x, &y);
++		x -= parent_x;
++		y -= parent_y;
++	}
++	c->drop_animation.initial =
++		(struct wlr_box){x, y, from->width, from->height};
++	c->drop_animation.time_started = get_now_in_ms();
++	c->drop_animation.duration = MANGO_MIN(config.animation_duration_move, 150);
++	c->drop_animation.running =
++		!wlr_box_equal(&c->drop_animation.initial, &drop_box);
++	client_draw_drop_outline(c, &c->drop_animation.initial);
++	if (c->drop_animation.running)
++		request_fresh_all_monitors();
+ }
+ void client_apply_clip(Client *c, float factor) {
+ 	if (c->iskilling || !client_surface(c)->mapped)
+@@ -1830,6 +1925,8 @@
+ 	if (!c || !client_surface(c)->mapped)
+ 		return false;
+ 
++	need_next_tick = client_step_drop_animation(c);
++
+ 	// always render when scene is disabled
+ 	if (c->force_render && !c->scene->node.enabled) {
+ 		force_render = client_force_render(c);
+@@ -1838,7 +1935,7 @@
+ 
+ 	if (server.gesture_drive_active && c->mon == server.gesture_drive_mon &&
+ 		c->animation.running && c->need_output_flush) {
+-		return client_apply_focus_opacity(c);
++		return client_apply_focus_opacity(c) || need_next_tick;
+ 	}
+ 
+ 	if (!c->need_output_flush)
+--- a/src/input/pointer.c
++++ b/src/input/pointer.c
+@@ -1088,9 +1088,10 @@
+ 				closet_drop_client != server.drop_client) {
+ 				server.drop_client->enable_drop_area_draw = false;
+ 				client_set_drop_area(server.drop_client);
++				/* Preserve the previous guide while the new target initializes. */
++				closet_drop_client->enable_drop_area_draw = true;
++				client_set_drop_area(closet_drop_client);
+ 				server.drop_client = closet_drop_client;
+-				server.drop_client->enable_drop_area_draw = true;
+-				client_set_drop_area(server.drop_client);
+ 			} else if (closet_drop_client) {
+ 				server.drop_client = closet_drop_client;
+ 				server.drop_client->enable_drop_area_draw = true;
+--- a/src/manage/client.c
++++ b/src/manage/client.c
+@@ -2185,7 +2185,10 @@
+ 	client_add_group_bar(c);
+ 	client_add_dim_node(c);
+ 
+-	c->droparea = wlr_scene_rect_create(c->scene, 0, 0, config.dropcolor);
++	/* A sibling node keeps the moving guide above neighboring tiled windows. */
++	c->droparea =
++		wlr_scene_rect_create(c->scene->node.parent, 0, 0, config.dropcolor);
++	c->droparea->node.data = c;
+ 	wlr_scene_node_lower_to_bottom(&c->droparea->node);
+ 	wlr_scene_node_set_position(&c->droparea->node, 0, 0);
+ 	wlr_scene_node_set_enabled(&c->droparea->node, false);
+@@ -2516,6 +2519,11 @@
+ 		c->image_capture_scene = NULL;
+ 	}
+ 
++	if (c->droparea) {
++		wlr_scene_node_destroy(&c->droparea->node);
++		c->droparea = NULL;
++	}
++
+ 	init_client_properties(c);
+ 
+ 	wlr_scene_node_destroy(&c->scene->node);

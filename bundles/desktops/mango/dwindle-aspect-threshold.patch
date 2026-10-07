@@ -36,6 +36,18 @@
 
  	config.log_level = WLR_ERROR;
  	config.numlockon = 0;
+--- a/src/animation/client.c
++++ b/src/animation/client.c
+@@ -824,7 +824,8 @@
+ 		cur_layout->id == DWINDLE && config.dwindle_drop_simple_split;
+ 
+ 	if (dwindle_familiar) {
+-		bool split_h = c->geom.width >= c->geom.height;
++		bool split_h = ((float)c->geom.width >=
++						(float)c->geom.height * config.dwindle_aspect_threshold);
+ 		float ratio = config.dwindle_split_ratio;
+ 		if (split_h) {
+ 			if (rel_x < client_width * 0.5) {
 --- a/src/layout/dwindle.c
 +++ b/src/layout/dwindle.c
 @@ -179,7 +179,7 @@
@@ -77,7 +89,7 @@
  | `dwindle_smart_resize` | `0` | When dragging to resize, move the split toward the cursor regardless of which side was grabbed. |
  | `dwindle_drop_simple_split` | `1` | Drag-to-tile drop preview. `1` = 2-zone preview matching `dwindle_split_ratio`, `0` = 4-quadrant preview. |
  | `dwindle_manual_split` | `0` | Manually split windows mode. |
-+| `dwindle_aspect_threshold` | `1.25` | Split axis threshold: a side-by-side split is chosen when the focused window's width is at least its height times this value. Above `1.0`, new windows stack sooner on very wide monitors. |
++| `dwindle_aspect_threshold` | `1.25` | Split axis threshold: a side-by-side split is chosen when the focused window's width is at least its height times this value. Above `1.0`, new windows stack sooner on very wide monitors. The two-zone drag-to-tile preview uses the same threshold on the target window; four-zone drops retain their explicit direction. |
 
  ```ini
  # Example dwindle configuration
