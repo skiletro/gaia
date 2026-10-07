@@ -1,14 +1,24 @@
-{inputs, ...}: {
-  home-manager = {config, ...}: let
-    colors = config.lib.stylix.colors.withHashtag;
-  in {
+{
+  inputs,
+  inputs',
+  ...
+}: {
+  home-manager = {config, ...}: {
     imports = [inputs.sonora.homeManagerModules.default];
 
     programs.sonora = {
       enable = true;
+      package = inputs'.sonora.packages.default.overrideAttrs (old: {
+        postInstall =
+          (old.postInstall or "")
+          + ''
+            substituteInPlace $out/share/applications/sonora.desktop \
+              --replace-fail "Icon=sonora" "Icon=juk"
+          '';
+      });
       settings.appearance = {
         theme = "dark";
-        theme_overrides = with colors; {
+        theme_overrides = with config.lib.stylix.colors.withHashtag; {
           background = base00;
           foreground = base05;
           border = base02;
