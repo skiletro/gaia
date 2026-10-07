@@ -10,6 +10,7 @@
       ++ [
         ./dwindle-aspect-threshold.patch
         ./drop-area-outline.patch
+        ./ipc-watch-backpressure.patch
       ];
     postInstall = ''
       rm -f $out/share/wayland-sessions/mango.desktop
