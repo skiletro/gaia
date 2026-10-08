@@ -8,6 +8,7 @@
       "miniflux"
       "mollysocket"
       "navidrome"
+      "owncast"
       "wakapi"
       "wizarr"
       # keep-sorted end
