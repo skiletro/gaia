@@ -1,5 +1,6 @@
 {
   gaia = {
+    device.type = "desktop";
     desktops.mango.enable = true;
     system = {
       # keep-sorted start

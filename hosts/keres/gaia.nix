@@ -1,5 +1,6 @@
 {
   gaia = {
+    device.type = "server";
     services.tailscale.enable = true;
     programs = {
       # keep-sorted start

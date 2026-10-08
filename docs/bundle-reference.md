@@ -22,6 +22,85 @@ definitions that do not have enable flags:
   `core/utils/autostart.nix`.
 - `gaia.state.system = "25.11"` sets the system state version. The home state
   version in `gaia.state.home` defaults to it, defined in `core/utils/state.nix`.
+- `gaia.device.type` declares the host role: `desktop` (default), `laptop`,
+  `server`, `vm`, or `installer`, defined in `core/utils/device.nix`.
+- `gaia.device.power` configures shared battery policy, defined in
+  `core/utils/power.nix`.
+- `gaia.device.monitors` declares host-owned display profiles, defined in
+  `core/utils/monitors.nix`.
+
+## Device Policy
+
+Declare the role in `hosts/<host>/gaia.nix`. It selects policy defaults, not
+hardware modules, power daemons, or lid-switch behavior:
+
+```nix
+gaia.device = {
+  type = "laptop";
+  power = {
+    enable = true; # defaults to true for laptops, false for other roles
+    disableBlurOnBattery = true;
+    idle.battery = {
+      lockTimeout = 300;
+      screenOffTimeout = 360;
+      suspendTimeout = 900;
+    };
+  };
+};
+```
+
+Each timeout is a positive integer in seconds; `null` disables that battery
+behavior. The values above are the defaults. On AC, Noctalia uses its ordinary
+bundle settings (lock after 600 seconds, screen off after 660 seconds, no
+automatic suspend). Native Noctalia settings remain the AC-policy override.
+
+When power policy and Noctalia or Mango are enabled, one
+`gaia-power-policy` user service follows the graphical session. It reads UPower's
+`OnBattery` property once per event and applies both consumers from that state:
+shorter Noctalia idle timeouts and disabled Mango window/layer blur on battery.
+Repeated states do not rewrite unchanged files or reload Mango. AC and service
+stop remove the Noctalia override and restore Mango blur. Set
+`disableBlurOnBattery = false` to leave Mango blur alone, or `enable = false`
+to disable the shared policy entirely. Headless hosts do not start the service,
+even when their role is `laptop`.
+
+`core/utils/power.nix` defines options, generated policy files, and the service.
+`core/utils/power.sh` contains the watcher and state transitions as ordinary Bash.
+
+## Host Monitors
+
+Put hardware-only display profiles in `hosts/<host>/monitors.nix`. Mango
+translates them into monitor rules; an empty set leaves output auto-discovery:
+
+```nix
+gaia.device.monitors.panel = {
+  identity = "eDP-1";
+  mode = {
+    width = 2560;
+    height = 1600;
+    refresh = 60; # Hz; fractional rates also supported
+  };
+  scale = 1.5;
+  position = { x = 0; y = 0; }; # logical pixels
+  vrr = true;
+};
+```
+
+`identity` is either a connector name or an exact
+`{ make = "AOC"; model = "AG346UCD"; serial = "..."; }` description.
+Mode fields are required and positive. `scale`, `position`, and `vrr` default
+to `null`, omitting the corresponding rule rather than forcing a value.
+Profile labels are rendered in lexical order.
+
+Profiles contain no compositor-specific fields. Mango's renderer lives in
+`bundles/desktops/mango/monitors.nix`, not in the shared device schema.
+Generated rules use `mkDefault`; ordinary host Home Manager settings can replace
+`wayland.windowManager.mango.settings.monitorrule` for native configuration.
+Niri and Hyprland do not consume these profiles.
+
+Active examples: [Eris external displays](../hosts/eris/monitors.nix) and
+[Moirai's panel](../hosts/moirai/monitors.nix). Display rules are no longer global:
+a docked laptop needs its external displays declared on that host too.
 
 ## Desktop Sessions
 

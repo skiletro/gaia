@@ -1,9 +1,15 @@
 {
   lib,
+  config,
   inputs,
   inputs',
   ...
 }: let
+  powerBlurEnabled = config.gaia.device.power.enable && config.gaia.device.power.disableBlurOnBattery;
+  monitorRules = import ./monitors.nix {
+    inherit lib;
+    monitors = config.gaia.device.monitors;
+  };
   package = inputs'.mango.packages.mango.overrideAttrs (old: {
     patches =
       (old.patches or [])
@@ -109,7 +115,7 @@ in {
         font-size = ${toString sizes.applications}
       '';
 
-    imports = [inputs.mango.hmModules.mango ./power-blur.nix];
+    imports = [inputs.mango.hmModules.mango];
 
     services.udiskie = {
       enable = true;
@@ -230,7 +236,7 @@ in {
         scroller_prefer_overspread = 0;
         scroller_proportion_preset = "0.5,0.8,1.0";
 
-        # mango-power-blur selects blur settings for the current power source.
+        # gaia-power-policy overrides these AC defaults when enabled.
         blur = 1;
         blur_layer = 1;
         blur_optimized = 0;
@@ -276,14 +282,7 @@ in {
           "id:*,layout_name:dwindle"
         ];
 
-        monitorrule = [
-          # AOC AG346UCD (175 Hz)
-          "make:AOC,model:AG346UCD,serial:2OQQ9JA00068,width:3440,height:1440,refresh:175,vrr:1"
-          # AOC AG346UCD (100 Hz)
-          "make:AOC,model:AG346UCD,serial:0x000002A8,width:3440,height:1440,refresh:100"
-          # Laptop panel (moirai)
-          "name:^eDP-1$,width:2560,height:1600,refresh:60,scale:1.5,vrr:1"
-        ];
+        monitorrule = lib.mkDefault monitorRules;
 
         windowrule = [
           # Noctalia settings window
@@ -400,7 +399,8 @@ in {
           "none,down,4,leaveoverview"
         ];
       };
-      extraConfig = "source-optional=~/.config/mango/power.conf";
+      # Mango source paths are literal filenames, not shell-quoted strings.
+      extraConfig = lib.optionalString powerBlurEnabled "source-optional=${config.xdg.configHome}/mango/power.conf";
     };
   };
 }

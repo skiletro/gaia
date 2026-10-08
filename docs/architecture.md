@@ -60,8 +60,10 @@ Declared hosts: `eris`, `keres`, `moirai`, `hemera`, `iso`.
 
 `core/` contains configuration that every host imports. Infrastructure is under
 `core/infra/`, shared helpers and options are under `core/utils/`, and always-on
-styling is under `core/system/`. Core defines options such as `gaia.state` and
-`gaia.autoStart`; hosts can set these without enabling another module.
+styling is under `core/system/`. Core defines options such as `gaia.state`,
+`gaia.autoStart`, and `gaia.device`; hosts can set these without enabling another
+module. Device options describe the host role, battery policy, and monitors; see
+[Device policy and host monitors](bundle-reference.md#device-policy).
 
 `bundles/` contains opt-in features grouped under `programs`, `services`,
 `system`, and `desktops`. Every bundle lives at
@@ -82,8 +84,9 @@ needed.
 `hosts/<host>/gaia.nix` enables the bundles that host should have, for example
 `gaia.programs.git.enable = true;`. `hosts/<host>/hardware.nix` is machine
 specific. Hosts that run extra services keep them here too, see `hosts/keres/`
-for examples. The `iso` host also has `hosts/iso/installer.nix`, which builds a
-disko installer image.
+for examples. `hosts/<host>/monitors.nix` declares device monitor profiles rather
+than embedding hardware identities in desktop bundles. The `iso` host also has
+`hosts/iso/installer.nix`, which builds a disko installer image.
 
 ## Packages
 

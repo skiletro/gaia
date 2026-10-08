@@ -1,5 +1,6 @@
 {
   gaia = {
+    device.type = "installer";
     programs = {
       # keep-sorted start
       git.enable = true;

@@ -45,6 +45,11 @@ order is enforced. Keep entries sorted as you edit them. This applies to
   feature selection there.
 - `gaia.state.system` sets the system state version. `gaia.state.home` defaults
   to it when unset.
+- Declare the host role with `gaia.device.type` in `hosts/<host>/gaia.nix`.
+  Battery policy defaults on for laptops with Noctalia or Mango; hardware
+  tuning and power-daemon selection remain explicit.
+- Declare displays with `gaia.device.monitors` in `hosts/<host>/monitors.nix`.
+  Keep physical monitor identities out of shared desktop bundles.
 
 ## Generated Files
 
