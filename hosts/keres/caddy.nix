@@ -78,7 +78,7 @@
                     <div>
                       <h1>warm.vodka</h1>
                       <ul>
-                        ${listElem "sso" "sign in with methanol"}
+                        ${listElem "sso" "manage your methanol account"}
                         ${listBreak}
                         ${builtins.concatStringsSep "" (map (x: listElem x x) deployments)}
                       </ul>
