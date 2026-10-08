@@ -9,6 +9,7 @@
       "mollysocket"
       "navidrome"
       "wakapi"
+      "wizarr"
       # keep-sorted end
     ];
     listElem = subdomain: text:
