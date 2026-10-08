@@ -51,6 +51,7 @@
       rio.enable = true;
       rustdesk.enable = true;
       signal.enable = true;
+      slimevr.enable = true;
       sonora.enable = true;
       starship.enable = true;
       steam.enable = true;
