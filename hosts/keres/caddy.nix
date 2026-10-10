@@ -8,6 +8,7 @@
       "mollysocket"
       "navidrome"
       "owncast"
+      "romm"
       "wakapi"
       "wizarr"
       # keep-sorted end
