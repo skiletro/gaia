@@ -3,12 +3,22 @@
   inputs,
   ...
 }: {
-  nixos = {config, ...}: {
+  nixos = {
+    config,
+    pkgs,
+    ...
+  }: {
     imports = [inputs.helium.nixosModules.default];
+
+    nixpkgs.overlays = [inputs.helium.overlays.default];
 
     programs.helium = {
       enable = true;
-      flags = ["--ozone-platform-hint=auto"];
+      package = pkgs.helium-wv;
+      flags = [
+        "--ozone-platform-hint=auto"
+        "--enable-features=WaylandUnscaledTouchpadScrolling"
+      ];
       policies = let
         extensions = {
           # keep-sorted start
