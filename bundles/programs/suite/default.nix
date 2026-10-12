@@ -33,6 +33,7 @@
         gnome-weather
         orca
         seahorse
+        showtime
         simple-scan
         snapshot
         totem
@@ -43,13 +44,13 @@
 
     environment.systemPackages = with pkgs; [
       # keep-sorted start
-      adwaita-icon-theme # fixes some missing icons
-      adwaita-icon-theme-legacy # fixes some missing icons
       file-roller # archive manager (just use ouch on cli)
-      gapless # music player
       gparted
+      imv
       libheif # nautilus heic img preview
       libheif.out # nautilus heic img preview
+      mpv
+      zathura
       # keep-sorted end
     ];
   };
@@ -57,16 +58,24 @@
   home-manager = {
     xdg.mimeApps = {
       enable = true;
-      defaultApplications = {
-        "inode/directory" = "org.gnome.Nautilus.desktop";
-        "application/zip" = "org.gnome.FileRoller.desktop";
+      defaultApplications = let
+        imageViewer = "imv.desktop";
+        videoPlayer = "mpv.desktop";
+        audioPlayer = "mpv.desktop";
+      in {
+        # keep-sorted start
         "application/pdf" = "org.gnome.Papers.desktop";
-        "image/png" = "org.gnome.Loupe.desktop";
-        "image/jpeg" = "org.gnome.Loupe.desktop";
-        "audio/flac" = "org.gnome.Decibels.desktop";
-        "video/mp4" = "org.gnome.Showtime.desktop";
-        "video/mov" = "org.gnome.Showtime.desktop";
+        "application/zip" = "org.gnome.FileRoller.desktop";
+        "audio/flac" = audioPlayer;
+        "image/gif" = imageViewer;
+        "image/jpeg" = imageViewer;
+        "image/png" = imageViewer;
+        "image/webp" = imageViewer;
+        "inode/directory" = "org.gnome.Nautilus.desktop";
         "text/plain" = "org.gnome.TextEditor.desktop";
+        "video/mov" = videoPlayer;
+        "video/mp4" = videoPlayer;
+        # keep-sorted end
       };
     };
   };
