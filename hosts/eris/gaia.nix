@@ -27,6 +27,7 @@
     };
     programs = {
       # keep-sorted start
+      artcraft.enable = true;
       broot.enable = true;
       btop.enable = true;
       devenv.enable = true;
@@ -44,7 +45,6 @@
       nu.enable = true;
       obs.enable = true;
       omp.enable = true;
-      photocraft.enable = true;
       proton.enable = true;
       pwa.enable = true;
       qbittorrent.enable = true;

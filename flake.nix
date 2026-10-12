@@ -3,6 +3,11 @@
 
   inputs = {
     # keep-sorted start block=yes newline_separated=yes
+    artcraft = {
+      url = "github:Devitek/artcraft-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     asahix.url = "github:warm-vodka/asahix";
 
     bundle.url = "github:different-name/bundle-of-nix";
@@ -74,7 +79,6 @@
       url = "github:kaylorben/nixcord";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        nixpkgs-nixcord.follows = "nixpkgs";
         home-manager.follows = "home-manager";
         nix-darwin.follows = "";
         treefmt-nix.follows = "";

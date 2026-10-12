@@ -140,32 +140,13 @@ in {
       inherit package;
       systemd.enable = false; # use uwsm instead
 
-      autostart_sh =
-        # sh
-        ''
-          # Hot reload. home-manager replaces ~/.config/mango/config.conf with a
-          # symlink to a new store path on every switch. Watch the directory and
-          # dispatch reload_config so mango picks the new file up without a
-          # restart, the way niri reloads its config automatically.
-          (
-            ${lib.getExe' pkgs.inotify-tools "inotifywait"} -m -q \
-              -e close_write,moved_to,create --format '%f' \
-              "$HOME/.config/mango" |
-              while read -r changed; do
-                if [ "$changed" = "config.conf" ]; then
-                  sleep 0.3
-                  mmsg dispatch reload_config
-                fi
-              done
-          ) &
-        '';
-
       settings = {
         # Behaviour
         focus_on_activate = 1;
-        sloppyfocus = 1; # focus-follows-mouse
+        sloppy_focus = 1; # focus-follows-mouse
         tag_num = 9;
-        warpcursor = 0;
+        warp_cursor = 0;
+        auto_reload_config = 1;
 
         # Input
         xkb_rules_layout = "gb";
@@ -185,32 +166,33 @@ in {
 
         # Cursor
         cursor_hide_on_keypress = 1; # hide-when-typing
+        disable_middle_paste = 1;
 
         # Appearance / layout
-        gappih = 6;
-        gappiv = 6;
-        gappoh = 6;
-        gappov = 6;
-        borderpx = 1;
+        gap_inner_horizontal = 6;
+        gap_inner_vertical = 6;
+        gap_outer_horizontal = 6;
+        gap_outer_vertical = 6;
+        border_px = 1;
         border_radius = 6;
-        rootcolor = "0x00000000"; # transparent background (noctalia draws it)
+        root_color = "0x00000000"; # transparent background (noctalia draws it)
 
         # Dwindle is the layout on every tag. Split axis follows the focused
         # window's shape (wide: side-by-side, tall: stacked); 1 puts the new
         # window to the right or below, never left, above, or cursor-dependent.
-        dwindle_hsplit = 1;
-        dwindle_vsplit = 1;
+        dwindle_horizontal_split = 1;
+        dwindle_vertical_split = 1;
 
-        focuscolor = opaque colors.base0D;
-        bordercolor = opaque colors.base03;
-        urgentcolor = opaque colors.base08;
-        dropcolor = withAlpha "55" colors.base0D;
-        splitcolor = opaque colors.base09;
-        maximizescreencolor = opaque colors.base0B;
-        scratchpadcolor = opaque colors.base0C;
-        globalcolor = opaque colors.base0A;
-        overlaycolor = opaque colors.base0E;
-        shadowscolor = opaque colors.base00;
+        focus_color = opaque colors.base0D;
+        border_color = opaque colors.base03;
+        urgent_color = opaque colors.base08;
+        drop_color = withAlpha "55" colors.base0D;
+        split_color = opaque colors.base09;
+        maximized_screen_color = opaque colors.base0B;
+        scratchpad_color = opaque colors.base0C;
+        global_color = opaque colors.base0A;
+        overlay_color = opaque colors.base0E;
+        shadows_color = opaque colors.base00;
 
         # Overview jump labels
         jump_label_decorate_bg_color = opaque colors.base01;
@@ -274,46 +256,46 @@ in {
         animation_curve_tag = "0.46,1.0,0.29,1";
         animation_curve_close = "0.08,0.92,0,1";
         animation_curve_focus = "0.46,1.0,0.29,1";
-        animation_curve_opafadeout = "0.5,0.5,0.5,0.5";
-        animation_curve_opafadein = "0.46,1.0,0.29,1";
+        animation_curve_opacity_fade_out = "0.5,0.5,0.5,0.5";
+        animation_curve_opacity_fade_in = "0.46,1.0,0.29,1";
 
         # Environment
         env = ["NIXOS_OZONE_WL,1"];
 
         # Dwindle everywhere; tag 4 uses the scroller layout, the closest
         # thing to niri's scrolling layout, on both monitors.
-        tagrule = [
+        tag_rule = [
           "id:*,layout_name:dwindle"
         ];
 
-        monitorrule = lib.mkDefault monitorRules;
+        monitor_rule = lib.mkDefault monitorRules;
 
-        windowrule = [
+        window_rule = [
           # Noctalia settings window
-          "isfloating:1,width:1080,height:920,appid:dev.noctalia.Noctalia"
+          "is_floating:1,width:1080,height:920,app_id:dev.noctalia.Noctalia"
 
           # Steam notification toasts, bottom-right
-          "isfloating:1,offsetx:25,offsety:25,title:^notificationtoasts_\\d+_desktop$,appid:steam"
+          "is_floating:1,offset_x:25,offset_y:25,title:^notificationtoasts_\\d+_desktop$,app_id:steam"
 
           # Portals
-          "isfloating:1,appid:org\\.freedesktop\\.impl\\.portal\\.desktop\\.gnome"
-          "isfloating:1,appid:xdg-desktop-portal-gtk"
+          "is_floating:1,app_id:org\\.freedesktop\\.impl\\.portal\\.desktop\\.gnome"
+          "is_floating:1,app_id:xdg-desktop-portal-gtk"
 
           # File dialogs
-          "isfloating:1,title:^(Open File)(.*)$"
-          "isfloating:1,title:^(Select a File)(.*)$"
-          "isfloating:1,title:^(Open Folder)(.*)$"
-          "isfloating:1,title:^(Save As)(.*)$"
-          "isfloating:1,title:^(Library)(.*)$"
-          "isfloating:1,title:^(File Upload)(.*)$"
-          "isfloating:1,title:^(.*)(wants to save)$"
-          "isfloating:1,title:^(.*)(wants to open)$"
+          "is_floating:1,title:^(Open File)(.*)$"
+          "is_floating:1,title:^(Select a File)(.*)$"
+          "is_floating:1,title:^(Open Folder)(.*)$"
+          "is_floating:1,title:^(Save As)(.*)$"
+          "is_floating:1,title:^(Library)(.*)$"
+          "is_floating:1,title:^(File Upload)(.*)$"
+          "is_floating:1,title:^(.*)(wants to save)$"
+          "is_floating:1,title:^(.*)(wants to open)$"
 
           # Apps
-          "isfloating:1,appid:crashreporter"
-          "isfloating:1,appid:org\\.gnome\\.FileRoller"
-          "isfloating:1,appid:org\\.gnome\\.NautilusPreviewer"
-          "isfloating:1,appid:Emulator"
+          "is_floating:1,app_id:crashreporter"
+          "is_floating:1,app_id:org\\.gnome\\.FileRoller"
+          "is_floating:1,app_id:org\\.gnome\\.NautilusPreviewer"
+          "is_floating:1,app_id:Emulator"
         ];
 
         bind =
@@ -404,7 +386,7 @@ in {
         ];
       };
       # Mango source paths are literal filenames, not shell-quoted strings.
-      extraConfig = lib.optionalString powerBlurEnabled "source-optional=${config.xdg.configHome}/mango/power.conf";
+      extraConfig = lib.optionalString powerBlurEnabled "source_optional=${config.xdg.configHome}/mango/power.conf";
     };
   };
 }

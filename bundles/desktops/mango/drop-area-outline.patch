@@ -174,19 +174,21 @@
  	if (!c->need_output_flush)
 --- a/src/input/pointer.c
 +++ b/src/input/pointer.c
-@@ -1088,9 +1088,10 @@
- 				closet_drop_client != server.drop_client) {
- 				server.drop_client->enable_drop_area_draw = false;
- 				client_set_drop_area(server.drop_client);
-+				/* Preserve the previous guide while the new target initializes. */
-+				closet_drop_client->enable_drop_area_draw = true;
-+				client_set_drop_area(closet_drop_client);
- 				server.drop_client = closet_drop_client;
--				server.drop_client->enable_drop_area_draw = true;
--				client_set_drop_area(server.drop_client);
- 			} else if (closet_drop_client) {
- 				server.drop_client = closet_drop_client;
- 				server.drop_client->enable_drop_area_draw = true;
+@@ -1349,11 +1349,12 @@
+		if (closet_drop_client && server.drop_client &&
+			closet_drop_client != server.drop_client) {
+			server.drop_client->enable_drop_area_draw = false;
+			client_set_drop_area(server.drop_client);
++			/* Preserve the previous guide while the new target initializes. */
++			closet_drop_client->enable_drop_area_draw = true;
++			client_set_drop_area(closet_drop_client);
+			server.drop_client = closet_drop_client;
+-			server.drop_client->enable_drop_area_draw = true;
+-			client_set_drop_area(server.drop_client);
+		} else if (closet_drop_client) {
+			server.drop_client = closet_drop_client;
+			server.drop_client->enable_drop_area_draw = true;
+			client_set_drop_area(server.drop_client);
 --- a/src/manage/client.c
 +++ b/src/manage/client.c
 @@ -2185,7 +2185,10 @@
