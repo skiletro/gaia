@@ -14,6 +14,27 @@
         },
         "version": "macos-26-20260722-484daf4e"
     },
+    "broadcast-box": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "broadcast-box",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "glimesh",
+            "repo": "broadcast-box",
+            "rev": "v2.0.2",
+            "sha256": "sha256-5Sk2dKIiwthZv9/cI+++ix0VAcxpSsoj8jsHZ3G+pHQ=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "v2.0.2"
+    },
     "modern-minimal-ui-sounds": {
         "cargoLock": null,
         "date": null,

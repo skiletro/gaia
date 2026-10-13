@@ -9,3 +9,7 @@ src.github = "cadecomposer/modern-minimal-ui-sounds"
 [proton-cachyos_x86_64_v3]
 fetch.url = "https://github.com/CachyOS/proton-cachyos/releases/download/$ver/proton-$ver-x86_64_v3.tar.xz"
 src.github = "CachyOS/proton-cachyos"
+
+[broadcast-box]
+fetch.github = "glimesh/broadcast-box"
+src.github = "glimesh/broadcast-box"

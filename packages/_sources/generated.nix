@@ -14,6 +14,17 @@
       sha256 = "sha256-43x69iZaxKCvbVe8ZehhCad22ZZug0MzRVf2PaSCUW8=";
     };
   };
+  broadcast-box = {
+    pname = "broadcast-box";
+    version = "v2.0.2";
+    src = fetchFromGitHub {
+      owner = "glimesh";
+      repo = "broadcast-box";
+      rev = "v2.0.2";
+      fetchSubmodules = false;
+      sha256 = "sha256-5Sk2dKIiwthZv9/cI+++ix0VAcxpSsoj8jsHZ3G+pHQ=";
+    };
+  };
   modern-minimal-ui-sounds = {
     pname = "modern-minimal-ui-sounds";
     version = "V1.2";
