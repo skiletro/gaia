@@ -2,30 +2,16 @@
   lib,
   buildGoModule,
   buildNpmPackage,
-  fetchNpmDeps,
-  nodejs,
   makeWrapper,
   sources,
   ...
 }: let
   inherit (sources.broadcast-box) pname version src;
-  npmDeps = fetchNpmDeps {
-    name = "${pname}-web-${version}-npm-deps";
-    src = "${src}/web";
-    hash = "sha256-THUwDCbOXc9kUVYcqtooLY76vjX72kiz78YOlAGAuuY=";
-    # v2.0.2's lockfile omits registry URLs and integrity for many packages.
-    postPatch = ''
-      ${lib.getExe nodejs} ${./resolve-lock.mjs}
-    '';
-  };
   frontend = buildNpmPackage {
     pname = "${pname}-web";
     inherit version;
     src = "${src}/web";
-    inherit npmDeps;
-    postPatch = ''
-      cp ${npmDeps}/package-lock.json package-lock.json
-    '';
+    npmDepsHash = "sha256-wIEsiJI9SVwMEIAOW5Mubg8yyPXlwTEKNQGmSvey4MY=";
     installPhase = ''
       runHook preInstall
       mkdir -p $out
@@ -36,7 +22,7 @@
 in
   buildGoModule {
     inherit pname version src;
-    vendorHash = "sha256-3/ZuNHU1MJD5ew7abWU81EF/G2fJ6eQLslSEnv7m+Xg=";
+    vendorHash = "sha256-YHFPZuZlgPrYo072pBU47vfGKwjr62YPCT5S3gAjhuI=";
     proxyVendor = true;
     subPackages = ["."];
 

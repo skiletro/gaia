@@ -16,7 +16,7 @@
     },
     "broadcast-box": {
         "cargoLock": null,
-        "date": null,
+        "date": "2026-09-29",
         "extract": null,
         "name": "broadcast-box",
         "passthru": null,
@@ -26,14 +26,14 @@
             "fetchSubmodules": false,
             "leaveDotGit": false,
             "name": null,
-            "owner": "glimesh",
+            "owner": "Glimesh",
             "repo": "broadcast-box",
-            "rev": "v2.0.2",
-            "sha256": "sha256-5Sk2dKIiwthZv9/cI+++ix0VAcxpSsoj8jsHZ3G+pHQ=",
+            "rev": "17812798c2922d6f03f12f17fda110d4d474d44d",
+            "sha256": "sha256-eV78eskw8n+tPnjCERmtF4UFImjsU9UcvxfmW1cOgRo=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v2.0.2"
+        "version": "17812798c2922d6f03f12f17fda110d4d474d44d"
     },
     "modern-minimal-ui-sounds": {
         "cargoLock": null,
