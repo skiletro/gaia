@@ -7,7 +7,6 @@
       "miniflux"
       "mollysocket"
       "navidrome"
-      "owncast"
       "romm"
       "wakapi"
       "wizarr"
