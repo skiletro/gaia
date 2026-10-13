@@ -47,6 +47,11 @@
         # but caddy terminates TLS in front of it
         ROMM_BASE_URL = "https://${subdomain}.${domain}";
         ROMM_SESSION_SECURE_COOKIE = "true";
+        HASHEOUS_API_ENABLED = "true";
+        HLTB_API_ENABLED = "true";
+        LAUNCHBOX_API_ENABLED = "true";
+        ENABLE_SCHEDULED_UPDATE_LAUNCHBOX_METADATA = "true";
+        ENABLE_SCHEDULED_RETROACHIEVEMENTS_PROGRESS_SYNC = "true";
       };
     };
 
@@ -62,8 +67,6 @@
           "romm-igdb-client-id"
           "romm-igdb-client-secret"
           "romm-retroachievements-api-key"
-          "romm-screenscraper-password"
-          "romm-screenscraper-user"
           "romm-steamgriddb-api-key"
           # keep-sorted end
         ]);
@@ -75,8 +78,6 @@
       in ''
         IGDB_CLIENT_ID=${secret."romm-igdb-client-id"}
         IGDB_CLIENT_SECRET=${secret."romm-igdb-client-secret"}
-        SCREENSCRAPER_USER=${secret."romm-screenscraper-user"}
-        SCREENSCRAPER_PASSWORD=${secret."romm-screenscraper-password"}
         RETROACHIEVEMENTS_API_KEY=${secret."romm-retroachievements-api-key"}
         STEAMGRIDDB_API_KEY=${secret."romm-steamgriddb-api-key"}
       '';
