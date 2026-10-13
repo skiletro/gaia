@@ -3,6 +3,7 @@
     domain = "warm.vodka";
     deployments = [
       # keep-sorted start
+      "box"
       "knot"
       "miniflux"
       "mollysocket"
