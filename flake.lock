@@ -1693,6 +1693,27 @@
         "type": "github"
       }
     },
+    "noctalia": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791997414,
+        "narHash": "sha256-qXLrYNQxe0YiKSWFkkngzn/GZChRc802bNdPwVzVriU=",
+        "owner": "skiletro",
+        "repo": "noctalia",
+        "rev": "bd25546255c14e1612aad2842f9cd31d5e1003ee",
+        "type": "github"
+      },
+      "original": {
+        "owner": "skiletro",
+        "ref": "mango-workspace-fix",
+        "repo": "noctalia",
+        "type": "github"
+      }
+    },
     "nur": {
       "inputs": {
         "flake-parts": [
@@ -1839,6 +1860,7 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_8",
         "nixpkgs-xr": "nixpkgs-xr",
+        "noctalia": "noctalia",
         "omp": "omp",
         "quickshell": "quickshell",
         "scenefx": "scenefx",

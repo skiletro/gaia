@@ -99,6 +99,11 @@
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    noctalia = {
+      url = "github:skiletro/noctalia/mango-workspace-fix"; # using fork to test fix
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     omp = {
       url = "github:can1357/oh-my-pi";
       inputs.nixpkgs.follows = "nixpkgs";
