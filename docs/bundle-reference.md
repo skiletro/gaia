@@ -130,12 +130,15 @@ Declare bundle dependencies with top-level `requires` metadata:
 
 A bare name resolves within the bundle's category, so Helix requires
 `gaia.programs.wakatime.enable`. Qualify cross-category dependencies with their
-category, such as `"services.noctalia"` or `"programs.vicinae"`.
+category, such as `"services.noctalia"` or `"programs.vicinae"`. Valid categories
+are inferred from directories directly under `bundles/`.
 
-Requirements do not enable dependencies. If an enabled bundle's requirement is
-disabled or missing, NixOS evaluation fails and names the required flags. A
-disabled bundle does not enforce its requirements. Set required bundle flags
-explicitly in each host configuration.
+Requirements do not enable dependencies. Bundlix checks them after bundle
+configuration has merged, for both the host and each user's configuration. If an
+enabled bundle's requirement is disabled or missing, bundle evaluation fails
+and names the required flags. A disabled bundle does not enforce its
+requirements. Set required bundle flags explicitly in the same configuration
+scope as the requiring bundle.
 
 ## Inputs and Packages
 

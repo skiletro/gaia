@@ -25,12 +25,14 @@ order is enforced. Keep entries sorted as you edit them. This applies to
   `core/infra/`, shared options and helpers in `core/utils/`, and always-on
   styling in `core/system/`.
 - Optional features belong under `bundles/<category>/<name>/default.nix`.
-  Categories are `programs`, `services`, `system`, and `desktops`.
+  Categories are inferred from directories under `bundles/`; current categories
+  are `programs`, `services`, `system`, and `desktops`.
 - Each bundle path generates a default-off option. For example,
   `bundles/programs/broot/default.nix` creates
   `gaia.programs.broot.enable`.
-- Do not call `bundleLib.mkEnableModule` from bundle files. The importer derives
-  and gates the option from the path.
+- Do not call `bundleLib.mkEnableModule` from bundle files. Bundlix auto-importing
+  derives and gates the option from the path; its prefix is configured in
+  `parts/hosts.nix`.
 - Declare bundle dependencies with `requires = [ "name" ]`; use `category.name`
   for cross-category dependencies. Requirements check flags but never enable
   bundles. Enable required bundles explicitly in each host.

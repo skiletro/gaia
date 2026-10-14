@@ -3,14 +3,10 @@
   lib,
   ...
 }: {
-  imports = [inputs.bundle.flakeModules.default];
+  imports = [inputs.bundlix.flakeModules.default];
 
   bundle = let
     user = "jamie";
-    wrapBundle = import ../lib/optional-bundle.nix {
-      inherit lib;
-      root = ../bundles;
-    };
 
     hosts = {
       eris = {
@@ -41,11 +37,16 @@
   in {
     inherit hosts;
 
+    autoImport = {
+      enable = true;
+      root = ../bundles;
+      prefix = ["gaia"];
+    };
+
     users.${user}.hosts =
       lib.mapAttrs (host: attrs: {
         imports = [
           (inputs.import-tree ../core)
-          ((inputs.import-tree.filter (file: lib.hasSuffix "/default.nix" file)).map wrapBundle ../bundles)
           (inputs.import-tree ../hosts/${host})
           {
             ${attrs.systemPlatform} = {

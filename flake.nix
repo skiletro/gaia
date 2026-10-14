@@ -10,7 +10,7 @@
 
     asahix.url = "github:warm-vodka/asahix";
 
-    bundle.url = "github:different-name/bundle-of-nix";
+    bundlix.url = "github:warm-vodka/bundlix";
 
     chromium-webapps = {
       url = "github:warm-vodka/nix-chromium-webapps";

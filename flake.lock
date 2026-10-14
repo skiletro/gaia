@@ -203,18 +203,18 @@
         "type": "github"
       }
     },
-    "bundle": {
+    "bundlix": {
       "locked": {
-        "lastModified": 1785483376,
-        "narHash": "sha256-0GaOvnQniHosReBsJ0oQAVgByEHKX7XtkIJzi1YKguc=",
-        "owner": "different-name",
-        "repo": "bundle-of-nix",
-        "rev": "638dadc3f31c88842ac54c40c29a9225f4c4e748",
+        "lastModified": 1792015628,
+        "narHash": "sha256-VpamVyRg4TIlCpGHLFd/By1NZCO6olfCzum2mPbkuUI=",
+        "owner": "warm-vodka",
+        "repo": "bundlix",
+        "rev": "2dcafb013988d8814b9cbb7058f0a1138fa732a5",
         "type": "github"
       },
       "original": {
-        "owner": "different-name",
-        "repo": "bundle-of-nix",
+        "owner": "warm-vodka",
+        "repo": "bundlix",
         "type": "github"
       }
     },
@@ -1840,7 +1840,7 @@
       "inputs": {
         "artcraft": "artcraft",
         "asahix": "asahix",
-        "bundle": "bundle",
+        "bundlix": "bundlix",
         "chromium-webapps": "chromium-webapps",
         "cursors": "cursors",
         "dcal": "dcal",

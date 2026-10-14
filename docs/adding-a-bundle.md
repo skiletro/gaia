@@ -2,8 +2,8 @@
 
 ## Create the Bundle Directory
 
-Create `bundles/<category>/<name>/default.nix`. Use one of the feature
-categories: `programs`, `services`, `system`, or `desktops`.
+Create `bundles/<category>/<name>/default.nix`. Categories are directories under
+`bundles/`; existing categories are `programs`, `services`, `system`, and `desktops`.
 
 For example:
 
@@ -11,11 +11,12 @@ For example:
 bundles/programs/broot/default.nix
 ```
 
-The path generates `gaia.programs.broot.enable`, defaulting to `false`. The
-import wrapper creates and gates the option. Bundle files contain feature
-configuration and optional `requires` metadata. Do not call
-`bundleLib.mkEnableModule` or declare an option path yourself. Another example
-is `bundles/programs/spotify/default.nix`.
+The path generates `gaia.programs.broot.enable`, defaulting to `false`. Bundlix
+creates and gates the option through the `bundle.autoImport` settings in
+[`parts/hosts.nix`](../parts/hosts.nix). Bundle files contain feature configuration
+and optional `requires` metadata. Do not call `bundleLib.mkEnableModule` or
+declare an option path yourself. Another example is
+`bundles/programs/spotify/default.nix`.
 
 Only `default.nix` files are bundle entry points. Keep helper modules and
 relative assets, such as package patches, beside that file. Import helper files

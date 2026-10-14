@@ -32,27 +32,25 @@ outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.impor
 
 ## Hosts
 
-`parts/hosts.nix` imports `inputs.bundle.flakeModules.default` (bundle-of-nix)
-and declares the hosts. Each host imports all modules under `core/`, the
-`default.nix` bundle entries under `bundles/`, and all modules under its host
-directory:
+`parts/hosts.nix` imports `inputs.bundlix.flakeModules.default` from
+[bundlix](https://github.com/warm-vodka/bundlix) and declares the hosts.
+Bundlix discovers optional bundle entries and generates their enable options
+with these settings:
 
 ```nix
-imports = let
-  wrapBundle = import ../lib/optional-bundle.nix {
-    inherit lib;
-    root = ../bundles;
-  };
-in [
-  (inputs.import-tree ../core)
-  ((inputs.import-tree.filter (file: lib.hasSuffix "/default.nix" file)).map wrapBundle ../bundles)
-  (inputs.import-tree ../hosts/${host})
-];
+bundle.autoImport = {
+  enable = true;
+  root = ../bundles;
+  prefix = ["gaia"];
+};
 ```
 
-The bundle wrapper derives each enable option from its path. Helper files next
-to a bundle, such as patches, are not imported as modules. Host files remain
-automatically imported by import-tree.
+Each host still imports all modules under `core/` and its host directory through
+import-tree. The bundle directory is handled by bundlix, not import-tree:
+`bundles/<category>/<name>/default.nix` generates
+`gaia.<category>.<name>.enable`, defaulting to `false`. Categories are inferred
+from directories under `bundles/`. Helper files next to an entry point, such as
+patches, are not automatically imported as modules.
 
 Declared hosts: `eris`, `keres`, `moirai`, `hemera`, `iso`.
 
