@@ -110,8 +110,9 @@ sessions are available.
 
 Enabled desktop bundles provide UWSM sessions for tuigreet. A greeter can offer
 multiple enabled sessions; with exactly one enabled desktop, it uses that
-bundle's UWSM session as the fallback. Autologin bypasses the chooser and
-requires exactly one enabled desktop.
+bundle's UWSM session as the fallback. Autologin bypasses the chooser; the
+[autologin bundle](../bundles/system/autologin/default.nix) selects the sole
+enabled `gaia.desktops.<name>` session and rejects zero or multiple enabled desktops.
 
 The Tailscale service bundle starts `tailscale systray` as a user service tied
 to `graphical-session.target`, so it follows the graphical session lifecycle

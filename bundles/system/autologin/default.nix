@@ -3,8 +3,12 @@
   config,
   ...
 }: let
-  select = import ../../../lib/desktop-selection.nix {inherit lib;};
-  desktop = select.single config.gaia.desktops;
+  # Autologin bypasses the session chooser, so the enabled desktop must be unique.
+  enabledDesktops = lib.filter (name: config.gaia.desktops.${name}.enable) (lib.attrNames config.gaia.desktops);
+  desktop =
+    if builtins.length enabledDesktops == 1
+    then builtins.head enabledDesktops
+    else throw "gaia.system.autologin.enable requires exactly one enabled gaia.desktops.<name>.enable";
 in {
   nixos = {
     config,
