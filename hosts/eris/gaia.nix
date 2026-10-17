@@ -59,6 +59,7 @@
       term-utils.enable = true;
       vial.enable = true;
       vicinae.enable = true;
+      vrc-utils.enable = true;
       wakatime.enable = true;
       wine.enable = true;
       wivrn.enable = true;
