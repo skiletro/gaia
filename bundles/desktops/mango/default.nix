@@ -144,7 +144,7 @@ in {
         # Behaviour
         focus_on_activate = 1;
         sloppy_focus = 1; # focus-follows-mouse
-        tag_num = 9;
+        tag_carousel = 1;
         warp_cursor = 0;
         auto_reload_config = 1;
 
