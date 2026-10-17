@@ -157,12 +157,12 @@ in {
 
         # Trackpad
         trackpad_accel_profile = 2;
-        trackpad_accel_speed = 0.2;
+        trackpad_accel_speed = 0.1;
         trackpad_natural_scrolling = 1;
         trackpad_disable_while_typing = 1;
         trackpad_click_method = 2;
         trackpad_scroll_factor = 1.1;
-        tap_to_click = 1;
+        tap_and_drag = 1;
 
         # Cursor
         cursor_hide_on_keypress = 1; # hide-when-typing
@@ -371,6 +371,9 @@ in {
         mousebind = [
           "SUPER,btn_left,moveresize,curmove"
           "SUPER,btn_right,moveresize,curresize"
+          # Trackpad-friendly resize fallback: hold Super+Shift and drag with
+          # the primary click when right-click dragging is awkward.
+          "SUPER+SHIFT,btn_left,moveresize,curresize"
         ];
 
         axisbind = [
