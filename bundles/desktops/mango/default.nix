@@ -162,7 +162,7 @@ in {
         trackpad_disable_while_typing = 1;
         trackpad_click_method = 2;
         trackpad_scroll_factor = 1.1;
-        tap_to_click = 0;
+        tap_to_click = 1;
 
         # Cursor
         cursor_hide_on_keypress = 1; # hide-when-typing
