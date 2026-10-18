@@ -1,0 +1,17 @@
+--- a/src/input/pointer.c
++++ b/src/input/pointer.c
+@@ -1780,14 +1780,8 @@
+-		// In overview mode, left click jumps and right click closes windows.
++		// In overview mode, left click jumps to a window.
+ 		if (server.selected_monitor && server.selected_monitor->isoverview &&
+ 			event->button == BTN_LEFT && c) {
+ 			toggle_overview(&(Arg){.tc = c});
+ 			return true;
+ 		}
+-
+-		if (server.selected_monitor && server.selected_monitor->isoverview &&
+-			event->button == BTN_RIGHT && c) {
+-			pending_kill_client(c);
+-			return true;
+-		}
+ 

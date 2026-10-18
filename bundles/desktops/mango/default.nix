@@ -17,6 +17,7 @@
         ./dwindle-aspect-threshold.patch
         ./drop-area-outline.patch
         ./ipc-watch-backpressure.patch
+        ./overview-no-right-click-close.patch
       ];
     postInstall = ''
       rm -f $out/share/wayland-sessions/mango.desktop
