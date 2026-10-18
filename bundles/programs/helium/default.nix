@@ -30,6 +30,7 @@
           protondb-for-steam = "ngonfifpkpeefnhelnfdkficaiihklid";
           refined-github = "hlepfoohegkhhmjieoechaddaejaokhf";
           sponsorblock = "mnjggcdmjocbbbhaepdhchncahnbgone";
+          steamdb = "kdbmhfkmnlmbkgbabkdealhhbfhlmmon";
           ublock-helium = "blockjmkbacgjkknlgpkjjiijinjdanf";
           # keep-sorted end
         };
