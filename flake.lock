@@ -1873,6 +1873,7 @@
         "tuigreet": "tuigreet",
         "vicinae-extensions": "vicinae-extensions",
         "wakatime-ls": "wakatime-ls",
+        "warm-vodka-landing-page": "warm-vodka-landing-page",
         "xwayland-satellite": "xwayland-satellite"
       }
     },
@@ -2560,6 +2561,26 @@
       "original": {
         "owner": "mrnossiom",
         "repo": "wakatime-ls",
+        "type": "github"
+      }
+    },
+    "warm-vodka-landing-page": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792435498,
+        "narHash": "sha256-sa++73h1XfCYENQnr4iCVjrf6LVCLQEkXF4spZ6qh/8=",
+        "owner": "warm-vodka",
+        "repo": "landing",
+        "rev": "4ad9065701729c4f13d8f6fc4e11b3c9decb8aec",
+        "type": "github"
+      },
+      "original": {
+        "owner": "warm-vodka",
+        "repo": "landing",
         "type": "github"
       }
     },

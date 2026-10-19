@@ -161,6 +161,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    warm-vodka-landing-page = {
+      url = "github:warm-vodka/landing";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     xwayland-satellite = {
       url = "github:Supreeeme/xwayland-satellite";
       inputs = {

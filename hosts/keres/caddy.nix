@@ -1,28 +1,25 @@
-{
+{inputs', ...}: {
   nixos = let
     domain = "warm.vodka";
-    deployments = [
+
+    links = builtins.mapAttrs (_: v: "https://${v}.${domain}") {
       # keep-sorted start
-      "box"
-      "knot"
-      "miniflux"
-      "mollysocket"
-      "navidrome"
-      "romm"
-      "wakapi"
-      "wizarr"
+      broadcast-box = "box";
+      git-repos = "git-repos";
+      miniflux = "miniflux";
+      mollysocket = "mollysocket";
+      navidrome = "navidrome";
+      romm = "romm";
+      tangled-knot = "knot";
+      wakapi = "wakapi";
+      wizarr = "wizarr";
       # keep-sorted end
-    ];
-    listElem = subdomain: text:
-    # html
-    ''
-      <li><a href="https://${subdomain}.warm.vodka/">${text}</a></li>
-    '';
-    listBreak =
-      # html
-      ''
-        <li>&ZeroWidthSpace;</li>
-      '';
+    };
+
+    accountLink = {
+      label = "manage your methanol account";
+      url = "https://sso.${domain}";
+    };
   in {
     services.caddy = {
       enable = true;
@@ -47,47 +44,11 @@
             }
 
             handle {
-              header Content-Type text/html
-              respond `${
-              # html
-              ''
-                <!DOCTYPE html>
-                <html lang="en">
-                  <head>
-                    <meta charset="UTF-8" />
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                    <title>warm.vodka</title>
-                    <style>
-                    @media (prefers-color-scheme: dark) {
-                      body { color: #fff; background: #000; }
-                      a { color: lightcoral !important; }
-                    }
-
-                    body {
-                      height: 100dvh; width: 100dvw;
-                      overflow: hidden;
-                      display: flex; justify-content: center; align-items: center;
-                    }
-
-                    div { font-family: sans-serif }
-                    div * { margin: 0; padding: 0 }
-                    div a { color: coral; text-decoration: none }
-                    div ul { list-style: none; text-align: center }
-                    </style>
-                  </head>
-                  <body>
-                    <div>
-                      <h1>warm.vodka</h1>
-                      <ul>
-                        ${listElem "sso" "manage your methanol account"}
-                        ${listBreak}
-                        ${builtins.concatStringsSep "" (map (x: listElem x x) deployments)}
-                      </ul>
-                    </div>
-                  </body>
-                </html>
-              ''
-            }`
+              root * ${(inputs'.warm-vodka-landing-page.packages.default.override {
+              title = domain;
+              inherit links accountLink;
+            })}
+              file_server
             }
           '';
       };
