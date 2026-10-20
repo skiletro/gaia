@@ -123,7 +123,7 @@
           reserve_space = false;
           show_dots = true;
           smart_auto_hide = true;
-          shadow = false;
+          radius = config.stylix.borderRadius;
         };
 
         # Idle behaviour (autolocking)
@@ -174,7 +174,10 @@
         };
 
         # Notifs
-        notification.layer = "overlay";
+        notification = {
+          border_width = 0.5;
+          layer = "overlay";
+        };
 
         # osd
         osd = {
@@ -183,6 +186,7 @@
             media = false;
             privacy = false;
           };
+          border_width = 0.5;
         };
 
         # Misc
@@ -246,7 +250,12 @@
           screen_corners.enabled = false;
           screenshot.save_to_file = false;
           launch_apps_as_systemd_services = true;
-          panel.shadow = false;
+          panel = {
+            shadow = false;
+            border_radius = 0.5;
+            control_center_placement = "floating";
+            open_near_click_control_center = true;
+          };
         };
       };
     };
