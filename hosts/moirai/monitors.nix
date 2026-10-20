@@ -10,5 +10,15 @@
       scale = 1.5;
       vrr = true;
     };
+    external-ultrawide = {
+      identity = "DP-1";
+      mode = {
+        width = 3440;
+        height = 1440;
+        refresh = 100;
+      };
+      scale = 1;
+      vrr = true;
+    };
   };
 }
