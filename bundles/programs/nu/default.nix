@@ -1,7 +1,12 @@
 {lib, ...}: {
   requires = ["starship"];
 
-  home-manager = {config, ...}: {
+  home-manager = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: {
     programs.nushell = {
       enable = true;
       extraConfig =
@@ -22,7 +27,22 @@
         ''
           ulimit -n 10240 # increase file descriptor limit
         '';
-      environmentVariables = {} // (builtins.mapAttrs (_: toString) config.home.sessionVariables);
+      # Home Manager values can contain POSIX shell expansions. Evaluate its
+      # session script before importing them, rather than loading literal strings.
+      extraEnv =
+        # nu
+        ''
+          load-env (
+            ^${lib.getExe pkgs.bash} -c ${lib.hm.nushell.toNushell {} ''
+            . ${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh
+            ${lib.getExe' pkgs.coreutils "env"} -0
+          ''}
+            | split row (char nul)
+            | parse --regex '(?s)^(?<name>[^=]+)=(?<value>.*)$'
+            | where name in ${lib.hm.nushell.toNushell {} (builtins.attrNames config.home.sessionVariables ++ ["__HM_SESS_VARS_SOURCED"])}
+            | transpose --header-row --as-record
+          )
+        '';
     };
 
     home.shell.enableNushellIntegration = true;

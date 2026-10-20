@@ -92,17 +92,8 @@ in {
   }: let
     colors = config.lib.stylix.colors;
 
-    # Stylix ships its KDE config (kdeglobals fonts, cursor theme, color scheme
-    # name) as an entry in XDG_CONFIG_DIRS via home-manager's xdg.systemDirs.
-    # That variable gets mangled by uwsm, which exports the HM-generated
-    # `${XDG_CONFIG_DIRS:+:$XDG_CONFIG_DIRS}` suffix as a literal string, so the
-    # entry becomes a path that never exists. Qt/KDE apps then fall back to
-    # default palettes and fonts and render broken (dark text on dark themes,
-    # wrong typeface). Copy the files into ~/.config, which always takes
-    # precedence over XDG_CONFIG_DIRS.
-    #
-    # NOTE: the mangled variable is still exported by the session (check with
-    # `echo $XDG_CONFIG_DIRS`); the copies below are why nothing breaks.
+    # Reuse Stylix's generated KDE defaults, then extend kdeglobals below with
+    # the icon theme, widget style, and embedded palette needed outside Plasma.
     stylixKdeConfig =
       lib.findFirst
       (dir: lib.hasSuffix "stylix-kde-config" dir)
@@ -294,8 +285,6 @@ in {
         + "\n"
         + formatConfig colorscheme
         + "\n";
-      "kcminputrc".source = "${stylixKdeConfig}/kcminputrc";
-      "kded5rc".source = "${stylixKdeConfig}/kded5rc";
     };
 
     gtk = let
