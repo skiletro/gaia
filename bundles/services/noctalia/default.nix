@@ -30,6 +30,8 @@
               "group:g1"
             ];
             capsule = true;
+            capsule_radius = config.stylix.borderRadius;
+            radius = config.stylix.borderRadius;
             capsule_fill = "surface";
             contact_shadow = false;
             margin_ends = 0;
@@ -90,8 +92,8 @@
             show_label = false;
           };
           workspaces = {
-            active_pill_size = 2.0;
             empty_color = "surface_variant";
+            active_pill_size = 1.5;
             inactive_pill_size = 1.5;
             occupied_color = "surface_variant";
             scale = 1.25;

@@ -130,8 +130,13 @@ can override it for the user. GTK window decorations, Mango window clipping,
 and Vicinae's launcher use the radius directly. GTK buttons and other in-app
 controls retain their own styling.
 
-Noctalia scales shell surfaces and controls proportionally: `0` is square,
-`12` gives its normal rounding, and `24` or higher gives twice its normal
+Noctalia's bar and capsule radii read `stylix.borderRadius` directly. Regular
+workspace pills inherit the bar's capsule radius, so no separate workspace
+radius override is needed. Active and inactive workspace pills both use a
+minimum length of `1.5` times their thickness to avoid expanding on focus.
+
+Other Noctalia shell surfaces and controls scale proportionally: `0` is square,
+`12` gives their normal rounding, and `24` or higher gives twice their normal
 rounding. Its screen-corner overlays are disabled so the display edges remain
 square. This option does not change the Niri or Hyprland bundles.
 
