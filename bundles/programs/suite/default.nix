@@ -49,13 +49,14 @@
       imv
       libheif # nautilus heic img preview
       libheif.out # nautilus heic img preview
-      mpv
-      zathura
       # keep-sorted end
     ];
   };
 
   home-manager = {
+    programs.mpv.enable = true;
+    programs.zathura.enable = true;
+
     xdg.mimeApps = {
       enable = true;
       defaultApplications = let
