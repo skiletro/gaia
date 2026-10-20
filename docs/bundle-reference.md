@@ -118,6 +118,29 @@ The Tailscale service bundle starts `tailscale systray` as a user service tied
 to `graphical-session.target`, so it follows the graphical session lifecycle
 instead of a compositor-specific autostart.
 
+## Window and Shell Corners
+
+[`core/system/styling.nix`](../core/system/styling.nix) extends Stylix locally
+with `stylix.borderRadius`, a non-negative integer in logical pixels. Its default
+is `0` (square corners). Set it in a host's bundle configuration:
+
+```nix
+nixos.stylix.borderRadius = 0;
+```
+
+Home Manager inherits the system value; `home-manager.stylix.borderRadius`
+can override it for the user. GTK window decorations, Mango window clipping,
+and Vicinae's launcher use the radius directly. GTK buttons and other in-app
+controls retain their own styling.
+
+Noctalia scales shell surfaces and controls proportionally: `0` is square,
+`12` gives its normal rounding, and `24` or higher gives twice its normal
+rounding. Its screen-corner overlays are disabled so the display edges remain
+square. This option does not change the Niri or Hyprland bundles.
+
+Rebuild and switch the host to apply changes; see [Build and deploy](development.md#build-and-deploy).
+Restart GTK applications so they load the updated stylesheet.
+
 ## Bundle Requirements
 
 Declare bundle dependencies with top-level `requires` metadata:

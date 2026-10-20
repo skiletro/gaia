@@ -1,9 +1,14 @@
 {
   self',
   inputs,
+  lib,
   ...
 }: {
-  home-manager = {pkgs, ...}: {
+  home-manager = {
+    config,
+    pkgs,
+    ...
+  }: {
     imports = [inputs.noctalia.homeModules.default];
 
     programs.noctalia = {
@@ -228,6 +233,7 @@
         audio.sound_theme = "Modern Minimal UI";
 
         shell = {
+          corner_radius_scale = lib.min 2.0 (config.stylix.borderRadius / 12.0);
           date_format = "%A, %-d %B %Y";
           password_style = "random";
           polkit_agent = true;
@@ -235,10 +241,7 @@
           show_location = false;
           time_format = "{:%I:%M%P}";
           greeter_sync.auto_sync = true;
-          screen_corners = {
-            enabled = true;
-            size = 20;
-          };
+          screen_corners.enabled = false;
           screenshot.save_to_file = false;
           launch_apps_as_systemd_services = true;
           panel.shadow = false;

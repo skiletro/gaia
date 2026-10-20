@@ -5,6 +5,17 @@
   lib,
   ...
 }: let
+  borderRadiusModule = {
+    options.stylix.borderRadius = lib.mkOption {
+      type = lib.types.ints.unsigned;
+      default = 0;
+      description = ''
+        Gaia's shared corner radius in logical pixels; zero makes corners square.
+        Noctalia uses a proportional scale, with 12 pixels corresponding to its
+        default rounding and values above 24 capped at twice its default.
+      '';
+    };
+  };
   sharedStylixConfig = config: pkgs: {
     base16Scheme = "${pkgs.base16-schemes}/share/themes/penumbra-dark-contrast-plus.yaml";
     polarity = "dark";
@@ -47,7 +58,7 @@ in {
     pkgs,
     ...
   }: {
-    imports = [inputs.stylix.nixosModules.stylix];
+    imports = [inputs.stylix.nixosModules.stylix borderRadiusModule];
 
     stylix =
       {
@@ -76,6 +87,7 @@ in {
     config,
     lib,
     pkgs,
+    osConfig,
     ...
   }: let
     colors = config.lib.stylix.colors;
@@ -222,6 +234,10 @@ in {
 
     formatConfig = data: lib.concatStringsSep "\n" (formatLines [] data);
   in {
+    imports = [borderRadiusModule];
+
+    stylix.borderRadius = lib.mkDefault osConfig.stylix.borderRadius;
+
     stylix.icons = {
       enable = true;
       package = pkgs.whitesur-icon-theme.override {
@@ -231,6 +247,15 @@ in {
       dark = "WhiteSur-dark";
       light = "WhiteSur-light";
     };
+
+    stylix.targets.gtk.extraCss = ''
+      window.background,
+      window.csd,
+      window.csd decoration,
+      window.csd .titlebar {
+        border-radius: ${toString config.stylix.borderRadius}px;
+      }
+    '';
 
     # Use KDE's Qt platform theme instead of qt6ct. qt6ct has no palette
     # integration (stylix enables `custom_palette` without writing any

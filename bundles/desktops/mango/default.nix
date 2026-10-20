@@ -175,7 +175,7 @@ in {
         gap_outer_horizontal = 6;
         gap_outer_vertical = 6;
         border_px = 1;
-        border_radius = 6;
+        border_radius = config.stylix.borderRadius;
         root_color = "0x00000000"; # transparent background (noctalia draws it)
 
         # Dwindle is the layout on every tag. Split axis follows the focused

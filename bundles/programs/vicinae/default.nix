@@ -21,7 +21,10 @@
           dark.icon_theme = config.stylix.icons.dark;
           light.icon_theme = config.stylix.icons.light;
         };
-        launcher_window.compact_mode.enabled = true;
+        launcher_window = {
+          compact_mode.enabled = true;
+          rounding = config.stylix.borderRadius;
+        };
         font.rendering = "native";
         providers = {
           "@Gelei/bluetooth-0".preferences.connectionToggleable = true;
