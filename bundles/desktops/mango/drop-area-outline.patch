@@ -199,7 +199,7 @@
 +	/* A sibling node keeps the moving guide above neighboring tiled windows. */
 +	c->droparea =
 +		wlr_scene_rect_create(c->scene->node.parent, 0, 0, config.dropcolor);
-+	c->droparea->node.data = c;
++	c->droparea->accepts_input = false;
  	wlr_scene_node_lower_to_bottom(&c->droparea->node);
  	wlr_scene_node_set_position(&c->droparea->node, 0, 0);
  	wlr_scene_node_set_enabled(&c->droparea->node, false);
