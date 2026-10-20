@@ -13,15 +13,36 @@
     user = "tangled-cgit";
     stateDir = "/var/lib/tangled-cgit";
     socket = config.services.fcgiwrap.instances.tangled-cgit.socket.address;
+    themeAssets = pkgs.writeTextDir "theme.css" (builtins.readFile ./theme.css);
+    readmePython = pkgs.python3.withPackages (ps: [ps.markdown ps.docutils ps.nh3]);
+    readmeFilter = pkgs.writeShellScript "tangled-cgit-readme" ''
+      exec ${readmePython}/bin/python3 ${./readme.py} "$@"
+    '';
+    headInclude = pkgs.writeText "tangled-cgit-head.html" ''
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="color-scheme" content="light dark">
+    '';
     cgitConfig = pkgs.writeText "tangled-cgitrc" ''
       root-title=warm.vodka repositories
       root-desc=Git repositories hosted on ${knot.server.hostname}
       virtual-root=/
+      css=/cgit.css
+      css=/theme.css
+      head-include=${headInclude}
       cache-size=0
       enable-http-clone=0
       enable-index-links=1
       enable-follow-links=1
       enable-blame=1
+      about-filter=${readmeFilter}
+      mimetype.png=image/png
+      mimetype.jpg=image/jpeg
+      mimetype.jpeg=image/jpeg
+      mimetype.gif=image/gif
+      mimetype.webp=image/webp
+      mimetype.avif=image/avif
+      mimetype.svg=image/svg+xml
+      ${lib.concatMapStringsSep "\n" (name: "readme=:${name}") knot.repo.readme}
       include=${stateDir}/repositories.cgitrc
     '';
     sandbox = {
@@ -68,7 +89,7 @@
           RestrictAddressFamilies = ["AF_UNIX" "AF_INET" "AF_INET6"];
           ExecStart = lib.escapeShellArgs [
             "${pkgs.python3}/bin/python3"
-            "${./tangled-cgit-index.py}"
+            "${./index.py}"
             "--repo-root"
             (toString knot.repo.scanPath)
             "--state-dir"
@@ -122,6 +143,13 @@
     };
 
     services.caddy.virtualHosts.${hostname}.extraConfig = ''
+      # About-page SVGs are repository content, not executable site assets.
+      @readmeSvg path_regexp readme_svg (?i)/about/.*[.]svg$
+      header @readmeSvg Content-Security-Policy "sandbox; default-src 'none'; style-src 'unsafe-inline'"
+      handle /theme.css {
+        root * ${themeAssets}
+        file_server
+      }
       @assets path /cgit.css /cgit.js /cgit.png /favicon.ico /robots.txt
       handle @assets {
         root * ${pkgs.cgit}/cgit
