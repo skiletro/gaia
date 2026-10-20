@@ -5,8 +5,11 @@
     pkgs,
     ...
   }: let
+    subdomain = "git";
+    domain = "warm.vodka";
+
     knot = config.services.tangled.knot;
-    hostname = "git-repos.warm.vodka";
+    hostname = "${subdomain}.${domain}";
     user = "tangled-cgit";
     stateDir = "/var/lib/tangled-cgit";
     socket = config.services.fcgiwrap.instances.tangled-cgit.socket.address;
