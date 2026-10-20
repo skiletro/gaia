@@ -8,30 +8,14 @@ install_override() {
 }
 
 apply_state() {
-  local on_battery="$1" mango_source
+  local on_battery="$1"
 
-  if [ -n "$noctalia_override" ]; then
-    if [ "$on_battery" = true ]; then
-      if ! cmp -s "$noctalia_battery" "$noctalia_override"; then
-        install_override "$noctalia_battery" "$noctalia_override"
-      fi
-    else
-      rm -f "$noctalia_override"
+  if [ "$on_battery" = true ]; then
+    if ! cmp -s "$noctalia_battery" "$noctalia_override"; then
+      install_override "$noctalia_battery" "$noctalia_override"
     fi
-  fi
-
-  if [ -n "$mango_override" ]; then
-    if [ "$on_battery" = true ]; then
-      mango_source="$mango_battery"
-    else
-      mango_source="$mango_ac"
-    fi
-    if ! cmp -s "$mango_source" "$mango_override"; then
-      install_override "$mango_source" "$mango_override"
-      # This file also seeds Mango's first config load. IPC can be unavailable
-      # during session startup or shutdown, without invalidating the policy.
-      "$mango_ipc" dispatch reload_config || true
-    fi
+  else
+    rm -f "$noctalia_override"
   fi
 }
 
@@ -54,18 +38,13 @@ case "${1:-}" in
     ;;
   --restore)
     apply_state false
-    if [ -n "$noctalia_override" ]; then
-      rm -f "$noctalia_override.tmp"
-    fi
-    if [ -n "$mango_override" ]; then
-      rm -f "$mango_override.tmp"
-    fi
+    rm -f "$noctalia_override.tmp"
     exit 0
     ;;
 esac
 
 # Subscribe before the initial query. Each event gets one authoritative battery
-# state shared by both consumers; neither consumer infers state from the event.
+# state rather than inferring it from the event.
 upower --monitor | {
   apply_policy
   while IFS= read -r _; do

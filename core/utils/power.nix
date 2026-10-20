@@ -5,9 +5,7 @@
 }: let
   power = config.gaia.device.power;
   noctaliaEnabled = config.gaia.services.noctalia.enable or false;
-  mangoEnabled = config.gaia.desktops.mango.enable or false;
-  policyEnabled = power.enable && (noctaliaEnabled || mangoEnabled);
-  mangoBlurEnabled = mangoEnabled && power.disableBlurOnBattery;
+  policyEnabled = power.enable && noctaliaEnabled;
   timeoutOption = default: description:
     lib.mkOption {
       type = lib.types.nullOr lib.types.ints.positive;
@@ -18,17 +16,12 @@ in {
     enable = lib.mkOption {
       type = lib.types.bool;
       default = config.gaia.device.type == "laptop";
-      description = "Apply battery power policy to enabled desktop consumers.";
+      description = "Apply battery idle policy to Noctalia when enabled.";
     };
     idle.battery = {
       lockTimeout = timeoutOption 300 "Battery lock timeout in seconds; null disables locking.";
       screenOffTimeout = timeoutOption 360 "Battery screen-off timeout in seconds; null disables screen-off.";
       suspendTimeout = timeoutOption 900 "Battery lock-and-suspend timeout in seconds; null disables suspension.";
-    };
-    disableBlurOnBattery = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Disable Mango window and layer blur while on battery.";
     };
   };
 
@@ -41,7 +34,6 @@ in {
       ...
     }: let
       idleOverride = "${config.xdg.configHome}/noctalia/zz-power-idle.toml";
-      mangoOverride = "${config.xdg.configHome}/mango/power.conf";
       batteryBehavior = timeout:
         {enabled = timeout != null;}
         // lib.optionalAttrs (timeout != null) {timeout = timeout * 1.0;};
@@ -52,45 +44,13 @@ in {
           lock-and-suspend = batteryBehavior power.idle.battery.suspendTimeout;
         };
       };
-      mangoBattery = pkgs.writeText "mango-battery-power.conf" ''
-        blur=0
-        blur_layer=0
-        blur_optimized=1
-      '';
-      mangoAC = pkgs.writeText "mango-ac-power.conf" ''
-        blur=1
-        blur_layer=1
-        blur_optimized=0
-      '';
       powerPolicy = pkgs.writeShellApplication {
         name = "gaia-power-policy";
         runtimeInputs = with pkgs; [coreutils diffutils systemd upower];
         text =
           lib.toShellVars {
-            noctalia_override =
-              if noctaliaEnabled
-              then idleOverride
-              else "";
-            noctalia_battery =
-              if noctaliaEnabled
-              then "${batteryIdle}"
-              else "";
-            mango_override =
-              if mangoBlurEnabled
-              then mangoOverride
-              else "";
-            mango_battery =
-              if mangoBlurEnabled
-              then "${mangoBattery}"
-              else "";
-            mango_ac =
-              if mangoBlurEnabled
-              then "${mangoAC}"
-              else "";
-            mango_ipc =
-              if mangoBlurEnabled
-              then lib.getExe' config.wayland.windowManager.mango.package "mmsg"
-              else "";
+            noctalia_override = idleOverride;
+            noctalia_battery = "${batteryIdle}";
           }
           + "\n"
           + builtins.readFile ./power.sh;
@@ -98,9 +58,9 @@ in {
     in {
       systemd.user.services.gaia-power-policy = {
         Unit = {
-          Description = "Apply host battery policy to desktop consumers";
+          Description = "Apply host battery idle policy to Noctalia";
           After = ["graphical-session.target"];
-          Before = lib.optional noctaliaEnabled "noctalia.service";
+          Before = ["noctalia.service"];
           PartOf = ["graphical-session.target"];
         };
         Service = {

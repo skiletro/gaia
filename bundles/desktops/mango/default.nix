@@ -5,7 +5,6 @@
   inputs',
   ...
 }: let
-  powerBlurEnabled = config.gaia.device.power.enable && config.gaia.device.power.disableBlurOnBattery;
   monitorRules = import ./monitors.nix {
     inherit lib;
     monitors = config.gaia.device.monitors;
@@ -174,7 +173,7 @@ in {
         gap_inner_vertical = 6;
         gap_outer_horizontal = 6;
         gap_outer_vertical = 6;
-        border_px = 1;
+        border_px = 2;
         border_radius = config.stylix.borderRadius;
         root_color = "0x00000000"; # transparent background (noctalia draws it)
 
@@ -223,15 +222,8 @@ in {
         scroller_prefer_overspread = 0;
         scroller_proportion_preset = "0.5,0.8,1.0";
 
-        # gaia-power-policy overrides these AC defaults when enabled.
-        blur = 1;
-        blur_layer = 1;
-        blur_optimized = 0;
-        blur_params_radius = 5;
-        blur_params_num_passes = 2;
-        blur_params_noise = 0.04;
-        blur_params_saturation = 1.0;
-        blur_params_contrast = 0.9;
+        blur = 0;
+        blur_layer = 0;
 
         # Window shadows (Noctalia draws its own layer shadows)
         shadows = 1;
@@ -389,8 +381,6 @@ in {
           "none,down,4,leaveoverview"
         ];
       };
-      # Mango source paths are literal filenames, not shell-quoted strings.
-      extraConfig = lib.optionalString powerBlurEnabled "source_optional=${config.xdg.configHome}/mango/power.conf";
     };
   };
 }

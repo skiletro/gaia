@@ -39,7 +39,6 @@ gaia.device = {
   type = "laptop";
   power = {
     enable = true; # defaults to true for laptops, false for other roles
-    disableBlurOnBattery = true;
     idle.battery = {
       lockTimeout = 300;
       screenOffTimeout = 360;
@@ -54,15 +53,13 @@ behavior. The values above are the defaults. On AC, Noctalia uses its ordinary
 bundle settings (lock after 600 seconds, screen off after 660 seconds, no
 automatic suspend). Native Noctalia settings remain the AC-policy override.
 
-When power policy and Noctalia or Mango are enabled, one
-`gaia-power-policy` user service follows the graphical session. It reads UPower's
-`OnBattery` property once per event and applies both consumers from that state:
-shorter Noctalia idle timeouts and disabled Mango window/layer blur on battery.
-Repeated states do not rewrite unchanged files or reload Mango. AC and service
-stop remove the Noctalia override and restore Mango blur. Set
-`disableBlurOnBattery = false` to leave Mango blur alone, or `enable = false`
-to disable the shared policy entirely. Headless hosts do not start the service,
-even when their role is `laptop`.
+When power policy and Noctalia are enabled, one `gaia-power-policy` user service
+follows the graphical session. It reads UPower's `OnBattery` property once per
+event and applies shorter Noctalia idle timeouts on battery. Repeated states
+do not rewrite unchanged files. AC and service stop remove the Noctalia override
+and restore its ordinary idle settings. Set `enable = false` to disable this
+policy entirely. Hosts without Noctalia do not start the service, even when
+their role is `laptop`.
 
 `core/utils/power.nix` defines options, generated policy files, and the service.
 `core/utils/power.sh` contains the watcher and state transitions as ordinary Bash.
@@ -137,6 +134,11 @@ Noctalia scales shell surfaces and controls proportionally: `0` is square,
 `12` gives its normal rounding, and `24` or higher gives twice its normal
 rounding. Its screen-corner overlays are disabled so the display edges remain
 square. This option does not change the Niri or Hyprland bundles.
+
+Mango uses 2-pixel window borders and disables window and layer blur on both
+AC and battery. Shared Stylix application, popup, and terminal opacity is `1.0`
+(fully opaque). Rio and Vicinae inherit their opacity from Stylix rather than
+using application-specific overrides.
 
 Rebuild and switch the host to apply changes; see [Build and deploy](development.md#build-and-deploy).
 Restart GTK applications so they load the updated stylesheet.

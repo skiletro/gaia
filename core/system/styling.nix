@@ -75,9 +75,9 @@ in {
         };
 
         opacity = {
-          applications = 0.85;
-          popups = 0.85;
-          terminal = 0.85;
+          applications = 1.0;
+          popups = 1.0;
+          terminal = 1.0;
         };
       }
       // (sharedStylixConfig config pkgs);
