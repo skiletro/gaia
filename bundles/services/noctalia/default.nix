@@ -1,5 +1,4 @@
 {
-  self',
   inputs,
   lib,
   ...
@@ -10,6 +9,8 @@
     ...
   }: {
     imports = [inputs.noctalia.homeModules.default];
+
+    home.packages = [pkgs.jq]; # Required by plugins.
 
     programs.noctalia = {
       enable = true;
@@ -205,17 +206,6 @@
           ];
         };
 
-        home.packages = with pkgs; [
-          # packages required by plugins
-
-          # keep-sorted start
-          jq
-          # keep-sorted end
-
-          # other packages
-          self'.packages.modern-minimal-ui-sounds
-        ];
-
         plugin_settings = {
           "ezequiel/mango_layouts" = {
             list_mode = true;
@@ -252,7 +242,6 @@
           launch_apps_as_systemd_services = true;
           panel = {
             shadow = false;
-            border_radius = 0.5;
             control_center_placement = "floating";
             open_near_click_control_center = true;
           };
