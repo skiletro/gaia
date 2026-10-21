@@ -1,6 +1,6 @@
 {lib, ...}: {
   nixos = {pkgs, ...}: {
-    environment.defaultPackages = lib.mkForce [pkgs.vim];
+    environment.defaultPackages = lib.mkForce [pkgs.helix];
 
     programs.nano.enable = false;
 
