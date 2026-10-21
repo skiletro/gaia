@@ -14,5 +14,7 @@
       "wezterm"
       # keep-sorted end
     ];
+
+    system.forbiddenDependenciesRegexes = ["/[0-9a-z]{32}-php(-|$)"];
   };
 }
