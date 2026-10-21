@@ -21,37 +21,9 @@ order is enforced. Keep entries sorted as you edit them. This applies to
 
 ## Core and Bundles
 
-- Always-on configuration belongs under `core/`. Infrastructure lives in
-  `core/infra/`, shared options and helpers in `core/utils/`, and always-on
-  styling in `core/system/`.
-- Optional features belong under `bundles/<category>/<name>/default.nix`.
-  Categories are inferred from directories under `bundles/`; current categories
-  are `programs`, `services`, `system`, and `desktops`.
-- Each bundle path generates a default-off option. For example,
-  `bundles/programs/broot/default.nix` creates
-  `gaia.programs.broot.enable`.
-- Do not call `bundleLib.mkEnableModule` from bundle files. Bundlix auto-importing
-  derives and gates the option from the path; its prefix is configured in
-  `parts/hosts.nix`.
-- Declare bundle dependencies with `requires = [ "name" ]`; use `category.name`
-  for cross-category dependencies. Requirements check flags but never enable
-  bundles. Enable required bundles explicitly in each host.
-- Only `default.nix` is imported as a bundle entry point. Keep helper Nix files
-  and relative assets, such as patches, next to it.
-- Enable bundles per host in `hosts/<host>/gaia.nix`, keeping sorted blocks
-  ordered. `gaia.desktops.mango.enable = true` enables Mango.
-- Greeters can offer multiple enabled desktop sessions. Autologin requires
-  exactly one enabled desktop.
-- Use a future `modules/` directory for reusable custom NixOS or Home Manager
-  modules if that becomes useful. Do not put always-on policy or optional
-  feature selection there.
-- `gaia.state.system` sets the system state version. `gaia.state.home` defaults
-  to it when unset.
-- Declare the host role with `gaia.device.type` in `hosts/<host>/gaia.nix`.
-  Battery policy defaults on for laptops with Noctalia or Mango; hardware
-  tuning and power-daemon selection remain explicit.
-- Declare displays with `gaia.device.monitors` in `hosts/<host>/monitors.nix`.
-  Keep physical monitor identities out of shared desktop bundles.
+See [Adding a bundle](adding-a-bundle.md) for module placement, bundle creation,
+and host enablement. The [Bundle reference](bundle-reference.md) covers
+dependencies, desktop selection, and shared device options.
 
 ## Generated Files
 

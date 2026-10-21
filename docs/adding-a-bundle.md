@@ -57,9 +57,7 @@ the dependency separately on each host. See
 [bundle-reference.md](bundle-reference.md#bundle-requirements).
 
 Always-on option definitions and shared configuration belong under `core/`,
-not in a bundle. Core modules do not need enable flags. A future `modules/`
-directory may hold reusable custom NixOS or Home Manager modules imported by
-core or bundles.
+not in a bundle. Core modules do not need enable flags.
 
 ## Enable on a Host
 
@@ -73,3 +71,11 @@ Desktop environments use the same rule. A host with Mango sets
 `gaia.desktops.mango.enable = true`. A greeter can offer multiple enabled
 desktop sessions. Autologin requires exactly one enabled desktop because it
 starts that session directly.
+
+## Examples
+
+- [Starship](../bundles/programs/starship/default.nix): a Home Manager program bundle.
+- [Tailscale](../bundles/services/tailscale/default.nix): system and user services,
+  including a sops-nix secret.
+- [Mango](../bundles/desktops/mango/default.nix): a desktop bundle with helper files
+  and relative assets.

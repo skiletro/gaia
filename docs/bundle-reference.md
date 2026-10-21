@@ -53,16 +53,11 @@ behavior. The values above are the defaults. On AC, Noctalia uses its ordinary
 bundle settings (lock after 600 seconds, screen off after 660 seconds, no
 automatic suspend). Native Noctalia settings remain the AC-policy override.
 
-When power policy and Noctalia are enabled, one `gaia-power-policy` user service
-follows the graphical session. It reads UPower's `OnBattery` property once per
-event and applies shorter Noctalia idle timeouts on battery. Repeated states
-do not rewrite unchanged files. AC and service stop remove the Noctalia override
-and restore its ordinary idle settings. Set `enable = false` to disable this
-policy entirely. Hosts without Noctalia do not start the service, even when
-their role is `laptop`.
-
-`core/utils/power.nix` defines options, generated policy files, and the service.
-`core/utils/power.sh` contains the watcher and state transitions as ordinary Bash.
+Battery timeouts apply when power policy and Noctalia are enabled and the
+graphical session is active. Returning to AC or stopping the policy service
+restores Noctalia's ordinary idle settings. Set `gaia.device.power.enable = false`
+to disable the policy. Hosts without Noctalia do not apply it, even when their
+role is `laptop`. See [`core/utils/power.nix`](../core/utils/power.nix) for the options.
 
 ## Host Monitors
 
@@ -111,10 +106,6 @@ bundle's UWSM session as the fallback. Autologin bypasses the chooser; the
 [autologin bundle](../bundles/system/autologin/default.nix) selects the sole
 enabled `gaia.desktops.<name>` session and rejects zero or multiple enabled desktops.
 
-The Tailscale service bundle starts `tailscale systray` as a user service tied
-to `graphical-session.target`, so it follows the graphical session lifecycle
-instead of a compositor-specific autostart.
-
 ## Window and Shell Corners
 
 [`core/system/styling.nix`](../core/system/styling.nix) extends Stylix locally
@@ -130,20 +121,10 @@ can override it for the user. GTK window decorations, Mango window clipping,
 and Vicinae's launcher use the radius directly. GTK buttons and other in-app
 controls retain their own styling.
 
-Noctalia's bar and capsule radii read `stylix.borderRadius` directly. Regular
-workspace pills inherit the bar's capsule radius, so no separate workspace
-radius override is needed. Active and inactive workspace pills both use a
-minimum length of `1.5` times their thickness to avoid expanding on focus.
-
-Other Noctalia shell surfaces and controls scale proportionally: `0` is square,
+Noctalia's bar and capsule radii use `stylix.borderRadius` directly. Other
+Noctalia shell surfaces and controls scale proportionally: `0` is square,
 `12` gives their normal rounding, and `24` or higher gives twice their normal
-rounding. Its screen-corner overlays are disabled so the display edges remain
-square. This option does not change the Niri or Hyprland bundles.
-
-Mango uses 2-pixel window borders and disables window and layer blur on both
-AC and battery. Shared Stylix application, popup, and terminal opacity is `1.0`
-(fully opaque). Rio and Vicinae inherit their opacity from Stylix rather than
-using application-specific overrides.
+rounding. This option does not change the Niri or Hyprland bundles.
 
 Rebuild and switch the host to apply changes; see [Build and deploy](development.md#build-and-deploy).
 Restart GTK applications so they load the updated stylesheet.
@@ -178,29 +159,5 @@ scope as the requiring bundle.
 - Packages built in this flake: `self'.packages.proton-cachyos_x86_64_v3`
 - New flake inputs go in `flake.nix`; keep the sorted list intact
 
-## Package Sources
-
-For packages that need a source, add a directory under `packages/<name>/` with a
-matching section in `packages/nvfetcher.toml`:
-
-```toml
-[proton-cachyos_x86_64_v3]
-fetch.url = "https://github.com/CachyOS/proton-cachyos/releases/download/$ver/proton-$ver-x86_64_v3.tar.xz"
-src.github = "CachyOS/proton-cachyos"
-```
-
-Then regenerate sources and reference the package as `self'.packages.<name>`:
-
-```sh
-just update-sources
-```
-
-## Formatting
-
-`treefmt` runs alejandra, deadnix, keep-sorted, nixf-diagnose, statix and
-toml-sort. keep-sorted enforces the ordering of sorted blocks, so keep those
-lists sorted by hand too.
-
-```sh
-nix fmt
-```
+See [Adding and updating packages](package-examples.md) for source management
+and [Formatting](conventions.md#formatting) for formatter usage.

@@ -73,10 +73,6 @@ relative assets, such as patches, next to `default.nix`. See
 [adding-a-bundle.md](adding-a-bundle.md) and
 [bundle-reference.md](bundle-reference.md).
 
-A future `modules/` directory can hold reusable custom NixOS and Home Manager
-modules. Core configuration and feature bundles can import those modules as
-needed.
-
 ## Host Config
 
 `hosts/<host>/gaia.nix` enables the bundles that host should have, for example

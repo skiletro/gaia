@@ -8,7 +8,7 @@ configuration. Start with the task you need to do:
 - **Set up a machine or understand how the flake fits together:** [Repository
   structure](architecture.md)
 - **Enable or add a feature:** [Adding a bundle](adding-a-bundle.md), then
-  [Bundle reference](bundle-reference.md). See [active bundle examples](bundle-examples.md).
+  [Bundle reference](bundle-reference.md).
 - **Add or update a package:** [Package examples](package-examples.md)
 - **Build, deploy, update inputs, or edit secrets:** [Development](development.md)
 - **Understand formatting and configuration rules:** [Conventions](conventions.md)
