@@ -43,10 +43,8 @@
     };
     image = let
       wallpaper = pkgs.fetchurl {
-        # tags: sky, rain, sunset, clouds
-        # src: https://wallhaven.cc/w/e8v9j8
-        url = "https://raw.githubusercontent.com/skiletro/wallpapers/7a44be7d7ce96aaa74aaa4814b8fc56d82c9f318/wallhaven-e8v9j8.jpg";
-        sha256 = "0ibcf91c0pagj94zx7iw8xcalrcw2cyxba50fr5kcq937pkf2iq1";
+        url = "https://raw.githubusercontent.com/skiletro/wallpapers/610f2c86826af1f0e826fec09fd9389022382d4f/wallhaven-zm9d9w.jpg";
+        sha256 = "12y62ylb6jlwvqx4l6q2wycz1nbz857w58fnprkg7fcg9q32di5s";
       };
     in
       pkgs.runCommand "output.png" {}
