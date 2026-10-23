@@ -306,6 +306,9 @@ in {
             "SUPER,Delete,spawn,noctalia msg session lock"
             "SUPER+SHIFT,S,spawn,noctalia msg screenshot-region"
 
+            # Forward delete on keyboards without a dedicated Delete key
+            "SUPER,BackSpace,spawn,${lib.getExe pkgs.wtype} -k Delete"
+
             # Window management
             "SUPER+SHIFT,Q,killclient"
             "SUPER+SHIFT,F,togglemaximizescreen"
