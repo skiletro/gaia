@@ -17,7 +17,26 @@
     };
   };
   sharedStylixConfig = config: pkgs: {
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/penumbra-dark-contrast-plus.yaml";
+    base16Scheme = {
+      scheme = "Catppuccin Midnight Rose";
+      author = "Adapted from Catppuccin Mocha";
+      base00 = "110d11"; # background - ink plum
+      base01 = "0c090d"; # darker background
+      base02 = "291e29"; # selection / surfaces
+      base03 = "44303f"; # comments / borders
+      base04 = "a18698"; # dark foreground
+      base05 = "ead6e2"; # default foreground
+      base06 = "f5e0e9"; # light foreground
+      base07 = "edb7d5"; # lightest / rose
+      base08 = "f38ba8"; # red
+      base09 = "fab387"; # peach
+      base0A = "f9e2af"; # yellow
+      base0B = "a6e3a1"; # green
+      base0C = "94e2d5"; # teal
+      base0D = "b0b4f4"; # softened periwinkle
+      base0E = "f0a6d3"; # pink
+      base0F = "f2cdcd"; # flamingo
+    };
     polarity = "dark";
     fonts = {
       sansSerif = {
