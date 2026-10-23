@@ -32,6 +32,7 @@
         gnome-tour
         gnome-weather
         orca
+        papers
         seahorse
         showtime
         simple-scan
@@ -65,7 +66,7 @@
         audioPlayer = "mpv.desktop";
       in {
         # keep-sorted start
-        "application/pdf" = "org.gnome.Papers.desktop";
+        "application/pdf" = "org.pwmt.zathura.desktop";
         "application/zip" = "org.gnome.FileRoller.desktop";
         "audio/flac" = audioPlayer;
         "image/gif" = imageViewer;
