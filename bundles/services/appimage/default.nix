@@ -17,9 +17,6 @@
     };
 
     environment.systemPackages = [
-      (pkgs.gearlever.override {
-        inherit appimage-run;
-      })
     ];
   };
 }

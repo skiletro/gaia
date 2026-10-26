@@ -16,15 +16,15 @@
   };
   broadcast-box = {
     pname = "broadcast-box";
-    version = "17812798c2922d6f03f12f17fda110d4d474d44d";
+    version = "d37c9bbfb115562f80d94c5e867f3a4055febb4d";
     src = fetchFromGitHub {
       owner = "Glimesh";
       repo = "broadcast-box";
-      rev = "17812798c2922d6f03f12f17fda110d4d474d44d";
+      rev = "d37c9bbfb115562f80d94c5e867f3a4055febb4d";
       fetchSubmodules = false;
-      sha256 = "sha256-eV78eskw8n+tPnjCERmtF4UFImjsU9UcvxfmW1cOgRo=";
+      sha256 = "sha256-EKaQfcim4q/+GHvY4dhuh/gZfiZaUAcMYRAu8U6LiBQ=";
     };
-    date = "2026-09-29";
+    date = "2026-10-21";
   };
   modern-minimal-ui-sounds = {
     pname = "modern-minimal-ui-sounds";
@@ -39,10 +39,10 @@
   };
   proton-cachyos_x86_64_v3 = {
     pname = "proton-cachyos_x86_64_v3";
-    version = "cachyos-11.0-20261005-slr";
+    version = "cachyos-11.0-20261015-slr";
     src = fetchurl {
-      url = "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-11.0-20261005-slr/proton-cachyos-11.0-20261005-slr-x86_64_v3.tar.xz";
-      sha256 = "sha256-ulKk8xoGD/yiuOBfwA5RvDnkwVAZKOtakhiw+ge/yMc=";
+      url = "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-11.0-20261015-slr/proton-cachyos-11.0-20261015-slr-x86_64_v3.tar.xz";
+      sha256 = "sha256-TxJb19LHJNx9LQVTykLxjGcCKmAG6GKf5/eNFgqevfs=";
     };
   };
 }

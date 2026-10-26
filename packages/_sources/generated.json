@@ -16,7 +16,7 @@
     },
     "broadcast-box": {
         "cargoLock": null,
-        "date": "2026-09-29",
+        "date": "2026-10-21",
         "extract": null,
         "name": "broadcast-box",
         "passthru": null,
@@ -28,12 +28,12 @@
             "name": null,
             "owner": "Glimesh",
             "repo": "broadcast-box",
-            "rev": "17812798c2922d6f03f12f17fda110d4d474d44d",
-            "sha256": "sha256-eV78eskw8n+tPnjCERmtF4UFImjsU9UcvxfmW1cOgRo=",
+            "rev": "d37c9bbfb115562f80d94c5e867f3a4055febb4d",
+            "sha256": "sha256-EKaQfcim4q/+GHvY4dhuh/gZfiZaUAcMYRAu8U6LiBQ=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "17812798c2922d6f03f12f17fda110d4d474d44d"
+        "version": "d37c9bbfb115562f80d94c5e867f3a4055febb4d"
     },
     "modern-minimal-ui-sounds": {
         "cargoLock": null,
@@ -65,10 +65,10 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-ulKk8xoGD/yiuOBfwA5RvDnkwVAZKOtakhiw+ge/yMc=",
+            "sha256": "sha256-TxJb19LHJNx9LQVTykLxjGcCKmAG6GKf5/eNFgqevfs=",
             "type": "url",
-            "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-11.0-20261005-slr/proton-cachyos-11.0-20261005-slr-x86_64_v3.tar.xz"
+            "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-11.0-20261015-slr/proton-cachyos-11.0-20261015-slr-x86_64_v3.tar.xz"
         },
-        "version": "cachyos-11.0-20261005-slr"
+        "version": "cachyos-11.0-20261015-slr"
     }
 }
