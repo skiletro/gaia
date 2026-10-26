@@ -16,6 +16,26 @@
         "url": "https://tangled.org/@jakelazaroff.com/actor-typeahead"
       }
     },
+    "appimage-appmanager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793046919,
+        "narHash": "sha256-sbnvGBiU5sMcHuZFQ82x2Jv81xWrF/AEVezh8ylHLck=",
+        "owner": "kem-a",
+        "repo": "AppManager",
+        "rev": "037eed2d9fa3f5a29a2590e9167e7b5d13ea8b08",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kem-a",
+        "repo": "AppManager",
+        "type": "github"
+      }
+    },
     "aquamarine": {
       "inputs": {
         "hyprutils": [
@@ -1806,6 +1826,7 @@
     },
     "root": {
       "inputs": {
+        "appimage-appmanager": "appimage-appmanager",
         "artcraft": "artcraft",
         "asahix": "asahix",
         "bundlix": "bundlix",

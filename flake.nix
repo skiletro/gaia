@@ -3,6 +3,11 @@
 
   inputs = {
     # keep-sorted start block=yes newline_separated=yes
+    appimage-appmanager = {
+      url = "github:kem-a/AppManager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     artcraft = {
       url = "github:Devitek/artcraft-nixos";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -1,4 +1,4 @@
-{
+{inputs', ...}: {
   nixos = {pkgs, ...}: let
     appimage-run = pkgs.appimage-run.override {
       extraPkgs = pkgs:
@@ -15,8 +15,9 @@
       binfmt = true;
       package = appimage-run;
     };
+  };
 
-    environment.systemPackages = [
-    ];
+  home-manager = {
+    home.packages = [inputs'.appimage-appmanager.packages.default];
   };
 }
