@@ -65,12 +65,6 @@
       };
     };
 
-    niri = {
-      url = "github:epireyn/niri-flake";
-      inputs.
-        nixpkgs.follows = "nixpkgs";
-    };
-
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -184,7 +178,6 @@
       # keep-sorted start
       "https://asahix.cachix.org"
       "https://helix.cachix.org"
-      "https://niri.cachix.org"
       "https://nix-community.cachix.org"
       "https://noctalia.cachix.org"
       # keep-sorted end
@@ -193,7 +186,6 @@
       # keep-sorted start
       "asahix.cachix.org-1:SDzLl9HW7kV2h/6yBCZwjhveL2HUjjdI0x+qFB0I54Y="
       "helix.cachix.org-1:ejp9KQpR1FBI2onstMQ34yogDm4OgU2ru6lIwPvuCVs="
-      "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
       # keep-sorted end
