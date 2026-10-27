@@ -2,56 +2,41 @@
   nixos = {pkgs, ...}: {
     services = {
       gnome = {
-        core-apps.enable = true;
         gnome-keyring.enable = true;
+        sushi.enable = true; # nautilus space preview
       };
       gvfs.enable = true;
       tumbler.enable = true;
       udisks2.enable = true;
     };
-    environment.pathsToLink = ["share/thumbnailers"];
-    environment.gnome.excludePackages = lib.mkDefault (
-      with pkgs; [
-        # keep-sorted start
-        baobab
-        epiphany
-        evince
-        geary
-        gnome-calendar
-        gnome-characters
-        gnome-clocks
-        gnome-connections
-        gnome-console
-        gnome-contacts
-        gnome-disk-utility
-        gnome-font-viewer
-        gnome-maps
-        gnome-music
-        gnome-software
-        gnome-system-monitor
-        gnome-tour
-        gnome-weather
-        orca
-        papers
-        seahorse
-        showtime
-        simple-scan
-        snapshot
-        totem
-        yelp
-        # keep-sorted end
-      ]
-    );
 
-    environment.systemPackages = with pkgs; [
-      # keep-sorted start
-      file-roller # archive manager (just use ouch on cli)
-      gparted
-      imv
-      libheif # nautilus heic img preview
-      libheif.out # nautilus heic img preview
-      # keep-sorted end
-    ];
+    programs.nautilus-open-any-terminal.enable = true;
+
+    environment = {
+      pathsToLink = [
+        "/share/thumbnailers"
+        "/share/nautilus-python/extensions"
+      ];
+      systemPackages = with pkgs; [
+        # keep-sorted start
+        file-roller # archive manager (just use ouch on cli)
+        gnome-calculator
+        gnome-font-viewer
+        gnome-logs
+        gnome-text-editor
+        gparted # partition manager
+        imv # image viewer
+        nautilus
+        nautilus-python
+        # keep-sorted end
+      ];
+      sessionVariables = {
+        # The upstream terminal-extension module exposes only nautilus-python here,
+        # hiding every other extension linked into the system profile.
+        # Follow the active generation even when the desktop session predates a switch.
+        NAUTILUS_4_EXTENSION_DIR = lib.mkForce "/run/current-system/sw/lib/nautilus/extensions-4";
+      };
+    };
   };
 
   home-manager = {

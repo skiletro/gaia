@@ -1,4 +1,6 @@
 {
+  nixos.programs.nautilus-open-any-terminal.terminal = "rio";
+
   home-manager = {pkgs, ...}: {
     programs.rio = {
       enable = true;
