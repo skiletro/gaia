@@ -88,7 +88,6 @@ Profiles contain no compositor-specific fields. Mango's renderer lives in
 `bundles/desktops/mango/monitors.nix`, not in the shared device schema.
 Generated rules use `mkDefault`; ordinary host Home Manager settings can replace
 `wayland.windowManager.mango.settings.monitorrule` for native configuration.
-Niri and Hyprland do not consume these profiles.
 
 Active examples: [Eris external displays](../hosts/eris/monitors.nix) and
 [Moirai's panel](../hosts/moirai/monitors.nix). Display rules are no longer global:
@@ -124,7 +123,7 @@ controls retain their own styling.
 Noctalia's bar and capsule radii use `stylix.borderRadius` directly. Other
 Noctalia shell surfaces and controls scale proportionally: `0` is square,
 `12` gives their normal rounding, and `24` or higher gives twice their normal
-rounding. This option does not change the Niri or Hyprland bundles.
+rounding.
 
 Rebuild and switch the host to apply changes; see [Build and deploy](development.md#build-and-deploy).
 Restart GTK applications so they load the updated stylesheet.
