@@ -225,11 +225,11 @@
     },
     "bundlix": {
       "locked": {
-        "lastModified": 1792015628,
-        "narHash": "sha256-VpamVyRg4TIlCpGHLFd/By1NZCO6olfCzum2mPbkuUI=",
+        "lastModified": 1793124920,
+        "narHash": "sha256-2wCeuV/CG0MoTNY+sTlaYm0MPA9J94t5zMhZ9QFqS9g=",
         "owner": "warm-vodka",
         "repo": "bundlix",
-        "rev": "2dcafb013988d8814b9cbb7058f0a1138fa732a5",
+        "rev": "43034f328bdf5ec9a558d8c1b8e6dbad94829a14",
         "type": "github"
       },
       "original": {
