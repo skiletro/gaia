@@ -1,23 +1,15 @@
 {
   lib,
-  config,
   inputs,
   inputs',
   ...
 }: let
-  monitorRules = import ./monitors.nix {
-    inherit lib;
-    monitors = config.gaia.device.monitors;
-  };
   package = inputs'.mango.packages.mango.overrideAttrs (old: {
     patches =
       (old.patches or [])
-      ++ [
-        ./dwindle-aspect-threshold.patch
-        ./drop-area-outline.patch
-        ./ipc-watch-backpressure.patch
-        ./overview-no-right-click-close.patch
-      ];
+      ++ (lib.filter
+        (p: lib.strings.hasSuffix ".patch" p)
+        (lib.filesystem.listFilesRecursive ./patches));
     postInstall = ''
       rm -f $out/share/wayland-sessions/mango.desktop
     '';
@@ -82,39 +74,7 @@ in {
     };
   };
 
-  home-manager = {
-    pkgs,
-    config,
-    ...
-  }: let
-    colors = config.lib.stylix.colors;
-    withAlpha = alpha: color: "0x${color}${alpha}";
-    opaque = withAlpha "ff";
-  in {
-    # wlr-chooser reads colours and fonts from theme.toml. Screens are
-    # outlined in screen-accent and windows in window-accent so the two
-    # cannot be confused; backdrop dims the desktop behind the card.
-    xdg.configFile."wlr-chooser/theme.toml".text = with colors;
-    with config.stylix.fonts;
-    # toml
-      ''
-        backdrop      = "#${base00}cc"
-        bg            = "#${base00}"
-        card          = "#${base01}"
-        tile          = "#${base01}"
-        tile-hover    = "#${base02}"
-        tile-selected = "#${base03}"
-        thumb         = "#${base00}"
-        text          = "#${base05}"
-        text-dim      = "#${base04}"
-        accent        = "#${base0D}"
-        screen-accent = "#${base0C}"
-        window-accent = "#${base0E}"
-
-        font      = "${monospace.name}"
-        font-size = ${toString sizes.applications}
-      '';
-
+  home-manager = {pkgs, ...}: {
     imports = [inputs.mango.hmModules.mango];
 
     services.udiskie = {
@@ -168,45 +128,11 @@ in {
         cursor_hide_on_keypress = 1; # hide-when-typing
         disable_middle_paste = 1;
 
-        # Appearance / layout
-        gap_inner_horizontal = 6;
-        gap_inner_vertical = 6;
-        gap_outer_horizontal = 6;
-        gap_outer_vertical = 6;
-        border_px = 2;
-        border_radius = config.stylix.borderRadius;
-        root_color = "0x00000000"; # transparent background (noctalia draws it)
-
         # Dwindle is the layout on every tag. Split axis follows the focused
         # window's shape (wide: side-by-side, tall: stacked); 1 puts the new
         # window to the right or below, never left, above, or cursor-dependent.
         dwindle_horizontal_split = 1;
         dwindle_vertical_split = 1;
-
-        focus_color = opaque colors.base0D;
-        border_color = opaque colors.base03;
-        urgent_color = opaque colors.base08;
-        drop_color = withAlpha "55" colors.base0D;
-        split_color = opaque colors.base09;
-        maximized_screen_color = opaque colors.base0B;
-        scratchpad_color = opaque colors.base0C;
-        global_color = opaque colors.base0A;
-        overlay_color = opaque colors.base0E;
-        shadows_color = opaque colors.base00;
-
-        # Overview jump labels
-        jump_label_decorate_bg_color = opaque colors.base01;
-        jump_label_decorate_border_color = opaque colors.base0D;
-        jump_label_decorate_fg_color = opaque colors.base05;
-        jump_label_decorate_focus_bg_color = opaque colors.base0D;
-        jump_label_decorate_focus_fg_color = opaque colors.base00;
-
-        # monocle group bar
-        group_bar_decorate_bg_color = opaque colors.base01;
-        group_bar_decorate_border_color = opaque colors.base0D;
-        group_bar_decorate_fg_color = opaque colors.base05;
-        group_bar_decorate_focus_bg_color = opaque colors.base0D;
-        group_bar_decorate_focus_fg_color = opaque colors.base00;
 
         # Overview jump labels: digits first so the first nine windows
         # answer to 1-9, letters after for overflow.
@@ -222,36 +148,6 @@ in {
         scroller_prefer_overspread = 0;
         scroller_proportion_preset = "0.5,0.8,1.0";
 
-        blur = 0;
-        blur_layer = 0;
-
-        # Window shadows (Noctalia draws its own layer shadows)
-        shadows = 1;
-        layer_shadows = 0;
-        shadow_only_floating = 0;
-        shadows_size = 4;
-        shadows_blur = 12;
-        shadows_position_x = 2;
-        shadows_position_y = 2;
-
-        # Animations. Tag switches animate vertically.
-        animations = 1;
-        layer_animations = 0;
-        tag_animation_direction = 0;
-        animation_type_open = "slide";
-        animation_type_close = "slide";
-        animation_duration_open = 250;
-        animation_duration_close = 200;
-        animation_duration_move = 250;
-        animation_duration_tag = 250;
-        animation_curve_open = "0.46,1.0,0.29,1";
-        animation_curve_move = "0.46,1.0,0.29,1";
-        animation_curve_tag = "0.46,1.0,0.29,1";
-        animation_curve_close = "0.08,0.92,0,1";
-        animation_curve_focus = "0.46,1.0,0.29,1";
-        animation_curve_opacity_fade_out = "0.5,0.5,0.5,0.5";
-        animation_curve_opacity_fade_in = "0.46,1.0,0.29,1";
-
         # Environment
         env = ["NIXOS_OZONE_WL,1"];
 
@@ -260,8 +156,6 @@ in {
         tag_rule = [
           "id:*,layout_name:dwindle"
         ];
-
-        monitor_rule = lib.mkDefault monitorRules;
 
         window_rule = [
           # Noctalia settings window
@@ -289,99 +183,6 @@ in {
           "is_floating:1,app_id:org\\.gnome\\.FileRoller"
           "is_floating:1,app_id:org\\.gnome\\.NautilusPreviewer"
           "is_floating:1,app_id:Emulator"
-        ];
-
-        bind =
-          [
-            # Apps
-            "SUPER,Return,spawn,rio"
-            "SUPER,Space,spawn,vicinae toggle"
-            "NONE,XF86Search,spawn,vicinae toggle"
-            "SUPER,F,spawn,helium"
-            "SUPER,E,spawn,${lib.getExe pkgs.nautilus} --new-window"
-            "CTRL,Space,spawn,pkill -USR2 -n handy"
-            "SUPER,P,spawn,vicinae deeplink vicinae://launch/@leonkohli/vicinae-extension-process-manager-0/processes"
-            "SUPER+SHIFT,P,spawn,vicinae deeplink vicinae://launch/power"
-            "SUPER,Period,spawn,vicinae deeplink vicinae://launch/core/search-emojis"
-            "SUPER,Delete,spawn,noctalia msg session lock"
-            "SUPER+SHIFT,S,spawn,noctalia msg screenshot-region"
-
-            # Forward delete on keyboards without a dedicated Delete key
-            "SUPER,BackSpace,spawn,${lib.getExe pkgs.wtype} -k Delete"
-
-            # Window management
-            "SUPER+SHIFT,Q,killclient"
-            "SUPER+SHIFT,F,togglemaximizescreen"
-            "SUPER+CTRL+SHIFT,F,togglefullscreen"
-            "SUPER+SHIFT,Space,togglefloating"
-            "SUPER,O,togglejump"
-            "SUPER,M,spawn,noctalia msg panel-toggle ezequiel/mango_layouts:panel"
-
-            # Alt-tab style thumbnail switcher
-            "SUPER,Tab,switcher,all_tag_next"
-            "SUPER+SHIFT,Tab,switcher,all_tag_prev"
-
-            # Resize window
-            "SUPER,Minus,resizewin,-60,0"
-            "SUPER,Equal,resizewin,+60,0"
-            "SUPER+SHIFT,Minus,resizewin,0,-60"
-            "SUPER+SHIFT,Equal,resizewin,0,+60"
-
-            # Focus window
-            "SUPER,H,focusdir,left"
-            "SUPER,J,focusdir,down"
-            "SUPER,K,focusdir,up"
-            "SUPER,L,focusdir,right"
-            "SUPER,Left,focusdir,left"
-            "SUPER,Down,focusdir,down"
-            "SUPER,Up,focusdir,up"
-            "SUPER,Right,focusdir,right"
-
-            # Move window
-            "SUPER+SHIFT,H,exchange_client,left"
-            "SUPER+SHIFT,J,exchange_stack_client,next"
-            "SUPER+SHIFT,K,exchange_stack_client,prev"
-            "SUPER+SHIFT,L,exchange_client,right"
-            "SUPER+SHIFT,Left,exchange_client,left"
-            "SUPER+SHIFT,Down,exchange_stack_client,next"
-            "SUPER+SHIFT,Up,exchange_stack_client,prev"
-            "SUPER+SHIFT,Right,exchange_client,right"
-          ]
-          ++ (map (i: "SUPER,${toString i},view,${toString i},0") (lib.range 1 9))
-          ++ (map (i: "SUPER+SHIFT,${toString i},tag,${toString i},0") (lib.range 1 9));
-
-        # Locked binds, work even while the screen is locked
-        bindl = [
-          "NONE,XF86AudioRaiseVolume,spawn,noctalia msg volume-up"
-          "NONE,XF86AudioLowerVolume,spawn,noctalia msg volume-down"
-          "NONE,XF86AudioMute,spawn,noctalia msg volume-mute"
-          "NONE,XF86AudioMicMute,spawn,noctalia msg mic-mute"
-          "NONE,XF86AudioNext,spawn,noctalia msg media next"
-          "NONE,XF86AudioPrev,spawn,noctalia msg media previous"
-          "NONE,XF86AudioPlay,spawn,noctalia msg media toggle"
-          "NONE,XF86PowerOff,spawn,noctalia msg session lock"
-          "NONE,XF86MonBrightnessUp,spawn,noctalia msg brightness-up current"
-          "NONE,XF86MonBrightnessDown,spawn,noctalia msg brightness-down current"
-        ];
-
-        mousebind = [
-          "SUPER,btn_left,moveresize,curmove"
-          "SUPER,btn_right,moveresize,curresize"
-          # Trackpad-friendly resize fallback: hold Super+Shift and drag with
-          # the primary click when right-click dragging is awkward.
-          "SUPER+SHIFT,btn_left,moveresize,curresize"
-        ];
-
-        axisbind = [
-          "SUPER,UP,viewtoleft_have_client"
-          "SUPER,DOWN,viewtoright_have_client"
-        ];
-
-        gesturebind = [
-          "none,up,3,viewnext_have_client"
-          "none,down,3,viewprev_have_client"
-          "none,up,4,enteroverview"
-          "none,down,4,leaveoverview"
         ];
       };
     };
