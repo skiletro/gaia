@@ -30,6 +30,13 @@ Nested directories, symlinks, and non-Nix assets are not automatically imported.
 Keep value-returning Nix helpers in a nested directory and import them explicitly;
 keep relative assets, such as package patches, beside the modules that use them.
 
+For long interpolated text, keep the template in a separate non-Nix asset.
+The [Signal bundle](../bundles/programs/signal/default.nix) renders
+[`theme.css.mustache`](../bundles/programs/signal/theme.css.mustache) with
+`pkgs.mustache-go` in a `pkgs.runCommand` derivation. It passes Stylix colours
+through `builtins.toJSON` and `passAsFile`, then uses the rendered store file in
+the package's build hook.
+
 ## Write the Configuration
 
 A bundle with no top-level module arguments can be a plain attrset:
