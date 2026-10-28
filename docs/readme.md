@@ -5,8 +5,7 @@ configuration. Start with the task you need to do:
 
 ## Common tasks
 
-- **Set up a machine or understand how the flake fits together:** [Repository
-  structure](architecture.md)
+- **Understand the layout and host configuration:** [Repository structure](architecture.md)
 - **Enable or add a feature:** [Adding a bundle](adding-a-bundle.md), then
   [Bundle reference](bundle-reference.md).
 - **Add or update a package:** [Package examples](package-examples.md)
@@ -23,8 +22,3 @@ Packages live under `packages/`.
 See [Repository structure](architecture.md) for the full layout and links to
 the relevant implementation.
 
-## Reading examples
-
-Examples are drawn from files that still exist in this repository. Prefer the
-linked source files when you need exact current settings; this documentation
-explains the patterns and workflows around them.

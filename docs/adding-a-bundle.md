@@ -14,9 +14,7 @@ bundles/programs/broot/default.nix
 The path generates `gaia.programs.broot.enable`, defaulting to `false`. Bundlix
 creates and gates the option through the `bundle.autoImport` settings in
 [`parts/hosts.nix`](../parts/hosts.nix). Bundle files contain feature configuration
-and optional `requires` metadata. Do not call `bundleLib.mkEnableModule` or
-declare an option path yourself. Another example is
-`bundles/programs/spotify/default.nix`.
+and optional `requires` metadata; the enable option is generated for you.
 
 For larger bundles, split related settings into sibling files such as
 `binds.nix` or `theme.nix`. These files are loaded together automatically; no
@@ -39,13 +37,12 @@ Both may appear in one bundle:
 
 ```nix
 {
-  nixos = {pkgs, ...}: {
-    services.foo.enable = true;
-    environment.systemPackages = [pkgs.foo];
+  nixos = {
+    services.tailscale.enable = true;
   };
 
   home-manager = {pkgs, ...}: {
-    home.packages = [pkgs.foo];
+    home.packages = [pkgs.tailscale];
   };
 }
 ```

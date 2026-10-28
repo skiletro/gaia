@@ -6,10 +6,12 @@ treefmt enforces the following, and `nix flake check` runs it as a check:
 
 - `alejandra` - nix formatting
 - `deadnix` - dead code
+- `just` - recipe formatting
 - `keep-sorted` - sorted blocks
 - `nixf-diagnose` - nix diagnostics
 - `statix` - nix lints
 - `toml-sort` - toml sorting
+- `nufmt` - Nushell formatting
 
 Run `nix fmt` locally before committing.
 

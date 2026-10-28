@@ -1,9 +1,8 @@
 # Adding and Updating Packages
 
-Packages are built from each directory under `packages/`. The flake wires them
-through `parts/packages.nix` and makes them available as
-`self'.packages.<name>` inside modules or `nix build .#<name>` from the
-repository.
+Each directory under `packages/`, except the generated `_sources/` directory,
+is exposed as a flake package. Use `self'.packages.<name>` inside modules or
+`nix build .#<name>` from the repository.
 
 ## Add a package with an upstream source
 
@@ -41,15 +40,9 @@ repository.
 
 4. Build the package with `nix build .#apple-emoji`.
 
-The current derivation is [`packages/apple-emoji/default.nix`](../packages/apple-emoji/default.nix);
-use it as the source of truth if the example and implementation differ.
-
-## Alternative derivation shapes
-
-Not every derivation needs the same build phases. The active
-[`proton-cachyos_x86_64_v3`](../packages/proton-cachyos_x86_64_v3/default.nix)
-package unpacks a fetched archive and adjusts its compatibility tool metadata.
-
+See [apple-emoji](../packages/apple-emoji/default.nix) for the complete derivation.
+For a package that unpacks an archive, see
+[proton-cachyos_x86_64_v3](../packages/proton-cachyos_x86_64_v3/default.nix).
 
 ## Installing a sound theme
 

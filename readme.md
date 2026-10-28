@@ -3,14 +3,16 @@
 <img src="https://img.shields.io/badge/license-gplv3-red">
 <img src="https://wakapi.warm.vodka/api/badge/jamie/interval:any/project:gaia">
 
+[Documentation](docs/readme.md)
+
 ## Hosts
  hostname  | architecture    | notes
 -----------|-----------------|------------------------------------------------
- eris      | x86-64_linux    | gaming pc: r7 7800x3D + rx 9070 xt
+ eris      | x86_64-linux    | gaming pc: r7 7800x3D + rx 9070 xt
  keres     | aarch64-linux   | netcup 1000 arm g11
  moirai    | aarch64-linux   | apple silicon laptop (asahi)
- hemera    | x86-64_linux    | home server
- iso       | x86-64_linux    | installer iso
+ hemera    | x86_64-linux    | home server
+ iso       | x86_64-linux    | installer iso
 
 ## Todo
 - ephemeral root and home

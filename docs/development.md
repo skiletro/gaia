@@ -2,9 +2,9 @@
 
 ## Getting started
 
-Install Nix with flakes enabled. The repository uses direnv (`use flake`); once
-the development shell is active, it provides the tools used by the project,
-including `git`, `just`, `nixos-rebuild`, `nvfetcher`, and `sops`.
+Install Nix with flakes enabled and `just`. Enter the development shell with
+`nix develop`, or use `direnv allow` if you have direnv installed. The shell
+provides `nh`, `nixos-rebuild`, `nvfetcher`, `sops`, and `ssh-to-age`.
 
 Run `just` to see available recipes.
 
@@ -13,10 +13,9 @@ Run `just` to see available recipes.
 | command | effect |
 |---|---|
 | `just build` | formats and stages the entire working tree, then builds the local system |
-| `just test` | formats and stages the entire working tree, then tests the local system |
 | `just switch` | formats and stages the entire working tree, then builds and switches the local system |
+| `just test` | formats and stages the entire working tree, then activates the local system without making it the boot default |
 | `just boot` | formats and stages the entire working tree, then builds and sets the next boot generation |
-| `just deploy <host>` | stages the working tree, then builds and switches on the remote host over SSH |
 | `just iso` | formats and stages the entire working tree, then builds the installer image |
 | `just pkg <name>` | builds one flake package |
 
@@ -32,7 +31,7 @@ otherwise noted.
 | `just update` | updates flake inputs and package sources |
 | `just update-inputs [input]` | updates flake inputs, optionally only one |
 | `just update-sources` | regenerates package sources with nvfetcher |
-| `just repl` | opens a repl with the flake imported |
+| `just repl` | formats and stages the working tree, then opens the local system configuration in a REPL |
 | `just clean` | garbage collects and optimises the store |
 | `just optimise` | optimises the store |
 | `just repair` | verifies and repairs the store |
@@ -42,9 +41,8 @@ otherwise noted.
 
 ## Formatting
 
-`nix fmt` runs treefmt, covering alejandra, deadnix, keep-sorted,
-nixf-diagnose, statix, and toml-sort. `nix flake check` includes a formatting
-check.
+`nix fmt` runs treefmt. See [Formatting](conventions.md#formatting) for the
+configured tools. `nix flake check` includes a formatting check.
 
 ## Updating inputs and packages
 
@@ -74,10 +72,22 @@ Use the secret path from module configuration:
 config.sops.secrets."tailscale-auth-key".path
 ```
 
-The active example is [`bundles/services/tailscale/default.nix`](../bundles/services/tailscale/default.nix).
+See [Tailscale](../bundles/services/tailscale/default.nix) for a complete example.
 
 ## Remote deployment
 
-`just deploy <host>` connects as `jamie@<host>` and builds and switches the
-system on the target. The host must be reachable over SSH and the user must
-have sudo access. Review the staged changes before deployment.
+Select the configuration explicitly when deploying to another machine. For Keres:
+
+```sh
+nixos-rebuild switch --flake .#keres \
+  --target-host jamie@keres \
+  --build-host jamie@keres \
+  --use-substitutes \
+  --no-reexec \
+  --sudo --ask-sudo-password
+```
+
+The target must be reachable over SSH and `jamie` must have sudo access.
+`--target-host` does not select the flake configuration; keep `.#keres` explicit.
+The `just deploy` recipe currently omits that selector, so use the command above
+for cross-host deployment.

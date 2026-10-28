@@ -30,18 +30,11 @@ definitions that do not have enable flags:
 - `gaia.device.monitors` declares host-owned display profiles, defined in
   `core/utils/monitors.nix`.
 
-## Device Policy
+## Host Role
 
-Declare the role in `hosts/<host>/gaia.nix`. This labels the host; it does not
-enable hardware modules, power daemons, or lid-switch behavior:
-
-```nix
-gaia.device.type = "laptop";
-```
-
-Noctalia uses the same idle settings on AC and battery: lock after 600 seconds,
-screen off after 660 seconds, and no automatic suspend. Configure these in
-[`bundles/services/noctalia/idle.nix`](../bundles/services/noctalia/idle.nix).
+Set `gaia.device.type` in `hosts/<host>/gaia.nix` to label a machine as a
+`desktop`, `laptop`, `server`, `vm`, or `installer`. The label does not enable
+hardware modules or power management.
 
 ## Host Monitors
 
@@ -68,14 +61,12 @@ Mode fields are required and positive. `scale`, `position`, and `vrr` default
 to `null`, omitting the corresponding rule rather than forcing a value.
 Profile labels are rendered in lexical order.
 
-Profiles contain no compositor-specific fields. Mango's renderer lives in
-`bundles/desktops/mango/monitors.nix`, not in the shared device schema.
-Generated rules use `mkDefault`; ordinary host Home Manager settings can replace
-`wayland.windowManager.mango.settings.monitorrule` for native configuration.
+Mango renders these profiles through
+[`bundles/desktops/mango/monitors.nix`](../bundles/desktops/mango/monitors.nix).
+Profiles must be declared on each host that uses the displays.
 
-Active examples: [Eris external displays](../hosts/eris/monitors.nix) and
-[Moirai's panel](../hosts/moirai/monitors.nix). Display rules are no longer global:
-a docked laptop needs its external displays declared on that host too.
+Examples: [Eris](../hosts/eris/monitors.nix) and
+[Moirai](../hosts/moirai/monitors.nix).
 
 ## Desktop Sessions
 
@@ -83,11 +74,9 @@ Desktop environments are ordinary optional bundles. Enable one with a path such
 as `gaia.desktops.mango.enable = true;`. Enabled desktop flags determine which
 sessions are available.
 
-Enabled desktop bundles provide UWSM sessions for tuigreet. A greeter can offer
-multiple enabled sessions; with exactly one enabled desktop, it uses that
-bundle's UWSM session as the fallback. Autologin bypasses the chooser; the
-[autologin bundle](../bundles/system/autologin/default.nix) selects the sole
-enabled `gaia.desktops.<name>` session and rejects zero or multiple enabled desktops.
+The [greeter bundle](../bundles/system/greeter/default.nix) uses tuigreet to
+list installed sessions. The [autologin bundle](../bundles/system/autologin/default.nix)
+bypasses that chooser and requires exactly one enabled desktop.
 
 ## Window and Shell Corners
 
@@ -100,14 +89,8 @@ nixos.stylix.borderRadius = 0;
 ```
 
 Home Manager inherits the system value; `home-manager.stylix.borderRadius`
-can override it for the user. GTK window decorations, Mango window clipping,
-and Vicinae's launcher use the radius directly. GTK buttons and other in-app
-controls retain their own styling.
-
-Noctalia's bar and capsule radii use `stylix.borderRadius` directly. Other
-Noctalia shell surfaces and controls scale proportionally: `0` is square,
-`12` gives their normal rounding, and `24` or higher gives twice their normal
-rounding.
+can override it for the user. GTK window decorations, Mango, Vicinae, and
+Noctalia use this value. Individual applications may retain their own styling.
 
 Rebuild and switch the host to apply changes; see [Build and deploy](development.md#build-and-deploy).
 Restart GTK applications so they load the updated stylesheet.
@@ -128,12 +111,9 @@ A bare name resolves within the bundle's category, so Helix requires
 category, such as `"services.noctalia"` or `"programs.vicinae"`. Valid categories
 are inferred from directories directly under `bundles/`.
 
-Requirements do not enable dependencies. Bundlix checks them after bundle
-configuration has merged, for both the host and each user's configuration. If an
-enabled bundle's requirement is disabled or missing, bundle evaluation fails
-and names the required flags. A disabled bundle does not enforce its
-requirements. Set required bundle flags explicitly in the same configuration
-scope as the requiring bundle.
+Requirements do not enable dependencies. Enable required flags in the same host
+or user configuration as the requiring bundle. Missing requirements cause
+evaluation to fail.
 
 ## Inputs and Packages
 
