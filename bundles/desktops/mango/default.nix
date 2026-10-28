@@ -108,26 +108,6 @@ in {
         warp_cursor = 0;
         auto_reload_config = 1;
 
-        # Input
-        xkb_rules_layout = "gb";
-        xkb_rules_options = "ctrl:nocaps";
-
-        mouse_accel_profile = 1; # flat
-        mouse_accel_speed = 0.6;
-
-        # Trackpad
-        trackpad_accel_profile = 2;
-        trackpad_accel_speed = 0.1;
-        trackpad_natural_scrolling = 1;
-        trackpad_disable_while_typing = 1;
-        trackpad_click_method = 2;
-        trackpad_scroll_factor = 1.1;
-        tap_and_drag = 1;
-
-        # Cursor
-        cursor_hide_on_keypress = 1; # hide-when-typing
-        disable_middle_paste = 1;
-
         # Dwindle is the layout on every tag. Split axis follows the focused
         # window's shape (wide: side-by-side, tall: stacked); 1 puts the new
         # window to the right or below, never left, above, or cursor-dependent.
@@ -150,40 +130,6 @@ in {
 
         # Environment
         env = ["NIXOS_OZONE_WL,1"];
-
-        # Dwindle everywhere; tag 4 uses the scroller layout, the closest
-        # thing to niri's scrolling layout, on both monitors.
-        tag_rule = [
-          "id:*,layout_name:dwindle"
-        ];
-
-        window_rule = [
-          # Noctalia settings window
-          "is_floating:1,width:1080,height:920,app_id:dev.noctalia.Noctalia"
-
-          # Steam notification toasts, bottom-right
-          "is_floating:1,offset_x:25,offset_y:25,title:^notificationtoasts_\\d+_desktop$,app_id:steam"
-
-          # Portals
-          "is_floating:1,app_id:org\\.freedesktop\\.impl\\.portal\\.desktop\\.gnome"
-          "is_floating:1,app_id:xdg-desktop-portal-gtk"
-
-          # File dialogs
-          "is_floating:1,title:^(Open File)(.*)$"
-          "is_floating:1,title:^(Select a File)(.*)$"
-          "is_floating:1,title:^(Open Folder)(.*)$"
-          "is_floating:1,title:^(Save As)(.*)$"
-          "is_floating:1,title:^(Library)(.*)$"
-          "is_floating:1,title:^(File Upload)(.*)$"
-          "is_floating:1,title:^(.*)(wants to save)$"
-          "is_floating:1,title:^(.*)(wants to open)$"
-
-          # Apps
-          "is_floating:1,app_id:crashreporter"
-          "is_floating:1,app_id:org\\.gnome\\.FileRoller"
-          "is_floating:1,app_id:org\\.gnome\\.NautilusPreviewer"
-          "is_floating:1,app_id:Emulator"
-        ];
       };
     };
   };
