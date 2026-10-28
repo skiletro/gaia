@@ -12,7 +12,6 @@
       tangled-knot = "knot";
       tangled-repos = "git";
       wakapi = "wakapi";
-      wizarr = "wizarr";
       # keep-sorted end
     };
 
