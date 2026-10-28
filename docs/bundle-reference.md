@@ -2,11 +2,15 @@
 
 ## Path-Derived Enable Options
 
-Each bundle lives at `bundles/<category>/<name>/default.nix`. The path creates
+Each bundle lives at `bundles/<category>/<name>/`. The directory path creates
 `gaia.<category>.<name>.enable`, with a default of `false`. For example,
-`bundles/programs/broot/default.nix` provides `gaia.programs.broot.enable`.
-Bundle files contain configuration only. The import wrapper declares the option
-and applies the bundle when enabled.
+`bundles/programs/broot/` provides `gaia.programs.broot.enable`.
+Bundlix merges all direct, regular `.nix` files in that directory behind the same
+option; `default.nix` is conventional, not required. Sibling modules need no
+explicit imports. Nested directories, symlinks, and non-Nix assets are not
+automatically imported. Bundle files contain configuration and optional
+`requires` metadata; the import wrapper declares the enable option and applies
+the bundle when enabled.
 
 Modules without top-level arguments may be plain attrsets. Use a module function
 when the bundle needs arguments such as `lib`, `inputs`, `inputs'`, or `self'`.
