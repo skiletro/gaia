@@ -27,40 +27,21 @@ definitions that do not have enable flags:
   version in `gaia.state.home` defaults to it, defined in `core/utils/state.nix`.
 - `gaia.device.type` declares the host role: `desktop` (default), `laptop`,
   `server`, `vm`, or `installer`, defined in `core/utils/device.nix`.
-- `gaia.device.power` configures shared battery policy, defined in
-  `core/utils/power.nix`.
 - `gaia.device.monitors` declares host-owned display profiles, defined in
   `core/utils/monitors.nix`.
 
 ## Device Policy
 
-Declare the role in `hosts/<host>/gaia.nix`. It selects policy defaults, not
-hardware modules, power daemons, or lid-switch behavior:
+Declare the role in `hosts/<host>/gaia.nix`. This labels the host; it does not
+enable hardware modules, power daemons, or lid-switch behavior:
 
 ```nix
-gaia.device = {
-  type = "laptop";
-  power = {
-    enable = true; # defaults to true for laptops, false for other roles
-    idle.battery = {
-      lockTimeout = 300;
-      screenOffTimeout = 360;
-      suspendTimeout = 900;
-    };
-  };
-};
+gaia.device.type = "laptop";
 ```
 
-Each timeout is a positive integer in seconds; `null` disables that battery
-behavior. The values above are the defaults. On AC, Noctalia uses its ordinary
-bundle settings (lock after 600 seconds, screen off after 660 seconds, no
-automatic suspend). Native Noctalia settings remain the AC-policy override.
-
-Battery timeouts apply when power policy and Noctalia are enabled and the
-graphical session is active. Returning to AC or stopping the policy service
-restores Noctalia's ordinary idle settings. Set `gaia.device.power.enable = false`
-to disable the policy. Hosts without Noctalia do not apply it, even when their
-role is `laptop`. See [`core/utils/power.nix`](../core/utils/power.nix) for the options.
+Noctalia uses the same idle settings on AC and battery: lock after 600 seconds,
+screen off after 660 seconds, and no automatic suspend. Configure these in
+[`bundles/services/noctalia/idle.nix`](../bundles/services/noctalia/idle.nix).
 
 ## Host Monitors
 

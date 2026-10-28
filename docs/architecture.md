@@ -56,7 +56,7 @@ Declared hosts: `eris`, `keres`, `moirai`, `hemera`, `iso`.
 `core/infra/`, shared helpers and options are under `core/utils/`, and always-on
 styling is under `core/system/`. Core defines options such as `gaia.state`,
 `gaia.autoStart`, and `gaia.device`; hosts can set these without enabling another
-module. Device options describe the host role, battery policy, and monitors; see
+module. Device options describe the host role and monitors; see
 [Device policy and host monitors](bundle-reference.md#device-policy).
 
 `bundles/` contains opt-in features grouped under `programs`, `services`,
