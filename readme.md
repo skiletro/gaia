@@ -1,9 +1,9 @@
 # gaia
-<img src="https://img.shields.io/badge/language-nix-blue">
-<img src="https://img.shields.io/badge/license-gplv3-red">
-<img src="https://wakapi.warm.vodka/api/badge/jamie/interval:any/project:gaia">
-
-[Documentation](docs/readme.md)
+<h3 align="left">
+  <img src="https://img.shields.io/badge/language-nix-blue">
+  <img src="https://img.shields.io/badge/license-gplv3-red">
+  <img src="https://wakapi.warm.vodka/api/badge/jamie/interval:any/project:gaia">
+</h3>
 
 ## Hosts
  hostname  | architecture    | notes
@@ -13,6 +13,9 @@
  moirai    | aarch64-linux   | apple silicon laptop (asahi)
  hemera    | x86_64-linux    | home server
  iso       | x86_64-linux    | installer iso
+
+## Docs
+docs can be found [here](docs/readme.md)
 
 ## Todo
 - ephemeral root and home
