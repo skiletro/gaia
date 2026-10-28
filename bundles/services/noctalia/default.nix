@@ -3,105 +3,13 @@
   lib,
   ...
 }: {
-  home-manager = {
-    config,
-    pkgs,
-    ...
-  }: {
+  home-manager = {config, ...}: {
     imports = [inputs.noctalia.homeModules.default];
-
-    home.packages = [pkgs.jq]; # Required by plugins.
 
     programs.noctalia = {
       enable = true;
       systemd.enable = true;
       settings = {
-        # Status bar
-        bar = {
-          default = {
-            start = [
-              "workspaces"
-            ];
-            center = [
-              "weather"
-              "group:g2"
-            ];
-            end = [
-              "tray"
-              "group:g1"
-            ];
-            capsule = true;
-            capsule_radius = config.stylix.borderRadius;
-            radius = config.stylix.borderRadius;
-            capsule_fill = "surface";
-            contact_shadow = false;
-            margin_ends = 0;
-            padding = 4;
-            position = "left";
-            shadow = false;
-            capsule_group = [
-              {
-                enabled = true;
-                fill = "surface";
-                id = "g1";
-                members = [
-                  "caffeine"
-                  "bluetooth"
-                  "notifications"
-                  "volume"
-                  "network"
-                  "battery"
-                ];
-                opacity = 1.0;
-                padding = 6.0;
-              }
-              {
-                enabled = true;
-                fill = "surface";
-                id = "g2";
-                members = [
-                  "clock"
-                  "date"
-                ];
-                opacity = 1.0;
-                padding = 6.0;
-              }
-            ];
-          };
-        };
-
-        # Status bar widgets
-        widget = {
-          clock = {
-            anchor = true;
-            format = "{:%I:%M}";
-          };
-          date = {
-            color = "on_surface_variant";
-            format = "{:%d\\n%m\\n%y}";
-          };
-          network = {
-            interactive = false;
-            show_label = false;
-            actions.left = "panel-toggle control-center network";
-          };
-          tray = {
-            drawer = true;
-            pinned = ["Steam"];
-          };
-          volume = {
-            show_label = false;
-          };
-          workspaces = {
-            empty_color = "surface_variant";
-            active_pill_size = 1.5;
-            inactive_pill_size = 1.5;
-            occupied_color = "surface_variant";
-            scale = 1.25;
-            hide_when_empty = true;
-          };
-        };
-
         # Control panel
         control_center = {
           hidden_tabs = [
@@ -125,41 +33,6 @@
           show_dots = true;
           smart_auto_hide = true;
           radius = config.stylix.borderRadius;
-        };
-
-        # Idle behaviour (autolocking)
-        idle = {
-          behavior_order = [
-            "lock"
-            "screen-off"
-            "lock-and-suspend"
-          ];
-          pre_action_fade_seconds = 5;
-          behavior = {
-            lock = {
-              action = "lock";
-              enabled = true;
-              timeout = 600.0;
-            };
-            lock-and-suspend = {
-              action = "lock_and_suspend";
-              enabled = false;
-              timeout = 900.0;
-            };
-            screen-off = {
-              action = "screen_off";
-              enabled = true;
-              timeout = 660.0;
-            };
-          };
-        };
-
-        # Lockscreen
-        lockscreen = {
-          blurred_desktop = true;
-          fingerprint = false;
-          transition = ["wipe"];
-          transition_duration = 500; # ms
         };
 
         wallpaper = {
@@ -192,37 +65,6 @@
 
         # Misc
         theme.pure_black_dark = false;
-
-        # Plugins
-        plugins = {
-          enabled = ["ezequiel/mango_layouts"];
-          source = [
-            {
-              name = "community";
-              kind = "git";
-              location = "https://github.com/noctalia-dev/community-plugins";
-              enabled = true;
-            }
-          ];
-        };
-
-        plugin_settings = {
-          "ezequiel/mango_layouts" = {
-            list_mode = true;
-            panel_placement = "attached";
-            panel_position = "center";
-            show_center_tile = false;
-            show_fair = false;
-            show_monocle = false;
-            show_right_tile = false;
-            show_tile = false;
-            show_vertical_deck = false;
-            show_vertical_fair = false;
-            show_vertical_grid = false;
-            show_vertical_scroller = false;
-            show_vertical_tile = false;
-          };
-        };
 
         location.auto_locate = true;
 
