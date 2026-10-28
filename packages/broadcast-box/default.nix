@@ -11,7 +11,7 @@
     pname = "${pname}-web";
     inherit version;
     src = "${src}/web";
-    npmDepsHash = "sha256-wIEsiJI9SVwMEIAOW5Mubg8yyPXlwTEKNQGmSvey4MY=";
+    npmDepsHash = "sha256-eDbq/jhbPq98TmfYuh6rBid+HG7NxkPVufWC7YFtcKo=";
     installPhase = ''
       runHook preInstall
       mkdir -p $out
@@ -22,7 +22,7 @@
 in
   buildGoModule {
     inherit pname version src;
-    vendorHash = "sha256-YHFPZuZlgPrYo072pBU47vfGKwjr62YPCT5S3gAjhuI=";
+    vendorHash = "sha256-jCEUvgmOmgwFeRsYfwn/uQiqySgzdmV9pKKImNJbams=";
     proxyVendor = true;
     subPackages = ["."];
 
