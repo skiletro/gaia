@@ -45,13 +45,8 @@ bundle.autoImport = {
 };
 ```
 
-Each host still imports all modules under `core/` and its host directory through
-import-tree. The bundle directory is handled by bundlix, not import-tree:
-all direct, regular `.nix` files in `bundles/<category>/<name>/` are merged behind
-`gaia.<category>.<name>.enable`, defaulting to `false`. Categories are inferred
-from directories under `bundles/`. `default.nix` is conventional, not required.
-Nested directories, symlinks, and non-Nix assets such as patches are not
-automatically imported.
+Each host imports the shared modules under `core/` and its host directory
+through import-tree. Bundlix handles the optional features under `bundles/`.
 
 Declared hosts: `eris`, `keres`, `moirai`, `hemera`, `iso`.
 
@@ -65,15 +60,11 @@ module. Device options describe the host role, battery policy, and monitors; see
 [Device policy and host monitors](bundle-reference.md#device-policy).
 
 `bundles/` contains opt-in features grouped under `programs`, `services`,
-`system`, and `desktops`. Every bundle lives at
-`bundles/<category>/<name>/`, conventionally starting with `default.nix` and
-splitting larger concerns into sibling `.nix` modules. The directory path
-generates a default-off option: `bundles/programs/broot/` provides
-`gaia.programs.broot.enable`. Bundle files hold feature configuration and
-optional `requires` metadata; they do not declare their own enable option. Put
-relative assets, such as patches, next to `default.nix`. See
-[adding-a-bundle.md](adding-a-bundle.md) and
-[bundle-reference.md](bundle-reference.md).
+`system`, and `desktops`. Each feature has its own directory: for example,
+`bundles/programs/broot/` is enabled with `gaia.programs.broot.enable`.
+Small bundles use a single `default.nix`; larger ones split their configuration
+across several files. See [Adding a bundle](adding-a-bundle.md) for the workflow
+and [Bundle reference](bundle-reference.md) for options and dependencies.
 
 ## Host Config
 

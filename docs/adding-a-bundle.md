@@ -18,24 +18,11 @@ and optional `requires` metadata. Do not call `bundleLib.mkEnableModule` or
 declare an option path yourself. Another example is
 `bundles/programs/spotify/default.nix`.
 
-Bundlix automatically merges every direct, regular `.nix` file in a bundle
-directory behind the same enable option. `default.nix` is the conventional
-starting point, not a special entry point; do not explicitly import sibling
-modules. Split larger bundles by concern, as in
-[`Mango`](../bundles/desktops/mango/),
-[`Noctalia`](../bundles/services/noctalia/), and
-[`Helix`](../bundles/programs/helix/).
-
-Nested directories, symlinks, and non-Nix assets are not automatically imported.
-Keep value-returning Nix helpers in a nested directory and import them explicitly;
-keep relative assets, such as package patches, beside the modules that use them.
-
-For long interpolated text, keep the template in a separate non-Nix asset.
-The [Signal bundle](../bundles/programs/signal/default.nix) renders
-[`theme.css.mustache`](../bundles/programs/signal/theme.css.mustache) with
-`pkgs.mustache-go` in a `pkgs.runCommand` derivation. It passes Stylix colours
-through `builtins.toJSON` and `passAsFile`, then uses the rendered store file in
-the package's build hook.
+For larger bundles, split related settings into sibling files such as
+`binds.nix` or `theme.nix`. These files are loaded together automatically; no
+explicit imports are needed. Keep patches and other assets alongside them.
+See [bundle discovery](bundle-reference.md#path-derived-enable-options) for
+which files are loaded.
 
 ## Write the Configuration
 
