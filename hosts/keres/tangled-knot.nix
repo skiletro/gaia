@@ -23,5 +23,9 @@
     services.caddy.virtualHosts."${subdomain}.${domain}".extraConfig = ''
       reverse_proxy :${toString port}
     '';
+
+    services.caddy.virtualHosts."git.${domain}".extraConfig = ''
+      redir https://tangled.org/skilet.ro/ temporary
+    '';
   };
 }
