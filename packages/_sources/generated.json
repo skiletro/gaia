@@ -16,7 +16,7 @@
     },
     "broadcast-box": {
         "cargoLock": null,
-        "date": "2026-10-21",
+        "date": "2026-10-27",
         "extract": null,
         "name": "broadcast-box",
         "passthru": null,
@@ -28,12 +28,12 @@
             "name": null,
             "owner": "Glimesh",
             "repo": "broadcast-box",
-            "rev": "d37c9bbfb115562f80d94c5e867f3a4055febb4d",
-            "sha256": "sha256-EKaQfcim4q/+GHvY4dhuh/gZfiZaUAcMYRAu8U6LiBQ=",
+            "rev": "98d1773d7809ecc136f5b6f14eb16604e96ec4e3",
+            "sha256": "sha256-vEl06KFtc8bElVt7Or6o8UAr4bz5Vn8kIBD7gUoCrLw=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "d37c9bbfb115562f80d94c5e867f3a4055febb4d"
+        "version": "98d1773d7809ecc136f5b6f14eb16604e96ec4e3"
     },
     "modern-minimal-ui-sounds": {
         "cargoLock": null,

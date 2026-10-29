@@ -14,6 +14,17 @@
       # upstream is unmaintained, so demote that one warning. the module is
       # compiled inside the nginx build, so the flag goes via passthru.forNginx
       (_final: prev: {
+        # Pending https://github.com/NixOS/nixpkgs/pull/580640.
+        romm = prev.romm.overrideAttrs (old: {
+          passthru =
+            old.passthru
+            // {
+              pythonEnv = old.passthru.pythonEnv.override (env: {
+                extraLibs = env.extraLibs ++ [prev.python3Packages.httpx2];
+              });
+            };
+        });
+
         nginxModules =
           prev.nginxModules
           // {

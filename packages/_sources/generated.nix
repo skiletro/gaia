@@ -16,15 +16,15 @@
   };
   broadcast-box = {
     pname = "broadcast-box";
-    version = "d37c9bbfb115562f80d94c5e867f3a4055febb4d";
+    version = "98d1773d7809ecc136f5b6f14eb16604e96ec4e3";
     src = fetchFromGitHub {
       owner = "Glimesh";
       repo = "broadcast-box";
-      rev = "d37c9bbfb115562f80d94c5e867f3a4055febb4d";
+      rev = "98d1773d7809ecc136f5b6f14eb16604e96ec4e3";
       fetchSubmodules = false;
-      sha256 = "sha256-EKaQfcim4q/+GHvY4dhuh/gZfiZaUAcMYRAu8U6LiBQ=";
+      sha256 = "sha256-vEl06KFtc8bElVt7Or6o8UAr4bz5Vn8kIBD7gUoCrLw=";
     };
-    date = "2026-10-21";
+    date = "2026-10-27";
   };
   modern-minimal-ui-sounds = {
     pname = "modern-minimal-ui-sounds";
