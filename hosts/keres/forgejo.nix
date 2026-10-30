@@ -25,7 +25,7 @@
       mkdir -p "$out/public/assets/css"
       tar -xzf ${themeTemplates} -C "$out"
       tar -xzf ${themeBase} -C "$out/public/assets/css"
-      tar -xzf ${themeExtras} -C "$out/public/assets/css" --wildcards 'theme-github-pink-*.css'
+      tar -xzf ${themeExtras} -C "$out/public/assets/css" --wildcards 'theme-github-gitea-*.css'
     '';
   in {
     assertions = [
@@ -51,8 +51,8 @@
         service.DISABLE_REGISTRATION = true;
         session.COOKIE_SECURE = true;
         ui = {
-          DEFAULT_THEME = "github-pink-auto";
-          THEMES = "github-auto,github-light,github-dark,github-soft-dark,github-pink-auto,github-pink-light,github-pink-dark,github-pink-soft-dark";
+          DEFAULT_THEME = "github-gitea-auto";
+          THEMES = "github-auto,github-light,github-dark,github-soft-dark,github-gitea-auto,github-gitea-light,github-gitea-dark";
         };
       };
     };
