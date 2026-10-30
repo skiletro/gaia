@@ -34,7 +34,7 @@ automatic bundle discovery under `bundles/`, with `gaia` as the option prefix.
 Each host imports the shared modules under `core/` and its host directory
 through import-tree. Bundlix handles the optional features under `bundles/`.
 
-Declared hosts: `eris`, `keres`, `moirai`, `hemera`, `iso`.
+Declared hosts: `eris`, `keres`, `moirai`, `iso`.
 
 ## Core and Bundles
 

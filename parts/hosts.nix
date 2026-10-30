@@ -24,11 +24,6 @@
         systemPlatform = "nixos";
       };
 
-      hemera = {
-        system = "x86_64-linux";
-        systemPlatform = "nixos";
-      };
-
       iso = {
         system = "x86_64-linux";
         systemPlatform = "nixos";

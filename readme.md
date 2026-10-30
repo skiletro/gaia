@@ -11,7 +11,6 @@
  eris      | x86_64-linux    | gaming pc: r7 7800x3D + rx 9070 xt
  keres     | aarch64-linux   | netcup 1000 arm g11
  moirai    | aarch64-linux   | apple silicon laptop (asahi)
- hemera    | x86_64-linux    | home server
  iso       | x86_64-linux    | installer iso
 
 ## Docs
