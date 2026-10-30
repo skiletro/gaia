@@ -36,7 +36,7 @@ in {
 
   home-manager = {
     programs.beets = {
-      enable = true;
+      enable = false;
       settings = {
         # library is the beets database file, not the music location
         library = "${RootFolder}/library.db";
