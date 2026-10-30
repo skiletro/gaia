@@ -2,73 +2,95 @@
   nixos = {
     lib,
     config,
+    pkgs,
     ...
   }: let
     subdomain = "romm";
     domain = "warm.vodka";
-    # port the nginx virtual host listens on; caddy proxies to it
+    dataDir = "/srv/romm";
     port = 8585;
   in {
-    nixpkgs.overlays = [
-      # nginx-mod-zip trips -Werror on gcc 15 (unused-but-set-variable);
-      # upstream is unmaintained, so demote that one warning. the module is
-      # compiled inside the nginx build, so the flag goes via passthru.forNginx
-      (_final: prev: {
-        # Pending https://github.com/NixOS/nixpkgs/pull/580640.
-        romm = prev.romm.overrideAttrs (old: {
-          passthru =
-            old.passthru
-            // {
-              pythonEnv = old.passthru.pythonEnv.override (env: {
-                extraLibs = env.extraLibs ++ [prev.python3Packages.httpx2];
-              });
-            };
-        });
+    # Preserve the deployed account IDs so the container can use the existing
+    # library permissions and PostgreSQL's Unix-socket peer authentication.
+    users = {
+      users.romm = {
+        isSystemUser = true;
+        uid = 977;
+        group = "romm";
+        home = dataDir;
+      };
+      groups.romm.gid = 974;
+    };
 
-        nginxModules =
-          prev.nginxModules
-          // {
-            zip = prev.nginxModules.zip.overrideAttrs (old: {
-              passthru =
-                (old.passthru or {})
-                // {
-                  forNginx = oldNginx: {
-                    env =
-                      (oldNginx.env or {})
-                      // {
-                        # append: generic.nix already sets NIX_CFLAGS_COMPILE
-                        # with the libxml2 include path
-                        NIX_CFLAGS_COMPILE =
-                          (oldNginx.env.NIX_CFLAGS_COMPILE or "")
-                          + " -Wno-error=unused-but-set-variable";
-                      };
-                  };
-                };
-            });
-          };
-      })
-    ];
-
-    services.romm = {
+    services.postgresql = {
       enable = true;
-      dataDir = "/srv/romm";
-      nginx.virtualHost = "${subdomain}.${domain}";
-      extraEnvironment = {
-        # the module derives an http:// URL from the nginx virtual host,
-        # but caddy terminates TLS in front of it
-        ROMM_BASE_URL = "https://${subdomain}.${domain}";
-        ROMM_SESSION_SECURE_COOKIE = "true";
-        HASHEOUS_API_ENABLED = "true";
-        HLTB_API_ENABLED = "true";
-        LAUNCHBOX_API_ENABLED = "true";
-        ENABLE_SCHEDULED_UPDATE_LAUNCHBOX_METADATA = "true";
-        ENABLE_SCHEDULED_RETROACHIEVEMENTS_PROGRESS_SYNC = "true";
+      ensureDatabases = ["romm"];
+      ensureUsers = [
+        {
+          name = "romm";
+          ensureDBOwnership = true;
+        }
+      ];
+    };
+    # Keep the socket directory's inode stable for the container bind mount
+    # when PostgreSQL restarts.
+    systemd.services.postgresql.serviceConfig.RuntimeDirectoryPreserve = "yes";
+
+    systemd.tmpfiles.rules =
+      map
+      (dir: "d ${dataDir}${dir} 0750 romm romm -")
+      ["" "/library" "/resources" "/assets" "/config" "/cache" "/redis"];
+
+    virtualisation.oci-containers = {
+      backend = "podman";
+      containers.romm = {
+        # RomM 5.4.1, matching the native deployment at cutover.
+        image = "docker.io/rommapp/romm:5.4.1@sha256:8677fb7b81b1d3db20b849e989a1dadc2a11159e51eb34a2acdcb01102274edf";
+        user = "${toString config.users.users.romm.uid}:${toString config.users.groups.romm.gid}";
+        ports = ["127.0.0.1:${toString port}:8080"];
+        volumes = [
+          "${dataDir}:/romm"
+          "${dataDir}/redis:/redis-data"
+          "/run/postgresql:/run/postgresql:ro"
+        ];
+        environmentFiles = [
+          config.sops.templates."romm-metadata-env".path
+          "${dataDir}/.auth-secret.env"
+        ];
+        environment = {
+          ROMM_DB_DRIVER = "postgresql";
+          DB_NAME = "romm";
+          DB_USER = "romm";
+          DB_PORT = "5432";
+          # Required by RomM, but unused with peer authentication.
+          DB_PASSWD = "peer-auth-unused";
+          DB_QUERY_JSON = builtins.toJSON {host = "/run/postgresql";};
+          ENABLE_RESCAN_ON_FILESYSTEM_CHANGE = "true";
+          ROMM_BASE_URL = "https://${subdomain}.${domain}";
+          ROMM_SESSION_SECURE_COOKIE = "true";
+          HASHEOUS_API_ENABLED = "true";
+          HLTB_API_ENABLED = "true";
+          LAUNCHBOX_API_ENABLED = "true";
+          ENABLE_SCHEDULED_UPDATE_LAUNCHBOX_METADATA = "true";
+          ENABLE_SCHEDULED_RETROACHIEVEMENTS_PROGRESS_SYNC = "true";
+        };
       };
     };
 
-    # metadata provider credentials, rendered from .secrets.yaml into an
-    # environment file (systemd reads EnvironmentFile as root, so the
-    # default template permissions are fine)
+    systemd.services.podman-romm = {
+      after = ["postgresql.target"];
+      requires = ["postgresql.target"];
+      unitConfig.RequiresMountsFor = [dataDir "/run/postgresql"];
+      preStart = ''
+        # Reuse the native service's secret; generate one only on a fresh install.
+        if [ ! -s ${dataDir}/.auth-secret.env ]; then
+          umask 0077
+          printf 'ROMM_AUTH_SECRET_KEY=%s\n' "$(${lib.getExe pkgs.openssl} rand -hex 32)" > ${dataDir}/.auth-secret.env
+        fi
+      '';
+    };
+
+    # Keep provider credentials out of the Nix store and restart on rotation.
     sops = {
       secrets = builtins.listToAttrs (map (name: {
           inherit name;
@@ -82,6 +104,7 @@
           # keep-sorted end
         ]);
 
+      templates."romm-metadata-env".restartUnits = ["podman-romm.service"];
       templates."romm-metadata-env".content = let
         # aliased: binding sops' placeholder directly trips nixf-diagnose
         # (shadows the builtins.placeholder primop)
@@ -93,17 +116,6 @@
         STEAMGRIDDB_API_KEY=${secret."romm-steamgriddb-api-key"}
       '';
     };
-
-    services.romm.environmentFile = config.sops.templates."romm-metadata-env".path;
-
-    # the internal nginx virtual host defaults to listening on :80, which
-    # conflicts with caddy; bind it to loopback on our port instead
-    services.nginx.virtualHosts."${subdomain}.${domain}".listen = lib.mkForce [
-      {
-        addr = "127.0.0.1";
-        inherit port;
-      }
-    ];
 
     services.caddy.virtualHosts."${subdomain}.${domain}".extraConfig = ''
       reverse_proxy 127.0.0.1:${toString port}
