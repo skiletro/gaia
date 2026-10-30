@@ -1,4 +1,4 @@
-{
+{self', ...}: {
   nixos = {
     config,
     lib,
@@ -8,30 +8,12 @@
     subdomain = "git";
     domain = "warm.vodka";
     port = 3000;
-    themeVersion = "1.3.0";
-    themeBase = pkgs.fetchurl {
-      url = "https://github.com/whereareiam/forgejo-github-theme/releases/download/${themeVersion}/theme-github-base.tar.gz";
-      hash = "sha256-1lWT9pdnSnOxPzdwrjz8lyMX0J/b/G2vR9um0oxzM+E=";
-    };
-    themeExtras = pkgs.fetchurl {
-      url = "https://github.com/whereareiam/forgejo-github-theme/releases/download/${themeVersion}/theme-github-extras.tar.gz";
-      hash = "sha256-z1oWUwqAf1zI26nt/ayskYyrpwc/lC6ul+I6x4AYByI=";
-    };
-    themeTemplates = pkgs.fetchurl {
-      url = "https://github.com/whereareiam/forgejo-github-theme/releases/download/${themeVersion}/theme-github-templates.tar.gz";
-      hash = "sha256-6TCiWtEkv1362gGU/4jS7A+p3Tnzl2OTO7LvfQSHfEA=";
-    };
-    githubTheme = pkgs.runCommand "forgejo-github-theme-${themeVersion}" {} ''
-      mkdir -p "$out/public/assets/css"
-      tar -xzf ${themeTemplates} -C "$out"
-      tar -xzf ${themeBase} -C "$out/public/assets/css"
-      tar -xzf ${themeExtras} -C "$out/public/assets/css" --wildcards 'theme-github-gitea-*.css'
-    '';
+    githubTheme = self'.packages.forgejo-github-theme;
   in {
     assertions = [
       {
         assertion = lib.versions.major config.services.forgejo.package.version == "17";
-        message = "Forgejo GitHub Theme ${themeVersion} targets Forgejo 17; review theme compatibility before upgrading Forgejo.";
+        message = "The pinned skiletro/forgejo-github-theme templates target Forgejo 17; review compatibility before upgrading Forgejo.";
       }
     ];
 
@@ -51,8 +33,8 @@
         service.DISABLE_REGISTRATION = true;
         session.COOKIE_SECURE = true;
         ui = {
-          DEFAULT_THEME = "github-gitea-auto";
-          THEMES = "github-auto,github-light,github-dark,github-soft-dark,github-gitea-auto,github-gitea-light,github-gitea-dark";
+          DEFAULT_THEME = "github-warm-vodka-dark";
+          THEMES = "github-warm-vodka-dark";
         };
       };
     };
