@@ -5,12 +5,12 @@
     links = builtins.mapAttrs (_: v: "https://${v}.${domain}") {
       # keep-sorted start
       broadcast-box = "box";
+      forgejo = "git";
       miniflux = "miniflux";
       mollysocket = "mollysocket";
       navidrome = "navidrome";
       romm = "romm";
       tangled-knot = "knot";
-      tangled-repos = "git";
       wakapi = "wakapi";
       # keep-sorted end
     };
