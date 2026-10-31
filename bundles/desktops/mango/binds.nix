@@ -25,7 +25,7 @@
           "SUPER+CTRL+SHIFT,F,togglefullscreen"
           "SUPER+SHIFT,Space,togglefloating"
           "SUPER,O,togglejump"
-          "SUPER,M,spawn,noctalia msg panel-toggle ezequiel/mango_layouts:panel"
+          ''SUPER,M,spawn,mmsg dispatch setlayout,$(echo -e 'dwindle\ngrid\nscroller' | vicinae dmenu -p 'Pick a layout...')''
 
           # Alt-tab style thumbnail switcher
           "SUPER,Tab,switcher,all_tag_next"
