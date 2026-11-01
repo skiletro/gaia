@@ -6,6 +6,7 @@
       # keep-sorted start
       broadcast-box = "box";
       forgejo = "git";
+      maloja = "maloja";
       miniflux = "miniflux";
       mollysocket = "mollysocket";
       navidrome = "navidrome";

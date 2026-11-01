@@ -6,6 +6,14 @@ src.github = "samuelngs/apple-emoji-linux"
 fetch.github = "Glimesh/broadcast-box"
 src.git = "https://github.com/Glimesh/broadcast-box.git"
 
+[maloja]
+docker.arch = "arm64"
+docker.os = "linux"
+fetch.docker = "krateng/maloja"
+src.container = "krateng/maloja"
+src.include_regex = '^\d+\.\d+\.\d+$'
+src.sort_version_key = "parse_version"
+
 [modern-minimal-ui-sounds]
 fetch.github = "cadecomposer/modern-minimal-ui-sounds"
 src.github = "cadecomposer/modern-minimal-ui-sounds"

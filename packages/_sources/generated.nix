@@ -26,6 +26,18 @@
     };
     date = "2026-10-27";
   };
+  maloja = {
+    pname = "maloja";
+    version = "3.2.9";
+    src = dockerTools.pullImage {
+      imageName = "krateng/maloja";
+      imageDigest = "sha256:313b58d282934b2e7dc27f794462eb2ceb1567db23806b49f78b706dd86afe09";
+      sha256 = "sha256-Z3Z4xySgzRJ6yOhUkglx505eKSVlq6Jhry+FaBqk81s=";
+      finalImageTag = "3.2.9";
+      os = "linux";
+      arch = "arm64";
+    };
+  };
   modern-minimal-ui-sounds = {
     pname = "modern-minimal-ui-sounds";
     version = "V1.2";

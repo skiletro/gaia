@@ -35,6 +35,26 @@
         },
         "version": "98d1773d7809ecc136f5b6f14eb16604e96ec4e3"
     },
+    "maloja": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "maloja",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "arch": "arm64",
+            "finalImageName": null,
+            "finalImageTag": null,
+            "imageDigest": "sha256:313b58d282934b2e7dc27f794462eb2ceb1567db23806b49f78b706dd86afe09",
+            "imageName": "krateng/maloja",
+            "imageTag": "3.2.9",
+            "os": "linux",
+            "sha256": "sha256-Z3Z4xySgzRJ6yOhUkglx505eKSVlq6Jhry+FaBqk81s=",
+            "tlsVerify": null
+        },
+        "version": "3.2.9"
+    },
     "modern-minimal-ui-sounds": {
         "cargoLock": null,
         "date": null,
