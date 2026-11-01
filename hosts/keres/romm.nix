@@ -1,4 +1,4 @@
-{
+{self', ...}: {
   nixos = {
     lib,
     config,
@@ -9,6 +9,7 @@
     domain = "warm.vodka";
     dataDir = "/srv/romm";
     port = 8585;
+    image = self'.sources.romm.src;
   in {
     # Preserve the deployed account IDs so the container can use the existing
     # library permissions and PostgreSQL's Unix-socket peer authentication.
@@ -44,8 +45,9 @@
     virtualisation.oci-containers = {
       backend = "podman";
       containers.romm = {
-        # RomM 5.4.1, matching the native deployment at cutover.
-        image = "docker.io/rommapp/romm:5.4.1@sha256:8677fb7b81b1d3db20b849e989a1dadc2a11159e51eb34a2acdcb01102274edf";
+        image = "${image.imageName}:${image.imageTag}";
+        imageFile = image;
+        pull = "never";
         user = "${toString config.users.users.romm.uid}:${toString config.users.groups.romm.gid}";
         ports = ["127.0.0.1:${toString port}:8080"];
         volumes = [

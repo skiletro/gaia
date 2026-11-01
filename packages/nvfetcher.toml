@@ -13,3 +13,11 @@ src.github = "cadecomposer/modern-minimal-ui-sounds"
 [proton-cachyos_x86_64_v3]
 fetch.url = "https://github.com/CachyOS/proton-cachyos/releases/download/$ver/proton-$ver-x86_64_v3.tar.xz"
 src.github = "CachyOS/proton-cachyos"
+
+[romm]
+docker.arch = "arm64"
+docker.os = "linux"
+fetch.docker = "rommapp/romm"
+src.container = "rommapp/romm"
+src.include_regex = '^\d+\.\d+\.\d+$'
+src.sort_version_key = "parse_version"

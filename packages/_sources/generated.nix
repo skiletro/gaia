@@ -45,4 +45,16 @@
       sha256 = "sha256-TxJb19LHJNx9LQVTykLxjGcCKmAG6GKf5/eNFgqevfs=";
     };
   };
+  romm = {
+    pname = "romm";
+    version = "5.4.1";
+    src = dockerTools.pullImage {
+      imageName = "rommapp/romm";
+      imageDigest = "sha256:8677fb7b81b1d3db20b849e989a1dadc2a11159e51eb34a2acdcb01102274edf";
+      sha256 = "sha256-YvsbmurlBj3p6fRfq1adlZQ0MI3+aVAf1ZUYegNrOvw=";
+      finalImageTag = "5.4.1";
+      os = "linux";
+      arch = "arm64";
+    };
+  };
 }

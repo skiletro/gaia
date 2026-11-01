@@ -70,5 +70,25 @@
             "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-11.0-20261015-slr/proton-cachyos-11.0-20261015-slr-x86_64_v3.tar.xz"
         },
         "version": "cachyos-11.0-20261015-slr"
+    },
+    "romm": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "romm",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "arch": "arm64",
+            "finalImageName": null,
+            "finalImageTag": null,
+            "imageDigest": "sha256:8677fb7b81b1d3db20b849e989a1dadc2a11159e51eb34a2acdcb01102274edf",
+            "imageName": "rommapp/romm",
+            "imageTag": "5.4.1",
+            "os": "linux",
+            "sha256": "sha256-YvsbmurlBj3p6fRfq1adlZQ0MI3+aVAf1ZUYegNrOvw=",
+            "tlsVerify": null
+        },
+        "version": "5.4.1"
     }
 }
