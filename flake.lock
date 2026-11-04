@@ -1296,16 +1296,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1792771818,
-        "narHash": "sha256-cbS53YVOm1wvtPTHIZ3qIfK27qIn8cjAhxGTZ63FW5M=",
-        "owner": "skiletro",
+        "lastModified": 1793829723,
+        "narHash": "sha256-fifw45EGDfnSRE2sWlSZ4FDT2dMXCx+QuTE40XIRdWY=",
+        "owner": "noctalia-dev",
         "repo": "noctalia",
-        "rev": "3eb17abdc792550ee78f563b71f4ec71baf52056",
+        "rev": "2b58e46f027a7610a73dd4a561e881492cacc9b6",
         "type": "github"
       },
       "original": {
-        "owner": "skiletro",
-        "ref": "mango-workspace-fix",
+        "owner": "noctalia-dev",
         "repo": "noctalia",
         "type": "github"
       }
