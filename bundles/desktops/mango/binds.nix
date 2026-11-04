@@ -9,7 +9,6 @@
           "NONE,XF86Search,spawn,vicinae toggle"
           "SUPER,F,spawn,helium"
           "SUPER,E,spawn,nautilus --new-window"
-          "CTRL,Space,spawn,pkill -USR2 -n handy"
           "SUPER,P,spawn,vicinae deeplink vicinae://launch/@leonkohli/vicinae-extension-process-manager-0/processes"
           "SUPER+SHIFT,P,spawn,vicinae deeplink vicinae://launch/power"
           "SUPER,Period,spawn,vicinae deeplink vicinae://launch/core/search-emojis"
