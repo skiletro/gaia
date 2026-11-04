@@ -26,6 +26,7 @@
       devenv.enable = true;
       direnv.enable = true;
       discord.enable = true;
+      fastfetch.enable = true;
       git.enable = true;
       helium.enable = true;
       helix.enable = true;

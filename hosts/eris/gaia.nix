@@ -32,6 +32,7 @@
       devenv.enable = true;
       direnv.enable = true;
       discord.enable = true;
+      fastfetch.enable = true;
       gamemode.enable = true;
       git.enable = true;
       gsr.enable = true;

@@ -4,6 +4,7 @@
     services.tailscale.enable = true;
     programs = {
       # keep-sorted start
+      fastfetch.enable = true;
       git.enable = true;
       nu.enable = true;
       starship.enable = true;
