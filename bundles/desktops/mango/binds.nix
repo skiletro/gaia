@@ -12,7 +12,7 @@
           "SUPER,P,spawn,vicinae deeplink vicinae://launch/@leonkohli/vicinae-extension-process-manager-0/processes"
           "SUPER+SHIFT,P,spawn,vicinae deeplink vicinae://launch/power"
           "SUPER,Period,spawn,vicinae deeplink vicinae://launch/core/search-emojis"
-          "SUPER,Delete,spawn,noctalia msg session lock"
+          "SUPER+SHIFT,BackSpace,spawn,noctalia msg session lock"
           "SUPER+SHIFT,S,spawn,noctalia msg screenshot-region"
 
           # Forward delete on keyboards without a dedicated Delete key
