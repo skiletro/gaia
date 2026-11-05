@@ -5,12 +5,14 @@
 {
   nixos = {
     config,
+    pkgs,
     mkCaddyProxy,
     keresDomain,
     ...
   }: let
     subdomain = "wakapi";
     port = 3009;
+    oidcEndpoint = "https://sso.${keresDomain}";
   in {
     sops = {
       secrets = {
@@ -51,7 +53,7 @@
               name = "pocket-id";
               display_name = "Methanol";
               client_id = "0b4fae56-5e6e-4633-b280-93f0d15a6d61";
-              endpoint = "https://sso.${keresDomain}";
+              endpoint = oidcEndpoint;
               username_claim = "display_name";
             }
           ];
@@ -65,6 +67,24 @@
           import_enabled = true;
           leaderboard_enabled = false;
         };
+      };
+    };
+
+    systemd.services.wakapi = {
+      wants = ["caddy.service" "pocket-id.service"];
+      after = ["caddy.service" "pocket-id.service"];
+      # Discovery needs the HTTPS proxy and issuer ready, not just their processes.
+      preStart = ''
+        echo "Waiting for OIDC discovery at ${oidcEndpoint}"
+        until ${pkgs.curl}/bin/curl --fail --silent --show-error \
+          --connect-timeout 5 --max-time 10 --output /dev/null \
+          "${oidcEndpoint}/.well-known/openid-configuration"; do
+          sleep 2
+        done
+      '';
+      serviceConfig = {
+        TimeoutStartSec = "2min";
+        RestartSec = "5s";
       };
     };
 
