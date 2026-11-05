@@ -4,25 +4,7 @@
 #   Persistent Caddy state: /var/lib/caddy
 #   Landing page: immutable Nix-store output
 {inputs', ...}: {
-  nixos = {keresDomain, ...}: let
-    links = builtins.mapAttrs (_: v: "https://${v}.${keresDomain}") {
-      # keep-sorted start
-      broadcast-box = "box";
-      forgejo = "git";
-      maloja = "maloja";
-      miniflux = "miniflux";
-      mollysocket = "mollysocket";
-      navidrome = "navidrome";
-      romm = "romm";
-      wakapi = "wakapi";
-      # keep-sorted end
-    };
-
-    accountLink = {
-      label = "manage your methanol account";
-      url = "https://sso.${keresDomain}";
-    };
-  in {
+  nixos = {keresDomain, ...}: {
     _module.args.mkCaddyProxy = subdomain: port: {
       "${subdomain}.${keresDomain}".extraConfig = ''
         reverse_proxy 127.0.0.1:${toString port}
@@ -33,7 +15,28 @@
       enable = true;
       virtualHosts."${keresDomain}" = {
         serverAliases = ["www.${keresDomain}"];
-        extraConfig =
+        extraConfig = let
+          landingPage = inputs'.warm-vodka-landing-page.packages.default.override {
+            title = keresDomain;
+            links = builtins.mapAttrs (_: v: "https://${v}.${keresDomain}") {
+              # keep-sorted start
+              broadcast-box = "box";
+              forgejo = "git";
+              maloja = "maloja";
+              miniflux = "miniflux";
+              mollysocket = "mollysocket";
+              navidrome = "navidrome";
+              romm = "romm";
+              wakapi = "wakapi";
+              # keep-sorted end
+            };
+
+            accountLink = {
+              label = "manage your methanol account";
+              url = "https://sso.${keresDomain}";
+            };
+          };
+        in
           # caddyfile
           ''
             handle /.well-known/webfinger {
@@ -52,10 +55,7 @@
             }
 
             handle {
-              root * ${(inputs'.warm-vodka-landing-page.packages.default.override {
-              title = keresDomain;
-              inherit links accountLink;
-            })}
+              root * ${landingPage}
               file_server
             }
           '';
