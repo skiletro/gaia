@@ -3,9 +3,12 @@
 # Data location:
 #   Persistent state (secret environment may override the database path): /var/lib/mollysocket
 {
-  nixos = {config, ...}: let
+  nixos = {
+    config,
+    mkCaddyProxy,
+    ...
+  }: let
     subdomain = "mollysocket";
-    domain = "warm.vodka";
     port = 8020;
   in {
     sops.secrets."mollysocket-env" = {};
@@ -18,8 +21,6 @@
       };
     };
 
-    services.caddy.virtualHosts."${subdomain}.${domain}".extraConfig = ''
-      reverse_proxy :${toString port}
-    '';
+    services.caddy.virtualHosts = mkCaddyProxy subdomain port;
   };
 }

@@ -3,7 +3,11 @@
 # Data location:
 #   Persistent application state: /var/lib/pocket-id
 {
-  nixos = {config, ...}: let
+  nixos = {
+    config,
+    mkCaddyProxy,
+    ...
+  }: let
     subdomain = "sso";
     domain = "warm.vodka";
     port = 1411;
@@ -43,12 +47,6 @@
       };
     };
 
-    services.caddy.virtualHosts = {
-      "${subdomain}.${domain}".extraConfig =
-        # caddyfile
-        ''
-          reverse_proxy :${toString port}
-        '';
-    };
+    services.caddy.virtualHosts = mkCaddyProxy subdomain port;
   };
 }

@@ -7,14 +7,17 @@
 #   Beets library database: /home/jamie/.local/share/beets/library.db
 let
   subdomain = "navidrome";
-  domain = "warm.vodka";
   port = 4533;
 
   DataFolder = "/var/lib/navidrome";
   MusicFolder = "${DataFolder}/music";
   CacheFolder = "/var/cache/navidrome";
 in {
-  nixos = {lib, ...}: {
+  nixos = {
+    lib,
+    mkCaddyProxy,
+    ...
+  }: {
     services.navidrome = {
       enable = true;
       settings = {
@@ -27,9 +30,7 @@ in {
       };
     };
 
-    services.caddy.virtualHosts."${subdomain}.${domain}".extraConfig = ''
-      reverse_proxy :${toString port}
-    '';
+    services.caddy.virtualHosts = mkCaddyProxy subdomain port;
 
     # Grant traversal of private state, but group write access only to music.
     systemd.tmpfiles.settings.navidromeDirs = {

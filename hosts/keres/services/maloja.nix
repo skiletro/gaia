@@ -3,9 +3,12 @@
 # Data location:
 #   Application state (/mljdata in the container): /var/lib/maloja
 {self', ...}: {
-  nixos = {config, ...}: let
+  nixos = {
+    config,
+    mkCaddyProxy,
+    ...
+  }: let
     subdomain = "maloja";
-    domain = "warm.vodka";
     dataDir = "/var/lib/maloja";
     port = 42010;
     image = self'.sources.maloja.src;
@@ -47,8 +50,6 @@
       };
     };
 
-    services.caddy.virtualHosts."${subdomain}.${domain}".extraConfig = ''
-      reverse_proxy 127.0.0.1:${toString port}
-    '';
+    services.caddy.virtualHosts = mkCaddyProxy subdomain port;
   };
 }

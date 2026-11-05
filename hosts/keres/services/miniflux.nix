@@ -3,7 +3,11 @@
 # Data location:
 #   Shared PostgreSQL cluster (database miniflux / role miniflux): /var/lib/postgresql/16
 {
-  nixos = {config, ...}: let
+  nixos = {
+    config,
+    mkCaddyProxy,
+    ...
+  }: let
     subdomain = "miniflux";
     domain = "warm.vodka";
     port = 3010;
@@ -34,8 +38,6 @@
       "oidc-client-secret:${config.sops.secrets.pocketid-miniflux-secret.path}"
     ];
 
-    services.caddy.virtualHosts."${subdomain}.${domain}".extraConfig = ''
-      reverse_proxy :${toString port}
-    '';
+    services.caddy.virtualHosts = mkCaddyProxy subdomain port;
   };
 }

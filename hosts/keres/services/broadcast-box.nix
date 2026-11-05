@@ -3,9 +3,12 @@
 # Data location:
 #   Persistent state and working directory: /var/lib/broadcast-box
 {self', ...}: {
-  nixos = {config, ...}: let
+  nixos = {
+    config,
+    mkCaddyProxy,
+    ...
+  }: let
     subdomain = "box";
-    domain = "warm.vodka";
     port = 8090;
   in {
     sops.secrets."broadcast-box-env" = {};
@@ -25,9 +28,7 @@
       };
     };
 
-    services.caddy.virtualHosts."${subdomain}.${domain}".extraConfig = ''
-      reverse_proxy 127.0.0.1:${toString port}
-    '';
+    services.caddy.virtualHosts = mkCaddyProxy subdomain port;
 
     systemd.services.broadcast-box.serviceConfig = {
       StateDirectory = "broadcast-box";

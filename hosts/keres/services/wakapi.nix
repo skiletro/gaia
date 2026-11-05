@@ -3,7 +3,11 @@
 # Data location:
 #   SQLite database and persistent application state: /var/lib/wakapi
 {
-  nixos = {config, ...}: let
+  nixos = {
+    config,
+    mkCaddyProxy,
+    ...
+  }: let
     subdomain = "wakapi";
     domain = "warm.vodka";
     port = 3009;
@@ -64,8 +68,6 @@
       };
     };
 
-    services.caddy.virtualHosts."${subdomain}.${domain}".extraConfig = ''
-      reverse_proxy :${toString port}
-    '';
+    services.caddy.virtualHosts = mkCaddyProxy subdomain port;
   };
 }

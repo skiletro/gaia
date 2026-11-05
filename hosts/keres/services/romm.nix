@@ -10,6 +10,7 @@
     lib,
     config,
     pkgs,
+    mkCaddyProxy,
     ...
   }: let
     subdomain = "romm";
@@ -122,8 +123,6 @@
       '';
     };
 
-    services.caddy.virtualHosts."${subdomain}.${domain}".extraConfig = ''
-      reverse_proxy 127.0.0.1:${toString port}
-    '';
+    services.caddy.virtualHosts = mkCaddyProxy subdomain port;
   };
 }

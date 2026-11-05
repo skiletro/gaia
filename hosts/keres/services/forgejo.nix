@@ -7,6 +7,7 @@
     config,
     lib,
     pkgs,
+    mkCaddyProxy,
     ...
   }: let
     subdomain = "git";
@@ -50,8 +51,6 @@
     ];
     systemd.services.forgejo.restartTriggers = [githubTheme];
 
-    services.caddy.virtualHosts."${subdomain}.${domain}".extraConfig = ''
-      reverse_proxy 127.0.0.1:${toString port}
-    '';
+    services.caddy.virtualHosts = mkCaddyProxy subdomain port;
   };
 }

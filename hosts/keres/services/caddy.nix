@@ -25,6 +25,12 @@
       url = "https://sso.${domain}";
     };
   in {
+    _module.args.mkCaddyProxy = subdomain: port: {
+      "${subdomain}.${domain}".extraConfig = ''
+        reverse_proxy 127.0.0.1:${toString port}
+      '';
+    };
+
     services.caddy = {
       enable = true;
       virtualHosts."${domain}" = {
