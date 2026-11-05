@@ -1,14 +1,17 @@
+# Service: Maloja
+# Dependencies: Podman, Caddy, sops-nix
+# Data location:
+#   Application state (/mljdata in the container): /var/lib/maloja
 {self', ...}: {
   nixos = {config, ...}: let
     subdomain = "maloja";
     domain = "warm.vodka";
-    dataDir = "/srv/maloja";
+    dataDir = "/var/lib/maloja";
     port = 42010;
     image = self'.sources.maloja.src;
   in {
     systemd.tmpfiles.rules = [
       "d ${dataDir} 0700 root root -"
-      "d ${dataDir}/data 0700 root root -"
     ];
 
     virtualisation.oci-containers = {
@@ -18,7 +21,7 @@
         imageFile = image;
         pull = "never";
         ports = ["127.0.0.1:${toString port}:${toString port}"];
-        volumes = ["${dataDir}/data:/mljdata"];
+        volumes = ["${dataDir}:/mljdata"];
         environmentFiles = [config.sops.templates."maloja-admin-env".path];
         environment = {
           MALOJA_DATA_DIRECTORY = "/mljdata";

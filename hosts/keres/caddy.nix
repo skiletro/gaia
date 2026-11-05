@@ -1,3 +1,8 @@
+# Service: caddy
+# Dependencies: none
+# Data location:
+#   Persistent Caddy state: /var/lib/caddy
+#   Landing page: immutable Nix-store output
 {inputs', ...}: {
   nixos = let
     domain = "warm.vodka";

@@ -1,3 +1,7 @@
+# Service: forgejo
+# Dependencies: Caddy reverse proxy
+# Data location:
+#   Repositories, SQLite database, and other persistent state: /var/lib/forgejo
 {self', ...}: {
   nixos = {
     config,

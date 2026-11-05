@@ -1,14 +1,20 @@
+# Service: Navidrome
+# Dependencies: Caddy
+# Data location:
+#   Private application state: /var/lib/navidrome
+#   Music library: /var/lib/navidrome/music
+#   Cache: /var/cache/navidrome
+#   Beets library database: /home/jamie/.local/share/beets/library.db
 let
   subdomain = "navidrome";
   domain = "warm.vodka";
   port = 4533;
 
-  RootFolder = "/srv/navidrome";
-  MusicFolder = "${RootFolder}/music";
-  DataFolder = "${RootFolder}/data";
-  CacheFolder = "${RootFolder}/cache";
+  DataFolder = "/var/lib/navidrome";
+  MusicFolder = "${DataFolder}/music";
+  CacheFolder = "/var/cache/navidrome";
 in {
-  nixos = {
+  nixos = {lib, ...}: {
     services.navidrome = {
       enable = true;
       settings = {
@@ -25,21 +31,29 @@ in {
       reverse_proxy :${toString port}
     '';
 
-    # beets runs as user jamie and needs to write its library database and
-    # music files into navidrome's StateDirectory.
-    systemd.tmpfiles.rules = [
-      "Z /srv/navidrome 0775 navidrome navidrome -"
-    ];
+    # Grant traversal of private state, but group write access only to music.
+    systemd.tmpfiles.settings.navidromeDirs = {
+      "${DataFolder}".d.mode = lib.mkForce "0710";
+      "${MusicFolder}".d = {
+        mode = lib.mkForce "2770";
+        user = lib.mkForce "navidrome";
+        group = lib.mkForce "navidrome";
+      };
+    };
+    systemd.services.navidrome.serviceConfig = {
+      StateDirectoryMode = "0710";
+      UMask = lib.mkForce "0077";
+    };
 
     users.users.jamie.extraGroups = ["navidrome"];
   };
 
-  home-manager = {
+  home-manager = {config, ...}: {
     programs.beets = {
       enable = false;
       settings = {
         # library is the beets database file, not the music location
-        library = "${RootFolder}/library.db";
+        library = "${config.xdg.dataHome}/beets/library.db";
         directory = MusicFolder;
 
         plugins = [

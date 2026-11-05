@@ -1,3 +1,10 @@
+# Service: RomM
+# Dependencies: PostgreSQL (database romm, role romm), bundled Redis, Podman, Caddy, sops-nix
+# Data location:
+#   Application state (/romm in the container): /var/lib/romm
+#   Redis state (/redis-data in the container): /var/lib/romm/redis
+#   Generated authentication secret: /var/lib/romm/.auth-secret.env
+#   PostgreSQL database romm, role romm: /var/lib/postgresql/16
 {self', ...}: {
   nixos = {
     lib,
@@ -7,7 +14,7 @@
   }: let
     subdomain = "romm";
     domain = "warm.vodka";
-    dataDir = "/srv/romm";
+    dataDir = "/var/lib/romm";
     port = 8585;
     image = self'.sources.romm.src;
   in {
@@ -24,7 +31,6 @@
     };
 
     services.postgresql = {
-      enable = true;
       ensureDatabases = ["romm"];
       ensureUsers = [
         {
@@ -33,9 +39,6 @@
         }
       ];
     };
-    # Keep the socket directory's inode stable for the container bind mount
-    # when PostgreSQL restarts.
-    systemd.services.postgresql.serviceConfig.RuntimeDirectoryPreserve = "yes";
 
     systemd.tmpfiles.rules =
       map

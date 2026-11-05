@@ -22,7 +22,7 @@
 in
   buildGoModule {
     inherit pname version src;
-    vendorHash = "sha256-jCEUvgmOmgwFeRsYfwn/uQiqySgzdmV9pKKImNJbams=";
+    vendorHash = "sha256-0LyylgNtAD/HT/ojhyI2eo5e8G4+4BU1jO4zXkohAIs=";
     proxyVendor = true;
     subPackages = ["."];
 

@@ -1,3 +1,7 @@
+# Service: mollysocket
+# Dependencies: Caddy reverse proxy; sops-nix secret provisioning
+# Data location:
+#   Persistent state (secret environment may override the database path): /var/lib/mollysocket
 {
   nixos = {config, ...}: let
     subdomain = "mollysocket";

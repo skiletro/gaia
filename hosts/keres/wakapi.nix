@@ -1,3 +1,7 @@
+# Service: wakapi
+# Dependencies: Caddy reverse proxy; Pocket ID OIDC; sops-nix secret provisioning
+# Data location:
+#   SQLite database and persistent application state: /var/lib/wakapi
 {
   nixos = {config, ...}: let
     subdomain = "wakapi";

@@ -1,3 +1,7 @@
+# Service: broadcast-box
+# Dependencies: Caddy reverse proxy; sops-nix secret provisioning
+# Data location:
+#   Persistent state and working directory: /var/lib/broadcast-box
 {self', ...}: {
   nixos = {config, ...}: let
     subdomain = "box";

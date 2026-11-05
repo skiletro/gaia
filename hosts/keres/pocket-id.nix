@@ -1,3 +1,7 @@
+# Service: pocket-id
+# Dependencies: Caddy reverse proxy; SMTP relay; sops-nix secret provisioning
+# Data location:
+#   Persistent application state: /var/lib/pocket-id
 {
   nixos = {config, ...}: let
     subdomain = "sso";

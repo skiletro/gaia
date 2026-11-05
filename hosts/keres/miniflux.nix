@@ -1,3 +1,7 @@
+# Service: miniflux
+# Dependencies: shared PostgreSQL; Caddy reverse proxy; Pocket ID OIDC; sops-nix secret provisioning
+# Data location:
+#   Shared PostgreSQL cluster (database miniflux / role miniflux): /var/lib/postgresql/16
 {
   nixos = {config, ...}: let
     subdomain = "miniflux";
