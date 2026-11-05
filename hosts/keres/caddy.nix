@@ -11,7 +11,6 @@
       mollysocket = "mollysocket";
       navidrome = "navidrome";
       romm = "romm";
-      tangled-knot = "knot";
       wakapi = "wakapi";
       # keep-sorted end
     };

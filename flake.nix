@@ -131,8 +131,6 @@
       inputs.flake-parts.follows = "flake-parts";
     };
 
-    tangled.url = "git+https://tangled.org/tangled.org/core";
-
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
