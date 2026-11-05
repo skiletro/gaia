@@ -149,6 +149,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    warm-vodka-forgejo-theme = {
+      url = "github:warm-vodka/forgejo-theme";
+      flake = false;
+    };
+
     warm-vodka-landing-page = {
       url = "github:warm-vodka/landing";
       inputs.nixpkgs.follows = "nixpkgs";

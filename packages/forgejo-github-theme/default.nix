@@ -1,20 +1,15 @@
 {
   lib,
   buildNpmPackage,
-  fetchFromGitHub,
+  inputs,
   bun,
   ...
 }:
 buildNpmPackage {
   pname = "forgejo-github-theme";
-  version = "0-unstable-2026-10-30";
+  version = "0-unstable-${lib.substring 0 8 inputs.warm-vodka-forgejo-theme.lastModifiedDate}";
 
-  src = fetchFromGitHub {
-    owner = "skiletro";
-    repo = "forgejo-github-theme";
-    rev = "71685fb3b82092d3a3e928240883a7d4f88f02fa";
-    hash = "sha256-jFqszrQUSecVYouc1CqEXsqTOuO9krAcnuKhlwVLPAI=";
-  };
+  src = inputs.warm-vodka-forgejo-theme;
 
   postPatch = ''
     cp ${./package-lock.json} package-lock.json
@@ -40,7 +35,7 @@ buildNpmPackage {
 
   meta = {
     description = "Forgejo GitHub layouts with the warm.vodka dark theme";
-    homepage = "https://github.com/skiletro/forgejo-github-theme";
+    homepage = "https://github.com/warm-vodka/forgejo-theme";
     license = lib.licenses.asl20;
     platforms = lib.platforms.unix;
   };

@@ -18,7 +18,7 @@
     assertions = [
       {
         assertion = lib.versions.major config.services.forgejo.package.version == "17";
-        message = "The pinned skiletro/forgejo-github-theme templates target Forgejo 17; review compatibility before upgrading Forgejo.";
+        message = "The pinned warm-vodka/forgejo-theme templates target Forgejo 17; review compatibility before upgrading Forgejo.";
       }
     ];
 

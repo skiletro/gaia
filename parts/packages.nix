@@ -1,4 +1,8 @@
-{lib, ...}: {
+{
+  inputs,
+  lib,
+  ...
+}: {
   perSystem = {
     pkgs,
     self',
@@ -9,7 +13,12 @@
     packages = lib.pipe (builtins.readDir pkgDir) [
       (lib.filterAttrs (name: value: value == "directory" && name != "_sources"))
       (lib.mapAttrs (
-        name: _: pkgs.callPackage "${pkgDir}/${name}" ({inherit (self') sources;} // self'.packages)
+        name: _:
+          pkgs.callPackage "${pkgDir}/${name}" ({
+              inherit inputs;
+              inherit (self') sources;
+            }
+            // self'.packages)
       ))
     ];
 
