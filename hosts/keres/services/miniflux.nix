@@ -6,10 +6,10 @@
   nixos = {
     config,
     mkCaddyProxy,
+    keresDomain,
     ...
   }: let
     subdomain = "miniflux";
-    domain = "warm.vodka";
     port = 3010;
   in {
     sops.secrets."pocketid-miniflux-secret" = {};
@@ -18,7 +18,7 @@
       enable = true;
       config = {
         PORT = toString port;
-        BASE_URL = "https://${subdomain}.${domain}";
+        BASE_URL = "https://${subdomain}.${keresDomain}";
         HTTPS = 1;
         POLLING_FREQUENCY = 120;
         HTTP_CLIENT_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36";
@@ -28,8 +28,8 @@
         OAUTH2_OIDC_PROVIDER_NAME = "Methanol";
         OAUTH2_CLIENT_ID = "266a4351-916b-49b5-aa29-f841f127b662";
         OAUTH2_CLIENT_SECRET_FILE = "%d/oidc-client-secret";
-        OAUTH2_REDIRECT_URL = "https://${subdomain}.${domain}/oauth2/oidc/callback";
-        OAUTH2_OIDC_DISCOVERY_ENDPOINT = "https://sso.${domain}";
+        OAUTH2_REDIRECT_URL = "https://${subdomain}.${keresDomain}/oauth2/oidc/callback";
+        OAUTH2_OIDC_DISCOVERY_ENDPOINT = "https://sso.${keresDomain}";
         OAUTH2_USER_CREATION = 1;
       };
     };

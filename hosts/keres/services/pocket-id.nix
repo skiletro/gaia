@@ -6,10 +6,10 @@
   nixos = {
     config,
     mkCaddyProxy,
+    keresDomain,
     ...
   }: let
     subdomain = "sso";
-    domain = "warm.vodka";
     port = 1411;
   in {
     sops.secrets = {
@@ -25,7 +25,7 @@
       settings = {
         TRUST_PROXY = true;
         ANALYTICS_DISABLED = true;
-        APP_URL = "https://${subdomain}.${domain}";
+        APP_URL = "https://${subdomain}.${keresDomain}";
 
         # UI
         UI_CONFIG_DISABLED = true;
@@ -33,8 +33,8 @@
         ALLOW_USER_SIGNUPS = "withToken";
         SMTP_HOST = "smtp.protonmail.ch";
         SMTP_PORT = "587";
-        SMTP_USER = "${"noreply"}${"@"}${"warm.vodka"}";
-        SMTP_FROM = "${"noreply"}${"@"}${"warm.vodka"}";
+        SMTP_USER = "noreply@${keresDomain}";
+        SMTP_FROM = "noreply@${keresDomain}";
         SMTP_TLS = "starttls";
         EMAIL_ONE_TIME_ACCESS_AS_UNAUTHENTICATED_ENABLED = true;
         EMAIL_VERIFICATION_ENABLED = true;

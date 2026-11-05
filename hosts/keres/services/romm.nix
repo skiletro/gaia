@@ -11,10 +11,10 @@
     config,
     pkgs,
     mkCaddyProxy,
+    keresDomain,
     ...
   }: let
     subdomain = "romm";
-    domain = "warm.vodka";
     dataDir = "/var/lib/romm";
     port = 8585;
     image = self'.sources.romm.src;
@@ -72,7 +72,7 @@
           DB_PASSWD = "peer-auth-unused";
           DB_QUERY_JSON = builtins.toJSON {host = "/run/postgresql";};
           ENABLE_RESCAN_ON_FILESYSTEM_CHANGE = "true";
-          ROMM_BASE_URL = "https://${subdomain}.${domain}";
+          ROMM_BASE_URL = "https://${subdomain}.${keresDomain}";
           ROMM_SESSION_SECURE_COOKIE = "true";
           HASHEOUS_API_ENABLED = "true";
           HLTB_API_ENABLED = "true";

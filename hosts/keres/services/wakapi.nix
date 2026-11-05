@@ -6,10 +6,10 @@
   nixos = {
     config,
     mkCaddyProxy,
+    keresDomain,
     ...
   }: let
     subdomain = "wakapi";
-    domain = "warm.vodka";
     port = 3009;
   in {
     sops = {
@@ -36,7 +36,7 @@
       environmentFiles = [config.sops.templates."wakapi-env".path];
       settings = {
         server = {
-          public_url = "https://${subdomain}.${domain}";
+          public_url = "https://${subdomain}.${keresDomain}";
           listen_ipv4 = "127.0.0.1";
           listen_ipv6 = "-";
           inherit port;
@@ -51,7 +51,7 @@
               name = "pocket-id";
               display_name = "Methanol";
               client_id = "0b4fae56-5e6e-4633-b280-93f0d15a6d61";
-              endpoint = "https://sso.${domain}";
+              endpoint = "https://sso.${keresDomain}";
               username_claim = "display_name";
             }
           ];

@@ -8,10 +8,10 @@
     lib,
     pkgs,
     mkCaddyProxy,
+    keresDomain,
     ...
   }: let
     subdomain = "git";
-    domain = "warm.vodka";
     port = 3000;
     githubTheme = self'.packages.forgejo-github-theme;
   in {
@@ -30,8 +30,8 @@
       database.type = "sqlite3";
       settings = {
         server = {
-          DOMAIN = "${subdomain}.${domain}";
-          ROOT_URL = "https://${subdomain}.${domain}/";
+          DOMAIN = "${subdomain}.${keresDomain}";
+          ROOT_URL = "https://${subdomain}.${keresDomain}/";
           HTTP_ADDR = "127.0.0.1";
           HTTP_PORT = port;
         };

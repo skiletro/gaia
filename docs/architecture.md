@@ -59,6 +59,8 @@ and [Bundle reference](bundle-reference.md) for options and dependencies.
 specific. Keres keeps hosted-service modules in [`hosts/keres/services/`](../hosts/keres/services/).
 Its `caddy.nix` supplies `mkCaddyProxy subdomain port` to NixOS modules for
 reverse proxies to `127.0.0.1`. Import-tree discovers these nested modules automatically.
+[`hosts/keres/domain.nix`](../hosts/keres/domain.nix) defines the base domain used
+by Keres's hosted services; workstation client endpoints remain independent.
 `hosts/<host>/monitors.nix` declares device monitor profiles rather
 than embedding hardware identities in desktop bundles. The `iso` host also has
 `hosts/iso/installer.nix`, which configures a minimal installer with `disko-install`.

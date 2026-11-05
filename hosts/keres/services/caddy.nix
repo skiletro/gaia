@@ -4,10 +4,8 @@
 #   Persistent Caddy state: /var/lib/caddy
 #   Landing page: immutable Nix-store output
 {inputs', ...}: {
-  nixos = let
-    domain = "warm.vodka";
-
-    links = builtins.mapAttrs (_: v: "https://${v}.${domain}") {
+  nixos = {keresDomain, ...}: let
+    links = builtins.mapAttrs (_: v: "https://${v}.${keresDomain}") {
       # keep-sorted start
       broadcast-box = "box";
       forgejo = "git";
@@ -22,19 +20,19 @@
 
     accountLink = {
       label = "manage your methanol account";
-      url = "https://sso.${domain}";
+      url = "https://sso.${keresDomain}";
     };
   in {
     _module.args.mkCaddyProxy = subdomain: port: {
-      "${subdomain}.${domain}".extraConfig = ''
+      "${subdomain}.${keresDomain}".extraConfig = ''
         reverse_proxy 127.0.0.1:${toString port}
       '';
     };
 
     services.caddy = {
       enable = true;
-      virtualHosts."${domain}" = {
-        serverAliases = ["www.${domain}"];
+      virtualHosts."${keresDomain}" = {
+        serverAliases = ["www.${keresDomain}"];
         extraConfig =
           # caddyfile
           ''
@@ -46,7 +44,7 @@
                     "links": [
                       {
                         "rel": "http://openid.net/specs/connect/1.0/issuer",
-                        "href": "https://sso.${domain}"
+                        "href": "https://sso.${keresDomain}"
                       }
                     ]
                   }
@@ -55,7 +53,7 @@
 
             handle {
               root * ${(inputs'.warm-vodka-landing-page.packages.default.override {
-              title = domain;
+              title = keresDomain;
               inherit links accountLink;
             })}
               file_server
