@@ -87,7 +87,10 @@ nixos-rebuild switch --flake .#keres \
   --sudo --ask-sudo-password
 ```
 
-The target must be reachable over SSH and `jamie` must have sudo access.
+The target must be reachable over SSH using an authorized key, and `jamie` must
+have sudo access. Password and keyboard-interactive SSH logins are disabled on
+all hosts, including the installer ISO. The sudo password prompt above is
+unaffected.
 `--target-host` does not select the flake configuration; keep `.#keres` explicit.
 The `just deploy` recipe currently omits that selector, so use the command above
 for cross-host deployment.
