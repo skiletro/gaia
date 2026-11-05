@@ -1,0 +1,251 @@
+--- a/include/mango/ipc/ipc.h
++++ b/include/mango/ipc/ipc.h
+@@ -39,6 +39,8 @@
+ 	struct wl_list link;
+ 	int fd;
+ 	struct wl_event_source *source;
++	struct wl_list pending;
++	size_t queued_bytes;
+ 	enum ipc_watch_type type;
+ 	union {
+ 		struct {
+--- a/src/ipc/ipc.c
++++ b/src/ipc/ipc.c
+@@ -223,6 +223,80 @@
+ }
+ 
+ /* ---------- Watch mode support ---------- */
++/* Bound memory held by a watcher that never resumes reading. */
++#define IPC_WATCH_QUEUE_LIMIT (1024 * 1024)
++
++struct ipc_watch_message {
++	struct wl_list link;
++	size_t len;
++	size_t offset;
++	char data[];
++};
++
++static bool ipc_flush_watch_client(struct ipc_watch_client *wc) {
++	while (!wl_list_empty(&wc->pending)) {
++		struct ipc_watch_message *msg =
++			wl_container_of(wc->pending.next, msg, link);
++		ssize_t n = send(wc->fd, msg->data + msg->offset,
++						 msg->len - msg->offset, MSG_NOSIGNAL);
++		if (n < 0 && errno == EINTR)
++			continue;
++		if (n < 0 && (errno == EAGAIN || errno == EWOULDBLOCK))
++			return true;
++		if (n <= 0)
++			return false;
++		msg->offset += n;
++		if (msg->offset == msg->len) {
++			wc->queued_bytes -= msg->len;
++			wl_list_remove(&msg->link);
++			free(msg);
++		}
++	}
++	return wl_event_source_fd_update(
++			   wc->source, WL_EVENT_READABLE | WL_EVENT_HANGUP | WL_EVENT_ERROR) == 0;
++}
++
++static void ipc_send_watch_client(struct ipc_watch_client *wc,
++								 const char *data, size_t len) {
++	size_t offset = 0;
++	bool was_empty = wl_list_empty(&wc->pending);
++	if (was_empty) {
++		ssize_t n;
++		do {
++			n = send(wc->fd, data, len, MSG_NOSIGNAL);
++		} while (n < 0 && errno == EINTR);
++		if (n < 0 && errno != EAGAIN && errno != EWOULDBLOCK)
++			goto disconnect;
++		if (n == 0)
++			goto disconnect;
++		if (n > 0)
++			offset = n;
++		if (offset == len)
++			return;
++	}
++
++	/* Queue only unsent bytes; never interleave JSON lines after a short send. */
++	size_t remaining = len - offset;
++	if (remaining > IPC_WATCH_QUEUE_LIMIT - wc->queued_bytes)
++		goto disconnect;
++	struct ipc_watch_message *msg = malloc(sizeof(*msg) + remaining);
++	if (!msg)
++		goto disconnect;
++	msg->len = remaining;
++	msg->offset = 0;
++	memcpy(msg->data, data + offset, remaining);
++	wl_list_insert(wc->pending.prev, &msg->link);
++	wc->queued_bytes += remaining;
++	if (was_empty && wl_event_source_fd_update(
++			wc->source, WL_EVENT_READABLE | WL_EVENT_WRITABLE |
++							WL_EVENT_HANGUP | WL_EVENT_ERROR) < 0)
++		goto disconnect;
++	return;
++
++disconnect:
++	ipc_remove_watch_client(wc);
++}
++
+ void ipc_notify_json_to_fd(int fd, cJSON *json) {
+ 	char *str = cJSON_PrintUnformatted(json);
+ 	if (!str)
+@@ -234,13 +308,11 @@
+ 		return;
+ 	}
+ 	snprintf(msg, len + 2, "%s\n", str);
+-	if (send(fd, msg, len + 1, 0) < 0) {
+-		struct ipc_watch_client *wc, *tmp;
+-		wl_list_for_each_safe(wc, tmp, &ipc_watch_clients, link) {
+-			if (wc->fd == fd) {
+-				ipc_remove_watch_client(wc);
+-				break;
+-			}
++	struct ipc_watch_client *wc;
++	wl_list_for_each(wc, &ipc_watch_clients, link) {
++		if (wc->fd == fd) {
++			ipc_send_watch_client(wc, msg, len + 1);
++			break;
+ 		}
+ 	}
+ 	free(msg);
+@@ -271,6 +343,11 @@
+ 	wl_list_remove(&wc->link);
+ 	wl_event_source_remove(wc->source);
+ 	close(wc->fd);
++	struct ipc_watch_message *msg, *tmp;
++	wl_list_for_each_safe(msg, tmp, &wc->pending, link) {
++		wl_list_remove(&msg->link);
++		free(msg);
++	}
+ 	free(wc);
+ }
+ 
+@@ -283,10 +360,14 @@
+ 	if (mask & WL_EVENT_READABLE) {
+ 		char buf[64];
+ 		ssize_t n = recv(fd, buf, sizeof(buf), 0);
+-		if (n == 0 || (n < 0 && errno != EAGAIN && errno != EWOULDBLOCK)) {
++		if (n == 0 || (n < 0 && errno != EAGAIN &&
++					   errno != EWOULDBLOCK && errno != EINTR)) {
+ 			ipc_remove_watch_client(wc);
+-		}
+-	}
++			return 0;
++		}
++	}
++	if ((mask & WL_EVENT_WRITABLE) && !ipc_flush_watch_client(wc))
++		ipc_remove_watch_client(wc);
+ 	return 0;
+ }
+ 
+@@ -396,8 +477,7 @@
+ 				snprintf(json_str, len + 2, "%s\n", raw);
+ 				free(raw);
+ 			}
+-			if (send(wc->fd, json_str, len + 1, 0) < 0)
+-				ipc_remove_watch_client(wc);
++			ipc_send_watch_client(wc, json_str, len + 1);
+ 		}
+ 	}
+ 	if (json_str)
+@@ -422,8 +502,7 @@
+ 				snprintf(json_str, len + 2, "%s\n", raw);
+ 				free(raw);
+ 			}
+-			if (send(wc->fd, json_str, len + 1, 0) < 0)
+-				ipc_remove_watch_client(wc);
++			ipc_send_watch_client(wc, json_str, len + 1);
+ 		}
+ 	}
+ 	if (json_str)
+@@ -447,8 +526,7 @@
+ 				snprintf(json_str, len + 2, "%s\n", raw);
+ 				free(raw);
+ 			}
+-			if (send(wc->fd, json_str, len + 1, 0) < 0)
+-				ipc_remove_watch_client(wc);
++			ipc_send_watch_client(wc, json_str, len + 1);
+ 		}
+ 	}
+ 	if (json_str)
+@@ -978,6 +1056,7 @@
+ 	struct ipc_watch_client *wc = calloc(1, sizeof(*wc));
+ 	wc->fd = fd;
+ 	wc->type = type;
++	wl_list_init(&wc->pending);
+ 
+ 	if ((type == IPC_WATCH_MONITOR || type == IPC_WATCH_LAST_OPEN_SURFACE) &&
+ 		arg)
+@@ -1114,8 +1193,7 @@
+ 				snprintf(json_str, len + 2, "%s\n", raw);
+ 				free(raw);
+ 			}
+-			if (send(wc->fd, json_str, len + 1, 0) < 0)
+-				ipc_remove_watch_client(wc);
++			ipc_send_watch_client(wc, json_str, len + 1);
+ 		}
+ 	}
+ 	if (json_str)
+@@ -1156,8 +1234,7 @@
+ 			snprintf(json_str, len + 2, "%s\n", raw);
+ 			free(raw);
+ 		}
+-		if (send(wc->fd, json_str, len + 1, 0) < 0)
+-			ipc_remove_watch_client(wc);
++		ipc_send_watch_client(wc, json_str, len + 1);
+ 	}
+ 	free(json_str);
+ }
+@@ -1187,8 +1264,7 @@
+ 				snprintf(json_str, len + 2, "%s\n", raw);
+ 				free(raw);
+ 			}
+-			if (send(wc->fd, json_str, len + 1, 0) < 0)
+-				ipc_remove_watch_client(wc);
++			ipc_send_watch_client(wc, json_str, len + 1);
+ 		}
+ 	}
+ 	free(json_str);
+@@ -1216,8 +1292,7 @@
+ 				snprintf(json_str, len + 2, "%s\n", raw);
+ 				free(raw);
+ 			}
+-			if (send(wc->fd, json_str, len + 1, 0) < 0)
+-				ipc_remove_watch_client(wc);
++			ipc_send_watch_client(wc, json_str, len + 1);
+ 		}
+ 	}
+ 	if (json_str)
+@@ -1246,8 +1321,7 @@
+ 				snprintf(json_str, len + 2, "%s\n", raw);
+ 				free(raw);
+ 			}
+-			if (send(wc->fd, json_str, len + 1, 0) < 0)
+-				ipc_remove_watch_client(wc);
++			ipc_send_watch_client(wc, json_str, len + 1);
+ 		}
+ 	}
+ 	if (json_str)
+@@ -1272,8 +1346,7 @@
+ 				snprintf(json_str, len + 2, "%s\n", raw);
+ 				free(raw);
+ 			}
+-			if (send(wc->fd, json_str, len + 1, 0) < 0)
+-				ipc_remove_watch_client(wc);
++			ipc_send_watch_client(wc, json_str, len + 1);
+ 		}
+ 	}
+ 	if (json_str)
+@@ -1298,8 +1371,7 @@
+ 				snprintf(json_str, len + 2, "%s\n", raw);
+ 				free(raw);
+ 			}
+-			if (send(wc->fd, json_str, len + 1, 0) < 0)
+-				ipc_remove_watch_client(wc);
++			ipc_send_watch_client(wc, json_str, len + 1);
+ 		}
+ 	}
+ 	if (json_str)
