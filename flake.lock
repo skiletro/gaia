@@ -1330,13 +1330,17 @@
       }
     },
     "warm-vodka-forgejo-theme": {
-      "flake": false,
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
       "locked": {
-        "lastModified": 1793888917,
-        "narHash": "sha256-64M83AZQcsjLi4u2Mj+B9qa7bcnLbQrxtwLWx9iyxoQ=",
+        "lastModified": 1793904220,
+        "narHash": "sha256-GMsFU74vfonzrBZbL3qzAnz05s4IBU0XlWx95lbEEkA=",
         "owner": "warm-vodka",
         "repo": "forgejo-theme",
-        "rev": "f891320774eba422c13f0bc2dbea875e861e2521",
+        "rev": "ba02671e9056fd8e716c0038c76a8efba0603878",
         "type": "github"
       },
       "original": {

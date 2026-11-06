@@ -2,7 +2,7 @@
 # Dependencies: Caddy reverse proxy
 # Data location:
 #   Repositories, SQLite database, and other persistent state: /var/lib/forgejo
-{self', ...}: {
+{inputs', ...}: {
   nixos = {
     config,
     lib,
@@ -13,7 +13,20 @@
   }: let
     subdomain = "git";
     port = 3000;
-    githubTheme = self'.packages.forgejo-github-theme;
+    githubTheme = inputs'.warm-vodka-forgejo-theme.packages.default.override {
+      colors = with config.lib.stylix.colors.withHashtag; {
+        background0 = base00;
+        background1 = base01;
+        background2 = base02;
+        background3 = base03;
+        foreground0 = base05;
+        foreground1 = base04;
+        accent = base0D;
+        accent-hover = base0C;
+        accent-active = base0E;
+        box-border-color = base03;
+      };
+    };
   in {
     assertions = [
       {

@@ -146,7 +146,7 @@
 
     warm-vodka-forgejo-theme = {
       url = "github:warm-vodka/forgejo-theme";
-      flake = false;
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     warm-vodka-landing-page = {

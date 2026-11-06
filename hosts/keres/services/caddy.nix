@@ -4,7 +4,11 @@
 #   Persistent Caddy state: /var/lib/caddy
 #   Landing page: immutable Nix-store output
 {inputs', ...}: {
-  nixos = {keresDomain, ...}: {
+  nixos = {
+    config,
+    keresDomain,
+    ...
+  }: {
     _module.args.mkCaddyProxy = subdomain: port: {
       "${subdomain}.${keresDomain}".extraConfig = ''
         reverse_proxy 127.0.0.1:${toString port}
@@ -18,6 +22,17 @@
         extraConfig = let
           landingPage = inputs'.warm-vodka-landing-page.packages.default.override {
             title = keresDomain;
+            colors = with config.lib.stylix.colors.withHashtag; {
+              background0 = base00;
+              background1 = base01;
+              background2 = base02;
+              background3 = base03;
+              foreground0 = base05;
+              foreground1 = base04;
+              foreground2 = base0D;
+              accent = base0D;
+              box-border-color = base03;
+            };
             links = builtins.mapAttrs (_: v: "https://${v}.${keresDomain}") {
               # keep-sorted start
               broadcast-box = "box";
