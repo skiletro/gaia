@@ -14,6 +14,7 @@
           "SUPER,Period,spawn,vicinae deeplink vicinae://launch/core/search-emojis"
           "SUPER+SHIFT,BackSpace,spawn,noctalia msg session lock"
           "SUPER+SHIFT,S,spawn,noctalia msg screenshot-region"
+          "SUPER,Z,spawn,gsr-ui-cli toggle-show"
 
           # Forward delete on keyboards without a dedicated Delete key
           "SUPER,BackSpace,spawn,${lib.getExe pkgs.wtype} -k Delete"
