@@ -1,8 +1,8 @@
-{inputs', ...}: {
-  home-manager = {
+{
+  home-manager = {pkgs, ...}: {
     programs.helix = {
       enable = true;
-      package = inputs'.helix.packages.helix;
+      package = pkgs.helix_git;
       defaultEditor = true;
       settings = {
         editor = {
