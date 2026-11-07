@@ -76,21 +76,6 @@
         },
         "version": "V1.2"
     },
-    "proton-cachyos_x86_64_v3": {
-        "cargoLock": null,
-        "date": null,
-        "extract": null,
-        "name": "proton-cachyos_x86_64_v3",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "name": null,
-            "sha256": "sha256-TxJb19LHJNx9LQVTykLxjGcCKmAG6GKf5/eNFgqevfs=",
-            "type": "url",
-            "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-11.0-20261015-slr/proton-cachyos-11.0-20261015-slr-x86_64_v3.tar.xz"
-        },
-        "version": "cachyos-11.0-20261015-slr"
-    },
     "romm": {
         "cargoLock": null,
         "date": null,

@@ -1,8 +1,4 @@
 {
-  self',
-  inputs',
-  ...
-}: {
   nixos = {pkgs, ...}: {
     programs.steam = {
       enable = true;
@@ -16,10 +12,9 @@
           unset TZ
         '';
       };
-      extraCompatPackages = [
-        self'.packages.proton-cachyos_x86_64_v3
-        inputs'.nixpkgs-xr.packages.proton-ge-rtsp-bin
-        pkgs.steam-play-none # Allows you to run a game without Proton if it is otherwise forced.
+      extraCompatPackages = with pkgs; [
+        proton-cachyos_x86_64_v3 # from chaotic
+        steam-play-none # Allows you to run a game without Proton if it is otherwise forced.
       ];
       extest.enable = true;
       protontricks.enable = true;

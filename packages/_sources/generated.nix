@@ -49,14 +49,6 @@
       sha256 = "sha256-l8/nxuzBns2cyhGFral+XrTGSbI6jasoBvowQz72VOI=";
     };
   };
-  proton-cachyos_x86_64_v3 = {
-    pname = "proton-cachyos_x86_64_v3";
-    version = "cachyos-11.0-20261015-slr";
-    src = fetchurl {
-      url = "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-11.0-20261015-slr/proton-cachyos-11.0-20261015-slr-x86_64_v3.tar.xz";
-      sha256 = "sha256-TxJb19LHJNx9LQVTykLxjGcCKmAG6GKf5/eNFgqevfs=";
-    };
-  };
   romm = {
     pname = "romm";
     version = "5.4.1";

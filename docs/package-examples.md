@@ -41,8 +41,6 @@ is exposed as a flake package. Use `self'.packages.<name>` inside modules or
 4. Build the package with `nix build .#apple-emoji`.
 
 See [apple-emoji](../packages/apple-emoji/default.nix) for the complete derivation.
-For a package that unpacks an archive, see
-[proton-cachyos_x86_64_v3](../packages/proton-cachyos_x86_64_v3/default.nix).
 
 ## Installing a sound theme
 
