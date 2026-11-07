@@ -8,7 +8,6 @@
       # keep-sorted start
       common-cpu-amd
       common-cpu-amd-pstate
-      common-cpu-amd-zenpower
       common-gpu-amd
       common-pc-ssd
       # keep-sorted end
