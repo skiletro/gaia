@@ -16,24 +16,24 @@
   };
   broadcast-box = {
     pname = "broadcast-box";
-    version = "fbb420958c37f24cb2ecd085e0455e20b6453974";
+    version = "259aaa19c3cce13f3f93e638181029105d3ea7ed";
     src = fetchFromGitHub {
       owner = "Glimesh";
       repo = "broadcast-box";
-      rev = "fbb420958c37f24cb2ecd085e0455e20b6453974";
+      rev = "259aaa19c3cce13f3f93e638181029105d3ea7ed";
       fetchSubmodules = false;
-      sha256 = "sha256-3aDI5Zh5crjow8dAc4CXRacB20KN+4gvr/NxokM4Xxg=";
+      sha256 = "sha256-vELwoBxs/rFiCpayMgwhtIjUsbRIXzVLeDyEjducvOo=";
     };
-    date = "2026-11-03";
+    date = "2026-11-07";
   };
   maloja = {
     pname = "maloja";
-    version = "3.2.9";
+    version = "3.2.10";
     src = dockerTools.pullImage {
       imageName = "krateng/maloja";
-      imageDigest = "sha256:313b58d282934b2e7dc27f794462eb2ceb1567db23806b49f78b706dd86afe09";
-      sha256 = "sha256-Z3Z4xySgzRJ6yOhUkglx505eKSVlq6Jhry+FaBqk81s=";
-      finalImageTag = "3.2.9";
+      imageDigest = "sha256:4c39b5daa893451a379802f267a1d83f2b5d15d8b369e73349e530133cc8fdb6";
+      sha256 = "sha256-DknpuKRIXK1N5JxrO3CPhoDEiX1TlYj86lEZmCM5d5s=";
+      finalImageTag = "3.2.10";
       os = "linux";
       arch = "arm64";
     };

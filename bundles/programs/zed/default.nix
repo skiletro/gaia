@@ -6,6 +6,7 @@
   }: {
     programs.zed-editor = {
       enable = true;
+      package = pkgs.zed-editor_git;
       extensions = [
         # keep-sorted start
         "git_firefly"

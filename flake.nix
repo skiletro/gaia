@@ -29,11 +29,6 @@
 
     cursors.url = "github:lilleaila/nix-cursors";
 
-    dcal = {
-      url = "github:AvengeMedia/DankCalendar";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -48,8 +43,6 @@
       url = "github:warm-vodka/heliumix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    helix.url = "github:helix-editor/helix";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -67,11 +60,6 @@
       };
     };
 
-    nix-index-database = {
-      url = "github:nix-community/nix-index-database";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nixcord = {
       url = "github:kaylorben/nixcord";
       inputs = {
@@ -82,9 +70,18 @@
       };
     };
 
-    nixos-apple-silicon.url = "github:nix-community/nixos-apple-silicon";
+    nixos-apple-silicon = {
+      url = "github:nix-community/nixos-apple-silicon";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "";
+      };
+    };
 
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nixpkgs-xr = {
       url = "github:nix-community/nixpkgs-xr";
@@ -94,15 +91,10 @@
       };
     };
 
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.zst";
 
     noctalia = {
-      url = "github:skiletro/noctalia/mango-workspace-fix"; # using fork to test fix
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    quickshell = {
-      url = "git+https://git.outfoxxed.me/quickshell/quickshell";
+      url = "github:noctalia-dev/noctalia";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -155,14 +147,6 @@
       url = "github:warm-vodka/landing";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    xwayland-satellite = {
-      url = "github:Supreeeme/xwayland-satellite";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        rust-overlay.follows = "";
-      };
-    };
     # keep-sorted end
   };
 
@@ -170,7 +154,6 @@
     extra-trusted-substituters = [
       # keep-sorted start
       "https://asahix.cachix.org"
-      "https://helix.cachix.org"
       "https://nix-community.cachix.org"
       "https://noctalia.cachix.org"
       "https://nyx-cache.chaotic.cx/"
@@ -179,7 +162,6 @@
     extra-trusted-public-keys = [
       # keep-sorted start
       "asahix.cachix.org-1:SDzLl9HW7kV2h/6yBCZwjhveL2HUjjdI0x+qFB0I54Y="
-      "helix.cachix.org-1:ejp9KQpR1FBI2onstMQ34yogDm4OgU2ru6lIwPvuCVs="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
       "nyx-cache.chaotic.cx:dJxTrgMC3V3cFfyIiBQDQorG6k1LsqurH/srpMSq7qk="
