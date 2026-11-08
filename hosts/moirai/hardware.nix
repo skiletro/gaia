@@ -52,6 +52,12 @@
       extraModulePackages = [];
     };
 
+    # cryptsetup luksOpen /dev/nvme0n1p5 cryptroot
+    # mount -o subvol=@ /dev/mapper/cryptroot /mnt
+    # mount -o subvol=@home /dev/mapper/cryptroot /mnt/home
+    # mount -o subvol=@nix /dev/mapper/cryptroot /mnt/nix
+    # mount /dev/nvme0n1p4 /mnt/boot
+    # nixos-enter
     fileSystems = {
       "/" = {
         device = "/dev/mapper/crypted";
