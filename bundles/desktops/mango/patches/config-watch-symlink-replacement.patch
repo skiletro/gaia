@@ -1,0 +1,31 @@
+--- a/src/config/watcher.c
++++ b/src/config/watcher.c
+@@ -226,7 +226,7 @@
+ 	watched_files = next;
+ 
+ 	WatchedFile *file = &watched_files[watched_files_count];
+-	file->path = resolve_watch_path(path);
++	file->path = strdup(path);
+ 	if (file->path == NULL)
+ 		return;
+ 
+@@ -532,9 +532,17 @@
+ 	int count = 0;
+ 	char **paths = config_get_file_paths(&count);
+ 	for (int i = 0; i < count; i++) {
+-		if (paths[i] != NULL)
+-			track_path(paths[i]);
++		if (paths[i] == NULL)
++			continue;
++
++		/* Watch symlink replacements as well as edits to their targets. */
++		track_path(paths[i]);
++		char *resolved = resolve_watch_path(paths[i]);
++		if (resolved != NULL) {
++			track_path(resolved);
++			free(resolved);
++		}
+ 	}
+ 
+ 	backend_sync();
+ }
