@@ -49,9 +49,22 @@ in {
     users.users.jamie.extraGroups = ["navidrome"];
   };
 
-  home-manager = {config, ...}: {
+  home-manager = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: {
     programs.beets = {
-      enable = false;
+      enable = true;
+      package = pkgs.python3.pkgs.toPythonApplication (
+        pkgs.python3.pkgs.beets.override {
+          disableAllPlugins = true;
+          pluginOverrides =
+            lib.genAttrs config.programs.beets.settings.plugins
+            (_: {enable = true;});
+        }
+      );
       settings = {
         # library is the beets database file, not the music location
         library = "${config.xdg.dataHome}/beets/library.db";
