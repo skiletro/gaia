@@ -24,6 +24,20 @@
           "SUPER+SHIFT,F,togglemaximizescreen"
           "SUPER+CTRL+SHIFT,F,togglefullscreen"
           "SUPER+SHIFT,Space,togglefloating"
+          "SUPER+SHIFT,G,spawn,${(
+            pkgs.writers.writeNu "mango-toggle-global" ''
+              let client = (mmsg get focusing-client | from json)
+              if ($client.id? | is-empty) {
+                exit 0
+              }
+
+              # Floating should match the new pin state after toggling global.
+              if $client.is_floating == $client.is_global {
+                mmsg dispatch togglefloating $"client,($client.id)"
+              }
+              exec mmsg dispatch toggleglobal $"client,($client.id)"
+            ''
+          )}"
           "SUPER,O,togglejump"
           ''SUPER,M,spawn,mmsg dispatch setlayout,$(echo -e 'dwindle\ngrid\nscroller' | vicinae dmenu -p 'Pick a layout...')''
 
