@@ -48,6 +48,7 @@
       pwa.enable = true;
       qbittorrent.enable = true;
       rio.enable = true;
+      romp.enable = true;
       rustdesk.enable = true;
       signal.enable = true;
       slimevr.enable = true;
