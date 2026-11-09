@@ -3,7 +3,12 @@
   inputs',
   ...
 }: {
-  home-manager = {config, ...}: {
+  home-manager = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: {
     imports = [inputs.sonora.homeManagerModules.default];
 
     programs.sonora = {
@@ -17,8 +22,18 @@
           '';
       });
       settings.appearance = {
-        theme = "dark";
-        theme_overrides = with config.lib.stylix.colors.withHashtag; {
+        theme = "stylix";
+        adaptive_theme = false;
+      };
+    };
+
+    # Sonora skips symlinks when discovering themes.
+    home.activation.sonoraTheme = let
+      theme = (pkgs.formats.json {}).generate "sonora-stylix.json" {
+        name = "Stylix";
+        author = "jamie";
+        version = 1;
+        theme = with config.lib.stylix.colors.withHashtag; {
           background = base00;
           foreground = base05;
           border = base02;
@@ -49,6 +64,24 @@
           table_active_border = base0D;
         };
       };
-    };
+      installTheme = pkgs.writeShellApplication {
+        name = "sonora-install-theme";
+        runtimeInputs = [pkgs.coreutils pkgs.jq];
+        text = ''
+          directory=$1
+          install -Dm644 ${theme} "$directory/themes/stylix.json"
+
+          # Inline overrides take precedence over the selected theme.
+          settings="$directory/settings.json"
+          if [[ -f "$settings" ]]; then
+            jq 'del(.appearance.theme_overrides)' "$settings" > "$settings.tmp"
+            mv "$settings.tmp" "$settings"
+          fi
+        '';
+      };
+    in
+      lib.hm.dag.entryBetween ["sonoraSettings"] ["writeBoundary"] ''
+        run ${lib.getExe installTheme} ${lib.escapeShellArg "${config.xdg.configHome}/sonora"}
+      '';
   };
 }
