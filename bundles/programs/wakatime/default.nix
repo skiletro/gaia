@@ -16,10 +16,10 @@
       {
         settings = {
           api_url = "https://wakapi.warm.vodka/api";
-          api_key_vault_cmd = "${pkgs.writeShellScript "cat-wakatime-api-key" "cat ${config.sops.secrets.wakapi-key.path}"}";
+          api_key_vault_cmd = "${pkgs.writeShellScript "cat-wakatime-api-key" "cat ${config.sops.secrets.wakapi-api-key.path}"}";
         };
       };
 
-    sops.secrets."wakapi-key" = {};
+    sops.secrets."wakapi-api-key" = {};
   };
 }

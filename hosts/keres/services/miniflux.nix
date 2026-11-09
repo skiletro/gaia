@@ -174,7 +174,7 @@
         ''
     );
   in {
-    sops.secrets."pocketid-miniflux-secret" = {};
+    sops.secrets."miniflux-env".restartUnits = ["miniflux.service"];
 
     services.miniflux = {
       enable = true;
@@ -189,16 +189,14 @@
         OAUTH2_PROVIDER = "oidc";
         OAUTH2_OIDC_PROVIDER_NAME = "Methanol";
         OAUTH2_CLIENT_ID = "266a4351-916b-49b5-aa29-f841f127b662";
-        OAUTH2_CLIENT_SECRET_FILE = "%d/oidc-client-secret";
         OAUTH2_REDIRECT_URL = "https://${subdomain}.${keresDomain}/oauth2/oidc/callback";
         OAUTH2_OIDC_DISCOVERY_ENDPOINT = "https://sso.${keresDomain}";
         OAUTH2_USER_CREATION = 1;
       };
     };
 
-    systemd.services.miniflux.serviceConfig.LoadCredential = [
-      "oidc-client-secret:${config.sops.secrets.pocketid-miniflux-secret.path}"
-    ];
+    systemd.services.miniflux.serviceConfig.EnvironmentFile =
+      config.sops.secrets."miniflux-env".path;
 
     services.caddy.virtualHosts."${subdomain}.${keresDomain}".extraConfig = ''
       handle /gaiaTheme.css {

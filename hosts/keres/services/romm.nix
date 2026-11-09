@@ -60,7 +60,7 @@
           "/run/postgresql:/run/postgresql:ro"
         ];
         environmentFiles = [
-          config.sops.templates."romm-metadata-env".path
+          config.sops.secrets."romm-env".path
           "${dataDir}/.auth-secret.env"
         ];
         environment = {
@@ -97,31 +97,7 @@
     };
 
     # Keep provider credentials out of the Nix store and restart on rotation.
-    sops = {
-      secrets = builtins.listToAttrs (map (name: {
-          inherit name;
-          value = {};
-        }) [
-          # keep-sorted start
-          "romm-igdb-client-id"
-          "romm-igdb-client-secret"
-          "romm-retroachievements-api-key"
-          "romm-steamgriddb-api-key"
-          # keep-sorted end
-        ]);
-
-      templates."romm-metadata-env".restartUnits = ["podman-romm.service"];
-      templates."romm-metadata-env".content = let
-        # aliased: binding sops' placeholder directly trips nixf-diagnose
-        # (shadows the builtins.placeholder primop)
-        secret = config.sops.placeholder;
-      in ''
-        IGDB_CLIENT_ID=${secret."romm-igdb-client-id"}
-        IGDB_CLIENT_SECRET=${secret."romm-igdb-client-secret"}
-        RETROACHIEVEMENTS_API_KEY=${secret."romm-retroachievements-api-key"}
-        STEAMGRIDDB_API_KEY=${secret."romm-steamgriddb-api-key"}
-      '';
-    };
+    sops.secrets."romm-env".restartUnits = ["podman-romm.service"];
 
     services.caddy.virtualHosts = mkCaddyProxy subdomain port;
   };

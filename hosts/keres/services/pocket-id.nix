@@ -12,16 +12,11 @@
     subdomain = "sso";
     port = 1411;
   in {
-    sops.secrets = {
-      "pocketid-encryption-key" = {
-        owner = "pocket-id";
-        group = "pocket-id";
-      };
-      "pocketid-smtp-pass" = {};
-    };
+    sops.secrets."pocketid-env".restartUnits = ["pocket-id.service"];
 
     services.pocket-id = {
       enable = true;
+      environmentFile = config.sops.secrets."pocketid-env".path;
       settings = {
         TRUST_PROXY = true;
         ANALYTICS_DISABLED = true;
@@ -40,10 +35,6 @@
         EMAIL_VERIFICATION_ENABLED = true;
         EMAIL_API_KEY_EXPIRATION_ENABLED = true;
         EMAIL_LOGIN_NOTIFICATION_ENABLED = true;
-      };
-      credentials = {
-        ENCRYPTION_KEY = config.sops.secrets.pocketid-encryption-key.path;
-        SMTP_PASSWORD = config.sops.secrets.pocketid-smtp-pass.path;
       };
     };
 

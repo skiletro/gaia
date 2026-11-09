@@ -25,7 +25,7 @@
         pull = "never";
         ports = ["127.0.0.1:${toString port}:${toString port}"];
         volumes = ["${dataDir}:/mljdata"];
-        environmentFiles = [config.sops.templates."maloja-admin-env".path];
+        environmentFiles = [config.sops.secrets."maloja-env".path];
         environment = {
           MALOJA_DATA_DIRECTORY = "/mljdata";
           MALOJA_SKIP_SETUP = "true";
@@ -38,17 +38,7 @@
 
     systemd.services.podman-maloja.unitConfig.RequiresMountsFor = [dataDir];
 
-    sops = {
-      secrets."maloja-admin-password" = {};
-      templates."maloja-admin-env" = {
-        restartUnits = ["podman-maloja.service"];
-        content = let
-          secret = config.sops.placeholder;
-        in ''
-          MALOJA_FORCE_PASSWORD=${secret."maloja-admin-password"}
-        '';
-      };
-    };
+    sops.secrets."maloja-env".restartUnits = ["podman-maloja.service"];
 
     services.caddy.virtualHosts = mkCaddyProxy subdomain port;
   };
