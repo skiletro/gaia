@@ -13,6 +13,7 @@
     };
     services = {
       # keep-sorted start
+      bootvine.enable = true;
       flatpak.enable = true;
       noctalia.enable = true;
       printing.enable = true;
