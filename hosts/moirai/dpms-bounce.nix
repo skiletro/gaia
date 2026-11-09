@@ -10,9 +10,9 @@
       wlopm = lib.getExe pkgs.wlopm;
     in ''
       (
-        sleep 2.5
+        sleep 1.5
         ${wlopm} --off eDP-1
-        sleep 1.25
+        sleep 0.5
         ${wlopm} --on eDP-1
       ) &
     '';
