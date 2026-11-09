@@ -19,25 +19,39 @@ Run `just` to see available recipes.
 | `just iso` | formats and stages the entire working tree, then builds the installer image |
 | `just pkg <name>` | builds one flake package |
 
-The `just` recipes that format or stage run `git add .`; this stages all
-repository changes, including unrelated work. Review the staged changes before
-committing or deploying. The system recipes act on the local host unless
+Run these recipes from the repository root. Recipes that format or stage run
+`git add .`, staging changes under the current directory, including unrelated
+work. Formatting recipes stage once before formatting and again afterward.
+Review the working tree before running them and the staged changes before
+committing. Even `just build`, `just iso`, and `just repl` modify the index;
+they are not read-only checks. The system recipes select the local host unless
 otherwise noted.
+
+To build without formatting or staging, select a configuration directly:
+
+```sh
+nixos-rebuild build --flake .#keres
+```
+
+Building Keres requires an AArch64 Linux builder or suitable emulation.
 
 ## Other commands
 
 | command | what it does |
 |---|---|
 | `just update` | updates flake inputs and package sources |
-| `just update-inputs [input]` | updates flake inputs, optionally only one |
+| `just update-inputs [input ...]` | updates all flake inputs, or only the named inputs |
 | `just update-sources` | regenerates package sources with nvfetcher |
 | `just repl` | formats and stages the working tree, then opens the local system configuration in a REPL |
-| `just clean` | garbage collects and optimises the store |
+| `just clean` | removes old store paths and generations with `nh clean all -K 1d`, then optimises the store |
 | `just optimise` | optimises the store |
 | `just repair` | verifies and repairs the store |
 | `just secret` | edits the encrypted secrets file |
-| `just secret-rotate` | rotates secret keys |
-| `just secret-update` | updates keys against hosts in `.sops.yaml` |
+| `just secret-rotate` | rotates the SOPS data key and rewrites the encrypted file |
+| `just secret-update` | rewrites the file's recipients to match `.sops.yaml` |
+
+Garbage collection can remove rollback generations; review what you need to
+retain before running `just clean`. `just repair` can modify store contents.
 
 ## Formatting
 
@@ -55,10 +69,27 @@ See [Package examples](package-examples.md) to add a package.
 
 ## Secrets
 
-Secrets live in `.secrets.yaml`, encrypted for the age keys in `.sops.yaml`.
-`just secret` opens the file for editing. The age key is derived from the local
-SSH key with `ssh-to-age`. When adding a host, add its age key to `.sops.yaml`,
-then re-encrypt the secrets with `just secret-update`.
+Secrets live in `.secrets.yaml`, encrypted for the age recipients selected by
+`.sops.yaml`. All three secret recipes derive `SOPS_AGE_KEY` from
+`$HOME/.ssh/id_ed25519`; that private key must already decrypt the file.
+`just secret` opens it in SOPS for editing. `just secret-rotate` rotates the
+file's data-encryption key, not the SSH keys or age identities.
+
+For a new host, provision its private key securely at
+`/home/jamie/.ssh/id_ed25519`, the path used by
+[sops-nix](../core/infra/secrets.nix). Derive its public age recipient:
+
+```sh
+ssh-to-age < ~/.ssh/id_ed25519.pub
+```
+
+Run that command with the new host's public key, not the deploying machine's
+key. Add the recipient to the matching creation rule in `.sops.yaml`, then run
+`just secret-update` from a machine whose key already decrypts the file. This
+updates recipients in place without prompting; review and commit both files.
+Host labels in `.sops.yaml` do not discover or provision keys. Keep private keys
+out of Git and arrange for the configured key to exist before secret consumers
+start; authorizing a public key for SSH login does not provide a decryption key.
 
 Bundles read secrets through sops-nix:
 
@@ -94,3 +125,23 @@ unaffected.
 `--target-host` does not select the flake configuration; keep `.#keres` explicit.
 The `just deploy` recipe currently omits that selector, so use the command above
 for cross-host deployment.
+
+The command builds on Keres, so the deploying machine does not need to build
+AArch64 packages locally. It switches the running system and updates the boot
+default; it does not format or stage the working tree. New files must be known
+to Git for a Git-backed flake to include them.
+
+## Installer image
+
+`just iso` builds the x86_64 `iso` configuration; it does not install a machine.
+To avoid its formatting and staging steps, use:
+
+```sh
+nixos-rebuild build-image --flake .#iso --image-variant iso
+```
+
+The image includes `disko-install`. Before using it, review the target host's
+disk configuration and confirm the actual target devices: installation can
+repartition disks and destroy existing data. The image has the same key-only
+SSH access described above, so arrange an authorized key before relying on
+remote access.

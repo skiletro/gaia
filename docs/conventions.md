@@ -2,7 +2,8 @@
 
 ## Formatting
 
-treefmt enforces the following, and `nix flake check` runs it as a check:
+[treefmt](../parts/format.nix) runs the following tools, and `nix flake check`
+runs its formatting check:
 
 - `alejandra` - nix formatting
 - `deadnix` - dead code
@@ -29,23 +30,27 @@ dependencies, desktop selection, and shared device options.
 
 ## Generated Files
 
-- `packages/_sources/generated.nix` and `generated.json` are nvfetcher output.
-  Never edit by hand, regenerate with `just update-sources`.
-- `flake.lock` is managed by nix.
+- `packages/_sources/` contains nvfetcher output, including source metadata and
+  generated lockfiles. Regenerate it with `just update-sources` rather than
+  editing it by hand.
+- `flake.lock` is managed by Nix; update it with `just update-inputs`.
 
 ## Inputs
 
-- Inputs in `flake.nix` are sorted, and most follow `nixpkgs` with
-  `inputs.nixpkgs.follows = "nixpkgs"`.
-- Use `inputs` for modules, `inputs'` for per-system packages, and `self'` for
-  packages built by this flake.
+Use `inputs` for flake inputs and their modules, `inputs'` for system-specific
+input outputs, and `self'` for this flake's system-specific outputs, such as
+`self'.packages`. `inputs'` and `self'` are available in per-system contexts,
+including the NixOS and Home Manager modules wired by bundlix.
 
-## Gotchas
+## Host maintenance
 
-- `parts/hosts.nix` hardcodes the user (`jamie`) and the home-manager username.
-  `core/infra/user.nix` declares the user account with `mutableUsers = false`
-  and a hashed password.
 - `hosts/<host>/hardware.nix` is machine specific. Do not copy it between hosts.
-- The `iso` host enables a minimal program set and adds disko to the image.
-- Host-specific services live under `hosts/<host>/`, not in bundles. The Keres
-  host is the main example.
+- The account name is set in both [host wiring](../parts/hosts.nix) and
+  [user configuration](../core/infra/user.nix); update both when renaming it.
+  Users are immutable: interactive password changes are not a durable
+  replacement for updating the declared password hash. Keep SSH access working
+  when changing authorized keys; see [Remote deployment](development.md#remote-deployment).
+- Keep services specific to one machine under `hosts/<host>/`; use bundles for
+  reusable features. Keres provides examples of host-specific services.
+- See [Installer image](development.md#installer-image) for building the
+  installer and installation risks.

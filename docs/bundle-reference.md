@@ -11,6 +11,11 @@ together. `default.nix` is a convention, not a required entry point, and sibling
 modules need no explicit imports. Nested directories, symlinks, and non-Nix
 assets are not loaded automatically.
 
+Discovery and enable-option generation are configured in
+[`parts/hosts.nix`](../parts/hosts.nix). The
+[pinned Bundlix discovery implementation](https://github.com/warm-vodka/bundlix/blob/43034f328bdf5ec9a558d8c1b8e6dbad94829a14/lib/optional-bundles.nix)
+defines which files belong to a bundle.
+
 Modules without top-level arguments may be plain attrsets. Use a module function
 when the bundle needs arguments such as `lib`, `inputs`, `inputs'`, or `self'`.
 Inside `nixos` and `home-manager` blocks, usual platform arguments such as
@@ -22,19 +27,21 @@ Inside `nixos` and `home-manager` blocks, usual platform arguments such as
 definitions that do not have enable flags:
 
 - `gaia.autoStart = ["app --flag"]` adds user autostart entries, defined in
-  `core/utils/autostart.nix`.
-- `gaia.state.system = "25.11"` sets the system state version. The home state
-  version in `gaia.state.home` defaults to it, defined in `core/utils/state.nix`.
-- `gaia.device.type` declares the host role: `desktop` (default), `laptop`,
-  `server`, `vm`, or `installer`, defined in `core/utils/device.nix`.
-- `gaia.device.monitors` declares host-owned display profiles, defined in
-  `core/utils/monitors.nix`.
+  [`core/utils/autostart.nix`](../core/utils/autostart.nix).
+- `gaia.state.system = "25.11"` is an example system state version; choose the
+  version for the host, not the current NixOS release. The home state version in
+  `gaia.state.home` defaults to it. See
+  [`core/utils/state.nix`](../core/utils/state.nix).
+- `gaia.device.type` declares the [host role](#host-role).
+- `gaia.device.monitors` declares host-owned display profiles; see
+  [host monitors](#host-monitors).
 
 ## Host Role
 
 Set `gaia.device.type` in `hosts/<host>/gaia.nix` to label a machine as a
-`desktop`, `laptop`, `server`, `vm`, or `installer`. The label does not enable
-hardware modules or power management.
+`desktop` (default), `laptop`, `server`, `vm`, or `installer`. The label does not
+enable hardware modules or power management. See the
+[option definition](../core/utils/device.nix).
 
 ## Host Monitors
 
@@ -57,9 +64,9 @@ gaia.device.monitors.panel = {
 
 `identity` is either a connector name or an exact
 `{ make = "AOC"; model = "AG346UCD"; serial = "..."; }` description.
-Mode fields are required and positive. `scale`, `position`, and `vrr` default
-to `null`, omitting the corresponding rule rather than forcing a value.
-Profile labels are rendered in lexical order.
+The [monitor options](../core/utils/monitors.nix) require positive mode fields.
+`scale`, `position`, and `vrr` default to `null`, omitting the corresponding rule
+rather than forcing a value.
 
 Mango renders these profiles through
 [`bundles/desktops/mango/monitors.nix`](../bundles/desktops/mango/monitors.nix).
@@ -71,12 +78,16 @@ Examples: [Eris](../hosts/eris/monitors.nix) and
 ## Desktop Sessions
 
 Desktop environments are ordinary optional bundles. Enable one with a path such
-as `gaia.desktops.mango.enable = true;`. Enabled desktop flags determine which
-sessions are available.
+as `gaia.desktops.mango.enable = true;` and enable its required bundles. The
+desktop bundle must register a login session; see
+[Mango's UWSM configuration](../bundles/desktops/mango/default.nix).
 
-The [greeter bundle](../bundles/system/greeter/default.nix) uses tuigreet to
-list installed sessions. The [autologin bundle](../bundles/system/autologin/default.nix)
-bypasses that chooser and requires exactly one enabled desktop.
+Enable `gaia.system.greeter.enable` to use
+[tuigreet](../bundles/system/greeter/default.nix), which lists installed sessions.
+For automatic login, also enable `gaia.system.autologin.enable`.
+The [autologin bundle](../bundles/system/autologin/default.nix) bypasses the
+chooser and requires exactly one enabled desktop. It starts that desktop's
+`<bundle-name>-uwsm.desktop` session.
 
 ## Window and Shell Corners
 
@@ -106,7 +117,8 @@ Declare bundle dependencies with top-level `requires` metadata:
 }
 ```
 
-A bare name resolves within the bundle's category, so Helix requires
+A bare name resolves within the bundle's category, so
+[Helix's requirement](../bundles/programs/helix/languages.nix) checks
 `gaia.programs.wakatime.enable`. Qualify cross-category dependencies with their
 category, such as `"services.noctalia"` or `"programs.vicinae"`. Valid categories
 are inferred from directories directly under `bundles/`.
@@ -117,10 +129,19 @@ evaluation to fail.
 
 ## Inputs and Packages
 
-- Flake input home modules: `inputs.nixcord.homeModules.nixcord`
-- Flake input packages: `inputs'.wakatime-ls.packages.default`
-- Packages built in this flake: `self'.packages.proton-cachyos_x86_64_v3`
-- New flake inputs go in `flake.nix`; keep the sorted list intact
+- Flake input home modules: `inputs.nixcord.homeModules.nixcord`, as used by
+  [Discord](../bundles/programs/discord/default.nix).
+- Flake input packages for the host system:
+  `inputs'.wakatime-ls.packages.default`, as used by
+  [Wakatime](../bundles/programs/wakatime/default.nix).
+- Packages built in this flake: `self'.packages.space-grotesk`, used by
+  [styling](../core/system/styling.nix) and defined in
+  [`packages/space-grotesk/default.nix`](../packages/space-grotesk/default.nix).
+- Packages supplied through `pkgs`: `pkgs.proton-cachyos_x86_64_v3`, as used by
+  [Steam](../bundles/programs/steam/default.nix). This package comes from
+  [Chaotic](../core/infra/chaotic.nix), not this flake's package outputs.
+
+Declare new flake inputs in [`flake.nix`](../flake.nix).
 
 See [Adding and updating packages](package-examples.md) for source management
 and [Formatting](conventions.md#formatting) for formatter usage.

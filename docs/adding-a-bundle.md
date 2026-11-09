@@ -66,10 +66,13 @@ Add the generated flag to `hosts/<host>/gaia.nix`:
 gaia.programs.broot.enable = true;
 ```
 
-Desktop environments use the same rule. A host with Mango sets
-`gaia.desktops.mango.enable = true`. A greeter can offer multiple enabled
-desktop sessions. Autologin requires exactly one enabled desktop because it
-starts that session directly.
+Desktop environments use the same enable flag, such as
+`gaia.desktops.mango.enable = true`. A new desktop bundle must also register its
+login session; see [Mango's UWSM configuration](../bundles/desktops/mango/default.nix).
+For compatibility with [autologin](../bundles/system/autologin/default.nix), use
+the session name `<bundle-name>-uwsm.desktop`. Autologin requires exactly one
+enabled desktop; the greeter can offer multiple registered sessions. See
+[desktop sessions](bundle-reference.md#desktop-sessions) for host setup.
 
 ## Examples
 

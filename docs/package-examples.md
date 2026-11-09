@@ -1,13 +1,18 @@
 # Adding and Updating Packages
 
-Each directory under `packages/`, except the generated `_sources/` directory,
-is exposed as a flake package. Use `self'.packages.<name>` inside modules or
-`nix build .#<name>` from the repository.
+Add `packages/<name>/default.nix` to expose a flake package named `<name>`.
+Package directories are discovered automatically; no registration is needed.
+Use `self'.packages.<name>` inside per-system module contexts or
+`nix build .#<name>` from the repository. New files must be known to Git before
+a Git-backed flake can include them.
 
 ## Add a package with an upstream source
 
-1. Add a section to `packages/nvfetcher.toml`. The section name is the Nix
-   package name:
+The existing `apple-emoji` package illustrates this workflow; use your own
+package name and upstream when adding another package.
+
+1. Add a section to `packages/nvfetcher.toml`. Its name is the key used to
+   access the generated source metadata:
 
    ```toml
    [apple-emoji]
@@ -55,4 +60,11 @@ and its activation in [`styling.nix`](../core/system/styling.nix).
 
 Edit the relevant entry in `packages/nvfetcher.toml`, then run
 `just update-sources` and review the generated changes under
-`packages/_sources/`. Package derivations refer to those sources by name.
+`packages/_sources/`, including any generated lockfiles. Package derivations
+refer to those sources by name. Running the recipe refreshes all entries, not
+just the one you edited; review unrelated updates before committing.
+
+Sources can also be consumed directly as `self'.sources.<name>` in per-system
+module contexts, as with container images. An nvfetcher entry alone does not
+create a flake package. Conversely, a package that needs no nvfetcher-managed
+source only needs its derivation under `packages/<name>/`.
