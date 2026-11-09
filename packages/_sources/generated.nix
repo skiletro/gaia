@@ -61,4 +61,21 @@
       arch = "arm64";
     };
   };
+  romp = {
+    pname = "romp";
+    version = "v0.21.0";
+    src = fetchFromGitHub {
+      owner = "RompEmu";
+      repo = "RomP";
+      rev = "v0.21.0";
+      fetchSubmodules = false;
+      sha256 = "sha256-OhJe4yyJlqIBvALv0vJxfIkvzLO+W+TfhkEtT6GlLiM=";
+    };
+    cargoLock."Cargo.lock" = {
+      lockFile = ./. + "/sha256-OhJe4yyJlqIBvALv0vJxfIkvzLO+W+TfhkEtT6GlLiM=/Cargo.lock";
+      outputHashes = {
+        
+      };
+    };
+  };
 }

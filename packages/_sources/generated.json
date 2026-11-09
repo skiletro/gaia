@@ -95,5 +95,31 @@
             "tlsVerify": null
         },
         "version": "5.4.1"
+    },
+    "romp": {
+        "cargoLock": {
+            "Cargo.lock": [
+                "sha256-OhJe4yyJlqIBvALv0vJxfIkvzLO+W+TfhkEtT6GlLiM=/Cargo.lock",
+                {}
+            ]
+        },
+        "date": null,
+        "extract": null,
+        "name": "romp",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "RompEmu",
+            "repo": "RomP",
+            "rev": "v0.21.0",
+            "sha256": "sha256-OhJe4yyJlqIBvALv0vJxfIkvzLO+W+TfhkEtT6GlLiM=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "v0.21.0"
     }
 }

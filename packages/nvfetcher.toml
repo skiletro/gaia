@@ -25,3 +25,8 @@ fetch.docker = "rommapp/romm"
 src.container = "rommapp/romm"
 src.include_regex = '^\d+\.\d+\.\d+$'
 src.sort_version_key = "parse_version"
+
+[romp]
+cargo_lock = ["Cargo.lock"]
+fetch.github = "RompEmu/RomP"
+src.github = "RompEmu/RomP"
