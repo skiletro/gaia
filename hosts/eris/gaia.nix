@@ -14,6 +14,7 @@
     services = {
       # keep-sorted start
       appimage.enable = true;
+      bootvine.enable = true;
       flatpak.enable = true;
       kdeconnect.enable = true;
       noctalia.enable = true;
