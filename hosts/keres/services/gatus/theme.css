@@ -1,0 +1,122 @@
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/theme/space-grotesk.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+/* Gatus wraps these tokens in hsl(); relative colors preserve the Stylix values. */
+html:root {
+  color-scheme: light;
+  --background: from @base06@ h s l;
+  --foreground: from @base00@ h s l;
+  --card: from @base05@ h s l;
+  --card-foreground: from @base00@ h s l;
+  --popover: from @base06@ h s l;
+  --popover-foreground: from @base00@ h s l;
+  --primary: from @base03@ h s l;
+  --primary-foreground: from @base06@ h s l;
+  --secondary: from @base07@ h s l;
+  --secondary-foreground: from @base00@ h s l;
+  --muted: from @base05@ h s l;
+  --muted-foreground: from @base03@ h s l;
+  --accent: from @base07@ h s l;
+  --accent-foreground: from @base00@ h s l;
+  --destructive: from @base08@ h s l;
+  --destructive-foreground: from @base00@ h s l;
+  --border: from @base04@ h s l;
+  --input: from @base04@ h s l;
+  --ring: from @base03@ h s l;
+  --radius: @radius@px;
+  --healthy: color-mix(in srgb, @base0B@ 35%, @base00@);
+  --unhealthy: color-mix(in srgb, @base08@ 45%, @base00@);
+  --degraded: color-mix(in srgb, @base0A@ 40%, @base00@);
+}
+
+html:root.dark {
+  color-scheme: dark;
+  --background: from @base00@ h s l;
+  --foreground: from @base05@ h s l;
+  --card: from @base01@ h s l;
+  --card-foreground: from @base05@ h s l;
+  --popover: from @base01@ h s l;
+  --popover-foreground: from @base05@ h s l;
+  --primary: from @base0D@ h s l;
+  --primary-foreground: from @base00@ h s l;
+  --secondary: from @base02@ h s l;
+  --secondary-foreground: from @base05@ h s l;
+  --muted: from @base02@ h s l;
+  --muted-foreground: from @base04@ h s l;
+  --accent: from @base02@ h s l;
+  --accent-foreground: from @base05@ h s l;
+  --border: from @base03@ h s l;
+  --input: from @base03@ h s l;
+  --ring: from @base0D@ h s l;
+  --healthy: @base0B@;
+  --unhealthy: @base08@;
+  --degraded: @base0A@;
+}
+
+html body {
+  font-family: "Space Grotesk", sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+#global h1,
+#global h2,
+#global h3 {
+  font-weight: 500;
+}
+
+#global .endpoint:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: hsl(var(--ring));
+}
+
+#global [class*="bg-green-"] {
+  background-color: var(--healthy);
+}
+
+#global [class*="bg-red-"] {
+  background-color: var(--unhealthy);
+}
+
+#global [class*="bg-yellow-"] {
+  background-color: var(--degraded);
+}
+
+#global .text-white[class*="bg-green-"],
+#global .text-white[class*="bg-yellow-"] {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--foreground));
+}
+
+#global .endpoint-content [class*="bg-gray-"] {
+  background-color: hsl(var(--muted));
+}
+
+#global .endpoint-content [class*="bg-green-"]:hover,
+#global .endpoint-content .bg-green-700 {
+  background-color: color-mix(in srgb, var(--healthy) 75%, hsl(var(--background)));
+}
+
+#global .endpoint-content [class*="bg-red-"]:hover,
+#global .endpoint-content .bg-red-700 {
+  background-color: color-mix(in srgb, var(--unhealthy) 75%, hsl(var(--background)));
+}
+
+/* The label remains native text, including Gatus's keyboard navigation and ellipsis. */
+#global .endpoint-header [role="link"]::before {
+  content: "";
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+  margin-right: 8px;
+  vertical-align: middle;
+  background: @base00@ var(--service-logo) center / contain no-repeat;
+  background-origin: content-box;
+  border-radius: @radius@px;
+}

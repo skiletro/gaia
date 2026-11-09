@@ -1,0 +1,46 @@
+{
+  "forgejo.svg": {
+    "url": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/d767d7327db7f8ebd3715b552523f61889eea41c/svg/forgejo.svg",
+    "hash": "sha256-rFqblD/6KwswWk6iHdi3VkyKjswI0uPWEnT35hlz56U="
+  },
+  "maloja.png": {
+    "url": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/d767d7327db7f8ebd3715b552523f61889eea41c/png/maloja.png",
+    "hash": "sha256-Z3jwtLGv3utFybJssEnqYgV3Z+q49Nk6b9fBsddAGSg="
+  },
+  "miniflux.svg": {
+    "url": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/d767d7327db7f8ebd3715b552523f61889eea41c/svg/miniflux-light.svg",
+    "hash": "sha256-W47Kqv68TtVxftqqqqp2Rh302aPA5qr4+A9cVwzHm4k="
+  },
+  "molly.svg": {
+    "url": "https://raw.githubusercontent.com/mollyim/mollyim.github.io/8335e4032e4e9751f31e3873e0b688fbe5ed9d31/public/assets/images/molly-icon.svg",
+    "hash": "sha256-XmG7j9OIqMiIPGN46+7En05WorhOuZ73qmGT0MOQxG4="
+  },
+  "navidrome.svg": {
+    "url": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/d767d7327db7f8ebd3715b552523f61889eea41c/svg/navidrome-light.svg",
+    "hash": "sha256-102eyyebpZ5Y6MU01yTOZmePwEmy8fTWKq8L4nmf3lA="
+  },
+  "pocket-id.svg": {
+    "url": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/d767d7327db7f8ebd3715b552523f61889eea41c/svg/pocket-id-light.svg",
+    "hash": "sha256-yCesiikff84SKMB+gcPDBpqP7WSRFTU5tyQEd+U9wEk="
+  },
+  "romm.svg": {
+    "url": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/d767d7327db7f8ebd3715b552523f61889eea41c/svg/romm.svg",
+    "hash": "sha256-xNpjU8sW5sUZa/i6q41PJJYmRp/jRQPZNhdkwgtQt/E="
+  },
+  "wakapi.svg": {
+    "url": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/d767d7327db7f8ebd3715b552523f61889eea41c/svg/wakapi.svg",
+    "hash": "sha256-QMAB0lrV/PaN3jERZPeB3Dequ8XWwq+qsMooEp/WlqY="
+  },
+  "caddy.svg": {
+    "url": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/d767d7327db7f8ebd3715b552523f61889eea41c/svg/caddy.svg",
+    "hash": "sha256-xZ8tZrXEA4Ylo4sZ6dJ95j1jncgOVoZf+PktfU2jlB8="
+  },
+  "postgresql.svg": {
+    "url": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/d767d7327db7f8ebd3715b552523f61889eea41c/svg/postgresql.svg",
+    "hash": "sha256-FTkrUVM1/9CKWljLntaXdytM8X9KavIWkA8sd0qVHaI="
+  },
+  "dashboard-icons-LICENSE": {
+    "url": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/d767d7327db7f8ebd3715b552523f61889eea41c/LICENSE",
+    "hash": "sha256-5YqPpXeB0dxxWLMztoyZRhAx/Swl370j6sFajphMrlY="
+  }
+}
