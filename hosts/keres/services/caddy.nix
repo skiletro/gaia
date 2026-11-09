@@ -42,6 +42,7 @@
               mollysocket = "mollysocket";
               navidrome = "navidrome";
               romm = "romm";
+              status = "status";
               wakapi = "wakapi";
               # keep-sorted end
             };
