@@ -15,6 +15,11 @@
 
     asahix.url = "github:warm-vodka/asahix";
 
+    bootvine = {
+      url = "git+https://codeberg.org/wvhulle/bootvine";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     bundlix.url = "github:warm-vodka/bundlix";
 
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
