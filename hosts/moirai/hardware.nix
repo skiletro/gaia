@@ -1,6 +1,5 @@
 {
   inputs,
-  inputs',
   lib,
   ...
 }: {
@@ -12,6 +11,7 @@
     imports = [
       (modulesPath + "/installer/scan/not-detected.nix")
       inputs.nixos-apple-silicon.nixosModules.apple-silicon-support
+      inputs.asahix.nixosModules.default
     ];
 
     hardware.asahi = {
@@ -47,7 +47,7 @@
         kernelModules = [];
         luks.devices."crypted".device = "/dev/disk/by-uuid/37cf79ca-1c79-4b61-a9d5-a3f8e2741673";
       };
-      kernelPackages = lib.mkForce inputs'.asahix.packages.linux_asahi_fairydust;
+      kernelPackages = lib.mkForce pkgs.linuxPackages_asahi-fairydust;
       kernelModules = [];
       extraModulePackages = [];
     };

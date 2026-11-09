@@ -45,11 +45,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1793973075,
-        "narHash": "sha256-CLje3YZ+E6zd67gz62A2fd+uOOU4MRfpyweHVwMYJ/8=",
+        "lastModified": 1794142661,
+        "narHash": "sha256-d1exw419/vRoB4lSGGYdHW7PA2sPpYZuqsU1D52EP50=",
         "owner": "warm-vodka",
         "repo": "asahix",
-        "rev": "6e45db0f270b709418e30ade1ebafe905e6ad669",
+        "rev": "79318f3c3f6c08a4442c7d98d064118bc5842579",
         "type": "github"
       },
       "original": {
