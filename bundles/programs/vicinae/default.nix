@@ -13,6 +13,7 @@
         nix
         process-manager
         protondb-search
+        protonvpn
         # keep-sorted end
       ];
       settings = {

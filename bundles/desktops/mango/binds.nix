@@ -11,6 +11,7 @@
           "SUPER,E,spawn,nautilus --new-window"
           "SUPER,P,spawn,vicinae deeplink vicinae://launch/@leonkohli/vicinae-extension-process-manager-0/processes"
           "SUPER+SHIFT,P,spawn,vicinae deeplink vicinae://launch/power"
+          "SUPER,U,spawn,vicinae deeplink 'vicinae://launch/@skifli/vicinae-extension-protonvpn-0'"
           "SUPER,Period,spawn,vicinae deeplink vicinae://launch/core/search-emojis"
           "SUPER+SHIFT,BackSpace,spawn,noctalia msg session lock"
           "SUPER+SHIFT,S,spawn,noctalia msg screenshot-region"
