@@ -1,0 +1,357 @@
+--- a/include/mango/config/parse.h
++++ b/include/mango/config/parse.h
+@@ -242,6 +242,10 @@
+ 	int32_t natural_scrolling;
+ 	int32_t accel_profile;
+ 	double accel_speed;
++	double accel_custom_step;
++	double accel_custom_points[64];
++	int32_t accel_custom_points_count;
++	double accel_custom_fallback;
+ 	int32_t left_handed;
+ 	int32_t middle_button_emulation;
+ 	uint32_t scroll_method;
+--- a/src/config/load.c
++++ b/src/config/load.c
+@@ -78,14 +78,19 @@
+ static void resolve_bindings_to_configured_layouts(Config *config);
+ 
+ bool parse_config_line(Config *config, const char *line, int line_number) {
+-	char processed_line[512];
+-	strncpy(processed_line, line, sizeof(processed_line) - 1);
+-	processed_line[sizeof(processed_line) - 1] = '\0';
++	char processed_line[4096];
++	if (strlen(line) >= sizeof(processed_line)) {
++		mango_error(false, WLR_ERROR,
++					"Configuration line exceeds %zu bytes\n",
++					sizeof(processed_line) - 1);
++		return false;
++	}
++	strcpy(processed_line, line);
+ 
+ 	remove_comment(processed_line);
+ 
+-	char key[256], value[256];
+-	if (sscanf(processed_line, "%255[^=]=%255[^\n]", key, value) != 2) {
++	char key[256], value[4096];
++	if (sscanf(processed_line, "%255[^=]=%4095[^\n]", key, value) != 2) {
+ 		mango_error(false, WLR_ERROR,
+ 					"Invalid line format: \033[1m\033[31m%s\033[0m\n", line);
+ 		return false;
+@@ -109,12 +114,25 @@
+ 
+ static bool parse_conf_stream(Config *config, FILE *file,
+ 							  const char *full_path) {
+-	char line[512];
++	char line[4096];
+ 	bool parse_correct = true;
+ 	uint32_t line_count = 0;
+ 
+ 	while (fgets(line, sizeof(line), file)) {
+ 		line_count++;
++		if (!strchr(line, '\n') && strlen(line) == sizeof(line) - 1) {
++			int c = fgetc(file);
++			if (c != EOF) {
++				while (c != '\n' && c != EOF)
++					c = fgetc(file);
++				mango_error(false, WLR_ERROR,
++							"Configuration line exceeds %zu bytes\n",
++							sizeof(line) - 1);
++				parse_correct = false;
++				report_config_line_error(full_path, line_count, line);
++				continue;
++			}
++		}
+ 		if (line[0] == '#' || line[0] == '\n')
+ 			continue;
+ 
+--- a/src/config/option_defs.c
++++ b/src/config/option_defs.c
+@@ -2,6 +2,7 @@
+ #include "mango/config/parse.h"
+ 
+ #include <ctype.h>
++#include <errno.h>
+ #include <libgen.h>
+ #include <math.h>
+ #include <stdbool.h>
+@@ -52,6 +53,64 @@
+ 	return strcmp(key, candidate) == 0;
+ }
+ 
++static bool parse_device_accel_profile(const char *value, int32_t *profile) {
++	char *end;
++	errno = 0;
++	long parsed = strtol(value, &end, 10);
++	if (end == value || errno == ERANGE)
++		return false;
++	while (isspace((unsigned char)*end))
++		end++;
++	if (*end || (parsed != 0 && parsed != 1 && parsed != 2 && parsed != 4))
++		return false;
++	*profile = (int32_t)parsed;
++	return true;
++}
++
++/* Advance without tokenizing: the enclosing device rule uses strtok on commas. */
++static bool parse_custom_accel_value(const char **cursor, double *value,
++									bool allow_zero) {
++	const char *start = *cursor;
++	while (isspace((unsigned char)*start))
++		start++;
++	char *end;
++	errno = 0;
++	double parsed = strtod(start, &end);
++	if (end == start || errno == ERANGE || !isfinite(parsed) ||
++		parsed > 10000.0 || (allow_zero ? parsed < 0.0 : parsed <= 0.0))
++		return false;
++	while (isspace((unsigned char)*end))
++		end++;
++	*cursor = end;
++	*value = parsed;
++	return true;
++}
++
++static bool parse_custom_accel_scalar(const char *value, double *result) {
++	return parse_custom_accel_value(&value, result, false) && *value == '\0';
++}
++
++static bool parse_custom_accel_points(const char *value,
++									 ConfigDeviceRule *rule) {
++	int32_t count = 0;
++	for (;;) {
++		if (count == 64 ||
++			!parse_custom_accel_value(&value, &rule->accel_custom_points[count],
++									  true))
++			return false;
++		count++;
++		if (*value == '\0')
++			break;
++		if (*value != '|')
++			return false;
++		value++;
++	}
++	if (count < 2)
++		return false;
++	rule->accel_custom_points_count = count;
++	return true;
++}
++
+ bool parse_option(Config *config, char *key, char *value, int line_number) {
+ 	if (strcmp(key, "key_mode") == 0) {
+ 		snprintf(config->keymode, sizeof(config->keymode), "%.27s", value);
+@@ -1671,8 +1730,16 @@
+ 		rule->disable_while_typing = -1;
+ 		rule->map_focus_monitor = -1;
+ 		rule->accel_speed = NAN;
++		rule->accel_custom_step = NAN;
++		rule->accel_custom_points_count = 0;
++		rule->accel_custom_fallback = NAN;
+ 
+ 		bool parse_error = false;
++		bool invalid_profile = false;
++		bool custom_step_seen = false;
++		bool custom_points_seen = false;
++		bool custom_fallback_seen = false;
++		bool incompatible_type = false;
+ 		char *token = strtok(value, ",");
+ 		while (token != NULL) {
+ 			char *colon = strchr(token, ':');
+@@ -1699,6 +1766,8 @@
+ 									"instead\n");
+ 						resolved = "trackpad";
+ 					}
++					if (strcmp(resolved, "trackpad") != 0)
++						incompatible_type = true;
+ 					if (strcmp(resolved, "keyboard") == 0 ||
+ 						strcmp(resolved, "pointer") == 0 ||
+ 						strcmp(resolved, "trackpad") == 0 ||
+@@ -1737,7 +1806,39 @@
+ 				} else if (strcmp(key, "natural_scrolling") == 0) {
+ 					rule->natural_scrolling = CLAMP_INT(atoi(val), 0, 1);
+ 				} else if (strcmp(key, "accel_profile") == 0) {
+-					rule->accel_profile = CLAMP_INT(atoi(val), 0, 2);
++					if (!parse_device_accel_profile(val, &rule->accel_profile)) {
++						mango_error(false, WLR_ERROR,
++									"Invalid device rule accel_profile: %s "
++									"(expected 0, 1, 2, or 4)\n", val);
++						invalid_profile = true;
++						parse_error = true;
++					}
++				} else if (strcmp(key, "accel_custom_step") == 0) {
++					custom_step_seen = true;
++					if (!parse_custom_accel_scalar(val, &rule->accel_custom_step)) {
++						mango_error(false, WLR_ERROR,
++									"Invalid custom trackpad acceleration: "
++									"accel_custom_step must be finite and in (0, 10000]\n");
++						parse_error = true;
++					}
++				} else if (strcmp(key, "accel_custom_points") == 0) {
++					custom_points_seen = true;
++					if (!parse_custom_accel_points(val, rule)) {
++						mango_error(false, WLR_ERROR,
++									"Invalid custom trackpad acceleration: "
++									"accel_custom_points requires 2–64 finite "
++									"values in [0, 10000] separated by |\n");
++						parse_error = true;
++					}
++				} else if (strcmp(key, "accel_custom_fallback") == 0) {
++					custom_fallback_seen = true;
++					if (!parse_custom_accel_scalar(val,
++												  &rule->accel_custom_fallback)) {
++						mango_error(false, WLR_ERROR,
++									"Invalid custom trackpad acceleration: "
++									"accel_custom_fallback must be finite and in (0, 10000]\n");
++						parse_error = true;
++					}
+ 				} else if (strcmp(key, "accel_speed") == 0) {
+ 					rule->accel_speed = CLAMP_FLOAT(atof(val), -1.0, 1.0);
+ 				} else if (strcmp(key, "left_handed") == 0) {
+@@ -1774,14 +1875,57 @@
+ 					parse_error = true;
+ 				}
+ 			} else {
+-				mango_error(
+-					false, WLR_ERROR,
+-					"Invalid device rule format: \033[1m\033[31m%s\033[0m\n",
+-					token);
++				trim_whitespace(token);
++				if (strncmp(token, "accel_custom_", 13) == 0) {
++					custom_step_seen = true;
++					mango_error(false, WLR_ERROR,
++								"Invalid custom trackpad acceleration: "
++								"%s is missing ':' and a value\n", token);
++				} else if (strcmp(token, "accel_profile") == 0) {
++					invalid_profile = true;
++					mango_error(false, WLR_ERROR,
++								"Invalid device rule accel_profile: missing value\n");
++				} else {
++					mango_error(
++						false, WLR_ERROR,
++						"Invalid device rule format: \033[1m\033[31m%s\033[0m\n",
++						token);
++				}
+ 				parse_error = true;
+ 			}
+ 			token = strtok(NULL, ",");
+ 		}
++		bool has_custom = custom_step_seen || custom_points_seen ||
++						  custom_fallback_seen;
++		if (rule->accel_profile == 4 &&
++			(!custom_step_seen || !custom_points_seen || !custom_fallback_seen)) {
++			mango_error(false, WLR_ERROR,
++						"Invalid custom trackpad acceleration: profile 4 requires "
++						"accel_custom_step, accel_custom_points, and accel_custom_fallback\n");
++			parse_error = true;
++		}
++		if (has_custom && rule->accel_profile != 4) {
++			mango_error(false, WLR_ERROR,
++						"Invalid custom trackpad acceleration: custom properties "
++						"require accel_profile:4\n");
++			parse_error = true;
++		}
++		if ((has_custom || rule->accel_profile == 4) && incompatible_type) {
++			mango_error(false, WLR_ERROR,
++						"Invalid custom trackpad acceleration: explicit type "
++						"must be trackpad\n");
++			parse_error = true;
++		}
++		/* Reload reapplies even failed parses. Never retain a partial custom
++		 * curve or resurrect a bad profile through a later duplicate. */
++		if (invalid_profile ||
++			(parse_error && (has_custom || rule->accel_profile == 4))) {
++			rule->accel_profile = -1;
++			rule->accel_custom_step = NAN;
++			memset(rule->accel_custom_points, 0, sizeof(rule->accel_custom_points));
++			rule->accel_custom_points_count = 0;
++			rule->accel_custom_fallback = NAN;
++		}
+ 		config->device_rules_count++;
+ 		return !parse_error;
+ 	} else if (strncmp(key, "env", 3) == 0) {
+--- a/src/input/pointer.c
++++ b/src/input/pointer.c
+@@ -529,6 +529,54 @@
+ 	}
+ }
+ 
++static bool pointer_apply_custom_accel(struct libinput_device *device,
++									 const ConfigDeviceRule *rule) {
++	struct libinput_config_accel *accel_config = NULL;
++	enum libinput_config_status status = LIBINPUT_CONFIG_STATUS_UNSUPPORTED;
++	const char *reason = NULL;
++
++	if (!libinput_device_config_accel_is_available(device) ||
++		!(libinput_device_config_accel_get_profiles(device) &
++		  LIBINPUT_CONFIG_ACCEL_PROFILE_CUSTOM))
++		goto fail;
++
++	accel_config =
++		libinput_config_accel_create(LIBINPUT_CONFIG_ACCEL_PROFILE_CUSTOM);
++	if (!accel_config) {
++		reason = "allocation failed";
++		goto fail;
++	}
++
++	const double fallback_points[] = {0.0, rule->accel_custom_fallback};
++	status = libinput_config_accel_set_points(
++		accel_config, LIBINPUT_ACCEL_TYPE_FALLBACK, 1.0, 2, fallback_points);
++	if (status != LIBINPUT_CONFIG_STATUS_SUCCESS)
++		goto fail;
++
++	/* Leave SCROLL unset so it inherits the constant-gain fallback. */
++	status = libinput_config_accel_set_points(
++		accel_config, LIBINPUT_ACCEL_TYPE_MOTION, rule->accel_custom_step,
++		rule->accel_custom_points_count, rule->accel_custom_points);
++	if (status != LIBINPUT_CONFIG_STATUS_SUCCESS)
++		goto fail;
++
++	status = libinput_device_config_accel_apply(device, accel_config);
++	if (status != LIBINPUT_CONFIG_STATUS_SUCCESS)
++		goto fail;
++
++	libinput_config_accel_destroy(accel_config);
++	return true;
++
++fail:
++	if (accel_config)
++		libinput_config_accel_destroy(accel_config);
++	mango_error(false, WLR_ERROR,
++				"Failed to apply custom trackpad acceleration for %s: %s",
++				libinput_device_get_name(device),
++				reason ? reason : libinput_config_status_to_str(status));
++	return false;
++}
++
+ void configure_pointer(struct wlr_input_device *wlr_device,
+ 					   struct libinput_device *device) {
+ 	ConfigDeviceRule *rule = find_device_rule(wlr_device);
+@@ -596,7 +644,27 @@
+ 		libinput_device_config_tap_set_drag_lock_enabled(device, drag_lock);
+ 		libinput_device_config_tap_set_button_map(device, button_map);
+ 	}
+-	pointer_set_accel(device, natural_scrolling, accel_profile, accel_speed);
++	if (rule && accel_profile == LIBINPUT_CONFIG_ACCEL_PROFILE_CUSTOM) {
++		uint32_t global_profile = is_trackpad ? config.trackpad_accel_profile
++											 : config.mouse_accel_profile;
++		double global_speed = is_trackpad ? config.trackpad_accel_speed
++										 : config.mouse_accel_speed;
++
++		/* Remove any previous custom profile before attempting its replacement. */
++		pointer_set_accel(device, natural_scrolling, global_profile, global_speed);
++		if (!is_trackpad) {
++			mango_error(false, WLR_ERROR,
++						"Failed to apply custom trackpad acceleration for %s: %s",
++						libinput_device_get_name(device),
++						"device is not a trackpad");
++		} else if (!pointer_apply_custom_accel(device, rule)) {
++			/* Applying a libinput acceleration configuration is not atomic. */
++			pointer_set_accel(device, natural_scrolling, global_profile,
++							  global_speed);
++		}
++	} else {
++		pointer_set_accel(device, natural_scrolling, accel_profile, accel_speed);
++	}
+ 
+ 	if (libinput_device_config_dwt_is_available(device))
+ 		libinput_device_config_dwt_set_enabled(device, disable_while_typing);
