@@ -78,10 +78,10 @@
           show_label = false;
         };
         workspaces = {
-          empty_color = "surface_variant";
+          empty_color = "surface_container";
           active_pill_size = 1.5;
           inactive_pill_size = 1.5;
-          occupied_color = "surface_variant";
+          occupied_color = "surface_container";
           scale = 1.25;
           hide_when_empty = true;
         };
