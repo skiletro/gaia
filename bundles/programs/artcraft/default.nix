@@ -1,8 +1,7 @@
-{inputs', ...}: {
-  home-manager = {
-    home.packages = with inputs'.artcraft.packages; [
+{
+  home-manager = {pkgs, ...}: {
+    home.packages = with pkgs; [
       # keep-sorted start
-      filmcraft # Video editing
       photocraft # Raster image editing
       vectorcraft # Vector image editing
       # keep-sorted end
