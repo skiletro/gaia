@@ -4,10 +4,7 @@
   inputs',
   ...
 }: let
-  scenefx = inputs'.scenefx.packages.default.overrideAttrs (old: {
-    patches = (old.patches or []) ++ [./scenefx-patches/gles2-integer-clamp.patch];
-  });
-  package = (inputs'.mango.packages.mango.override {inherit scenefx;}).overrideAttrs (old: {
+  package = inputs'.mango.packages.mango.overrideAttrs (old: {
     patches =
       (old.patches or [])
       ++ (lib.filter
