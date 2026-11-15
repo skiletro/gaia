@@ -8,17 +8,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    artcraft = {
-      url = "github:Devitek/artcraft-nixos";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     asahix.url = "github:warm-vodka/asahix";
-
-    bootvine = {
-      url = "git+https://codeberg.org/wvhulle/bootvine";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     bundlix.url = "github:warm-vodka/bundlix";
 
@@ -61,7 +51,6 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-parts.follows = "flake-parts";
-        scenefx.follows = "scenefx";
       };
     };
 
@@ -103,11 +92,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    scenefx = {
-      url = "github:wlrfx/scenefx";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     sonora = {
       url = "github:sonorahq/sonora";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -125,11 +109,6 @@
 
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    tuigreet = {
-      url = "github:tuigreet/tuigreet";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

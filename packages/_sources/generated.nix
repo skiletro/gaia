@@ -16,15 +16,15 @@
   };
   broadcast-box = {
     pname = "broadcast-box";
-    version = "259aaa19c3cce13f3f93e638181029105d3ea7ed";
+    version = "484a22832dcea141ff3ac984f2f038cacf8aa678";
     src = fetchFromGitHub {
       owner = "Glimesh";
       repo = "broadcast-box";
-      rev = "259aaa19c3cce13f3f93e638181029105d3ea7ed";
+      rev = "484a22832dcea141ff3ac984f2f038cacf8aa678";
       fetchSubmodules = false;
-      sha256 = "sha256-vELwoBxs/rFiCpayMgwhtIjUsbRIXzVLeDyEjducvOo=";
+      sha256 = "sha256-7SseHl5ii1kE5PYYal8ZIbP6tJeZjMwP063Ia/++u1E=";
     };
-    date = "2026-11-07";
+    date = "2026-11-16";
   };
   maloja = {
     pname = "maloja";
@@ -63,16 +63,16 @@
   };
   romp = {
     pname = "romp";
-    version = "v0.21.0";
+    version = "v0.22.0";
     src = fetchFromGitHub {
       owner = "RompEmu";
       repo = "RomP";
-      rev = "v0.21.0";
+      rev = "v0.22.0";
       fetchSubmodules = false;
-      sha256 = "sha256-OhJe4yyJlqIBvALv0vJxfIkvzLO+W+TfhkEtT6GlLiM=";
+      sha256 = "sha256-ifXdZ42UztvcAHJhlkBpWT9ou+iHBG/AuAFhj9kQJiQ=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./. + "/sha256-OhJe4yyJlqIBvALv0vJxfIkvzLO+W+TfhkEtT6GlLiM=/Cargo.lock";
+      lockFile = ./. + "/sha256-ifXdZ42UztvcAHJhlkBpWT9ou+iHBG_AuAFhj9kQJiQ=/Cargo.lock";
       outputHashes = {
         
       };

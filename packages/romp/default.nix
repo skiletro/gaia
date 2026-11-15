@@ -3,12 +3,14 @@
   rustPlatform,
   sources,
   cacert,
+  aws-lc,
   cmake,
   cubeb,
   pkg-config,
   makeWrapper,
   fontconfig,
   openssl,
+  sqlite,
   alsa-lib,
   libpulseaudio,
   udev,
@@ -51,9 +53,11 @@ in
     ];
     buildInputs =
       [
+        aws-lc
         cubeb
         fontconfig
         openssl
+        sqlite
       ]
       ++ runtimeLibraries;
     nativeCheckInputs = [cacert];
