@@ -17,6 +17,7 @@
         # keep-sorted end
       ];
       settings = {
+        telemetry.system_info = false;
         close_on_focus_loss = false;
         theme = {
           dark.icon_theme = config.stylix.icons.dark;
