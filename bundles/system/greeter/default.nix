@@ -1,9 +1,9 @@
-{
-  lib,
-  inputs',
-  ...
-}: {
-  nixos = {config, ...}: let
+{lib, ...}: {
+  nixos = {
+    config,
+    pkgs,
+    ...
+  }: let
     sessionData = config.services.displayManager.sessionData.desktops;
     sessionPaths = lib.concatStringsSep ":" [
       "${sessionData}/share/xsessions"
@@ -15,7 +15,7 @@
       settings = {
         default_session = {
           command = lib.concatStringsSep " " [
-            (lib.getExe inputs'.tuigreet.packages.tuigreet)
+            (lib.getExe pkgs.tuigreet)
             "--time"
             "--remember"
             "--remember-user-session"
