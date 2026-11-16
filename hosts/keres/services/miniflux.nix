@@ -174,6 +174,16 @@
         ''
     );
   in {
+    # PostgreSQL peer auth must resolve this account even while nsncd restarts.
+    # DynamicUser reuses the static account and retains its sandbox restrictions.
+    users = {
+      users.miniflux = {
+        isSystemUser = true;
+        group = "miniflux";
+      };
+      groups.miniflux = {};
+    };
+
     sops.secrets."miniflux-env".restartUnits = ["miniflux.service"];
 
     services.miniflux = {
