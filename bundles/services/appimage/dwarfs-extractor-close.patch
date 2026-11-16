@@ -1,0 +1,60 @@
+DwarFS must release its archive and join the stream pump even when libarchive
+reports an error on close. Otherwise destruction of the joinable thread calls
+std::terminate, hiding the extraction error and aborting the format tests.
+
+--- a/src/utility/filesystem_extractor.cpp
++++ b/src/utility/filesystem_extractor.cpp
+@@ -28,6 +28,7 @@
+ 
+ #include <array>
+ #include <condition_variable>
++#include <exception>
+ #include <memory>
+ #include <mutex>
+ #include <thread>
+@@ -244,20 +245,30 @@
+   }
+ 
+   void close() override {
++    std::exception_ptr close_error;
++    auto close_archive = [&](archive_ptr& ar) {
++      try {
++        check_result(ar, ::archive_write_close(ar.get()));
++      } catch (...) {
++        if (!close_error) {
++          close_error = std::current_exception();
++        }
++      }
++      ar.reset();
++    };
++
+     if (!a_reg_.empty()) {
+       for (auto& ar : a_reg_) {
+         LOG_DEBUG << "closing regular file disk archive";
+-        check_result(ar, ::archive_write_close(ar.get()));
++        close_archive(ar);
+       }
+       LOG_TRACE << "freeing regular file disk archives";
+       a_reg_.clear();
+     }
+ 
+     if (a_) {
+       LOG_DEBUG << "closing archive";
+-      check_result(a_, ::archive_write_close(a_.get()));
+-      LOG_TRACE << "freeing archive";
+-      a_.reset();
++      close_archive(a_);
+     }
+ 
+     if (iot_) {
+@@ -271,6 +282,10 @@
+       LOG_TRACE << "closing pipe[0]";
+       closefd(pipefd_[0]);
+     }
++
++    if (close_error) {
++      std::rethrow_exception(close_error);
++    }
+   }
+ 
+   bool
