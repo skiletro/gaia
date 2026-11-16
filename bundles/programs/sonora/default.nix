@@ -1,8 +1,4 @@
-{
-  inputs,
-  inputs',
-  ...
-}: {
+{inputs, ...}: {
   home-manager = {
     config,
     lib,
@@ -13,19 +9,16 @@
 
     programs.sonora = {
       enable = true;
-      package = inputs'.sonora.packages.default.overrideAttrs (old: {
-        postInstall =
-          (old.postInstall or "")
-          + ''
-            substituteInPlace $out/share/applications/sonora.desktop \
-              --replace-fail "Icon=sonora" "Icon=juk"
-          '';
-      });
       settings.appearance = {
         theme = "stylix";
         adaptive_theme = false;
       };
     };
+
+    xdg.dataFile."applications/sonora.desktop".source = pkgs.runCommand "sonora.desktop" {} ''
+      install -m644 ${config.programs.sonora.package}/share/applications/sonora.desktop $out
+      substituteInPlace $out --replace-fail "Icon=sonora" "Icon=juk"
+    '';
 
     # Sonora skips symlinks when discovering themes.
     home.activation.sonoraTheme = let

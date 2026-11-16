@@ -92,10 +92,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    sonora = {
-      url = "github:sonorahq/sonora";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    sonora.url = "github:sonorahq/sonora";
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
@@ -141,6 +138,7 @@
       "https://nix-community.cachix.org"
       "https://noctalia.cachix.org"
       "https://nyx-cache.chaotic.cx/"
+      "https://sonora.cachix.org"
       # keep-sorted end
     ];
     extra-trusted-public-keys = [
@@ -149,6 +147,7 @@
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
       "nyx-cache.chaotic.cx:dJxTrgMC3V3cFfyIiBQDQorG6k1LsqurH/srpMSq7qk="
+      "sonora.cachix.org-1:qbPeDsvZPbwUWHpQS5Oe0bjz5oHAVscHem+MCzwrc9Q="
       # keep-sorted end
     ];
   };

@@ -67,6 +67,18 @@ configured tools. `nix flake check` includes a formatting check.
 
 See [Package examples](package-examples.md) to add a package.
 
+Sonora uses its own nixpkgs pin to match its binary cache. When updating that
+input, preserve the dependency pins from the selected Sonora revision rather
+than making it follow Gaia's nixpkgs. The cache and signing key are configured
+in [`flake.nix`](../flake.nix).
+
+For desktop-only changes, override the launcher under Home Manager's
+`xdg.dataFile."applications/..."` instead of modifying the application package.
+The [Sonora](../bundles/programs/sonora/default.nix) and
+[Delfin](../bundles/programs/jellyfin/default.nix) bundles copy their upstream
+desktop entries and change only the desired fields, retaining the cached
+application builds.
+
 ## Secrets
 
 Secrets live in `.secrets.yaml`, encrypted for the age recipients selected by
