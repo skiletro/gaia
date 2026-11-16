@@ -2,7 +2,7 @@
   nixos = {pkgs, ...}: {
     programs.obs-studio = {
       enable = true;
-      enableVirtualCamera = true;
+      enableVirtualCamera = false; # adds v4l2loopback kernel module
       plugins = with pkgs.obs-studio-plugins; [
         # keep-sorted start
         input-overlay
