@@ -1,5 +1,5 @@
 {
-  inputs,
+  inputs',
   lib,
   ...
 }: {
@@ -8,7 +8,7 @@
     config,
     ...
   }: {
-    imports = [inputs.nixpkgs-xr.nixosModules.nixpkgs-xr];
+    nixpkgs.overlays = [(_final: _prev: inputs'.nixpkgs-xr.packages)];
 
     services.wivrn = {
       enable = true;
