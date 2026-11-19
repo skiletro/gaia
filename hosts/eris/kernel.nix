@@ -1,6 +1,6 @@
 {
   nixos = {pkgs, ...}: {
-    boot.kernelPackages = pkgs.linuxPackages;
+    boot.kernelPackages = pkgs.linuxPackages_cachyos-lto-znver4;
 
     services = {
       scx-loader = {
