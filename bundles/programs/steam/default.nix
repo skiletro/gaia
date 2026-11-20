@@ -6,10 +6,8 @@
         extraProfile = ''
           export DXVK_HUD=compiler
           export PROTON_ENABLE_WAYLAND=1
-          export PROTON_ENABLE_HDR=1
           export PROTON_FSR4_UPGRADE=1
           export PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES=1
-          export LOW_LATENCY_LAYER=1
           unset TZ
         '';
       };
@@ -27,7 +25,6 @@
 
     environment.systemPackages = with pkgs; [
       # keep-sorted start
-      low-latency-layer
       sgdboop
       steamtinkerlaunch
       # keep-sorted end
