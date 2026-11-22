@@ -1,6 +1,7 @@
+diff --git a/include/mango/manage/client.h b/include/mango/manage/client.h
 --- a/include/mango/manage/client.h
 +++ b/include/mango/manage/client.h
-@@ -69,6 +69,11 @@
+@@ -73,6 +73,11 @@ struct Client {
  	struct wlr_scene_tree *scene;
  	struct wlr_scene_rect *border; /* top, bottom, left, right */
  	struct wlr_scene_rect *droparea;
@@ -12,11 +13,12 @@
  	struct wlr_scene_rect *splitindicator[4];
  	struct wlr_scene_shadow *shadow;
  	struct wlr_scene_rect *shield;
+diff --git a/src/animation/client.c b/src/animation/client.c
 --- a/src/animation/client.c
 +++ b/src/animation/client.c
-@@ -786,6 +786,59 @@
- 
- 	return offset;
+@@ -933,6 +933,58 @@ int32_t client_drop_zone(const Layout *layout, bool ismaster,
+ 		*zone = drop_box;
+ 	return drop_direction;
  }
 +static void client_draw_drop_outline(Client *c, const struct wlr_box *box) {
 +	int32_t stroke =
@@ -70,11 +72,10 @@
 +	client_draw_drop_outline(c, &box);
 +	return true;
 +}
-+
+ 
  void client_set_drop_area(Client *c) {
  	bool first_draw = false;
- 	int32_t drop_direction = UNDIR;
-@@ -793,6 +846,9 @@
+@@ -940,6 +992,9 @@ void client_set_drop_area(Client *c) {
  	if (!c || !c->mon)
  		return;
  
@@ -84,7 +85,7 @@
  	if (!c->enable_drop_area_draw && !c->droparea->node.enabled)
  		return;
  
-@@ -801,6 +857,7 @@
+@@ -948,6 +1003,7 @@ void client_set_drop_area(Client *c) {
  		wlr_scene_node_set_enabled(&c->droparea->node, false);
  		return;
  	} else if (c->enable_drop_area_draw && !c->droparea->node.enabled) {
@@ -92,7 +93,7 @@
  		wlr_scene_node_raise_to_top(&c->droparea->node);
  		wlr_scene_node_set_enabled(&c->droparea->node, true);
  		first_draw = true;
-@@ -811,6 +868,7 @@
+@@ -958,6 +1014,7 @@ void client_set_drop_area(Client *c) {
  	int32_t client_height = c->geom.height - 2 * bw;
  
  	if (client_width <= 0 || client_height <= 0) {
@@ -100,9 +101,9 @@
  		wlr_scene_node_set_enabled(&c->droparea->node, false);
  		return;
  	}
-@@ -969,12 +1027,49 @@
- 		}
- 	}
+@@ -981,12 +1038,49 @@ void client_set_drop_area(Client *c) {
+ 	drop_box.x += bw;
+ 	drop_box.y += bw;
  
 -	if (!first_draw && c->drop_direction == drop_direction)
 -		return;
@@ -152,9 +153,9 @@
 +	if (c->drop_animation.running)
 +		request_fresh_all_monitors();
  }
- void client_set_clip(Client *c, float factor) {
- 	if (c->iskilling || !client_surface(c)->mapped)
-@@ -1830,6 +1925,8 @@
+ 
+ static void validate_surface_source_box(struct wlr_surface *surface, int sx,
+@@ -1925,6 +2019,8 @@ bool client_draw_frame(Client *c) {
  	if (!c || !client_surface(c)->mapped)
  		return false;
  
@@ -163,7 +164,7 @@
  	// always render when scene is disabled
  	if (c->force_render && !c->scene->node.enabled) {
  		force_render = client_force_render(c);
-@@ -1838,7 +1935,7 @@
+@@ -1933,7 +2029,7 @@ bool client_draw_frame(Client *c) {
  
  	if (server.gesture_drive_active && c->mon == server.gesture_drive_mon &&
  		c->animation.running && c->need_output_flush) {
@@ -172,27 +173,27 @@
  	}
  
  	if (!c->need_output_flush)
+diff --git a/src/input/pointer.c b/src/input/pointer.c
 --- a/src/input/pointer.c
 +++ b/src/input/pointer.c
-@@ -1349,11 +1349,12 @@
-		if (closet_drop_client && server.drop_client &&
-			closet_drop_client != server.drop_client) {
-			server.drop_client->enable_drop_area_draw = false;
-			client_set_drop_area(server.drop_client);
+@@ -1386,9 +1386,10 @@ void pointer_process_motion(uint32_t time, struct wlr_input_device *device,
+ 			closet_drop_client != server.drop_client) {
+ 			server.drop_client->enable_drop_area_draw = false;
+ 			client_set_drop_area(server.drop_client);
 +			/* Preserve the previous guide while the new target initializes. */
 +			closet_drop_client->enable_drop_area_draw = true;
 +			client_set_drop_area(closet_drop_client);
-			server.drop_client = closet_drop_client;
+ 			server.drop_client = closet_drop_client;
 -			server.drop_client->enable_drop_area_draw = true;
 -			client_set_drop_area(server.drop_client);
-		} else if (closet_drop_client) {
-			server.drop_client = closet_drop_client;
-			server.drop_client->enable_drop_area_draw = true;
-			client_set_drop_area(server.drop_client);
+ 		} else if (closet_drop_client) {
+ 			server.drop_client = closet_drop_client;
+ 			server.drop_client->enable_drop_area_draw = true;
+diff --git a/src/manage/client.c b/src/manage/client.c
 --- a/src/manage/client.c
 +++ b/src/manage/client.c
-@@ -2185,7 +2185,10 @@
- 	client_add_group_bar(c);
+@@ -2354,7 +2354,10 @@ void handle_client_map(struct wl_listener *listener, void *data) {
+ 	client_add_jump_label_node(c);
  	client_add_dim_node(c);
  
 -	c->droparea = wlr_scene_rect_create(c->scene, 0, 0, config.dropcolor);
@@ -203,7 +204,7 @@
  	wlr_scene_node_lower_to_bottom(&c->droparea->node);
  	wlr_scene_node_set_position(&c->droparea->node, 0, 0);
  	wlr_scene_node_set_enabled(&c->droparea->node, false);
-@@ -2516,6 +2519,11 @@
+@@ -2723,6 +2726,11 @@ void handle_client_unmap(struct wl_listener *listener, void *data) {
  		c->image_capture_scene = NULL;
  	}
  

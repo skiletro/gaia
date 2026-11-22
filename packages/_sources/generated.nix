@@ -16,15 +16,15 @@
   };
   broadcast-box = {
     pname = "broadcast-box";
-    version = "484a22832dcea141ff3ac984f2f038cacf8aa678";
+    version = "9f44925c1baae3bd317ccfbb9048536b97091e83";
     src = fetchFromGitHub {
       owner = "Glimesh";
       repo = "broadcast-box";
-      rev = "484a22832dcea141ff3ac984f2f038cacf8aa678";
+      rev = "9f44925c1baae3bd317ccfbb9048536b97091e83";
       fetchSubmodules = false;
-      sha256 = "sha256-7SseHl5ii1kE5PYYal8ZIbP6tJeZjMwP063Ia/++u1E=";
+      sha256 = "sha256-m8whGZ2SqrmCEcz2GnvZHURU4pGeqH6UkAqx+a75Wv0=";
     };
-    date = "2026-11-16";
+    date = "2026-11-17";
   };
   maloja = {
     pname = "maloja";

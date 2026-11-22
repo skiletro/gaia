@@ -313,5 +313,7 @@ in {
 
     xdg.dataFile."color-schemes/${colorschemeSlug}.colors".text =
       formatConfig colorscheme;
+
+    stylix.targets.wayprompt.enable = false;
   };
 }

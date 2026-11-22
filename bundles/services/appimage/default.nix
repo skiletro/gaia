@@ -10,15 +10,6 @@
         ];
     };
   in {
-    nixpkgs.overlays = [
-      (_final: prev: {
-        # Keep archive-close errors from aborting DwarFS's stream pump.
-        dwarfs = prev.dwarfs.overrideAttrs (old: {
-          patches = (old.patches or []) ++ [./dwarfs-extractor-close.patch];
-        });
-      })
-    ];
-
     programs.appimage = {
       enable = true;
       binfmt = true;
@@ -26,11 +17,9 @@
     };
   };
 
-  home-manager = {pkgs, ...}: {
+  home-manager = {
     home.packages = [
-      (inputs'.appimage-appmanager.packages.default.override {
-        inherit (pkgs) dwarfs;
-      })
+      inputs'.appimage-appmanager.packages.default
     ];
   };
 }
