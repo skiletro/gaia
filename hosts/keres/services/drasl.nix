@@ -20,6 +20,9 @@
         ApplicationOwner = keresDomain;
         ListenAddress = "127.0.0.1:${toString port}";
         DefaultAdmins = ["jamie"];
+        # One Minecraft player per account; no extra players after registration.
+        DefaultMaxPlayerCount = 1;
+        CreateNewPlayer.Allow = false;
       };
     };
 
