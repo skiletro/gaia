@@ -92,5 +92,7 @@
         };
       };
     };
+
+    stylix.targets.starship.enable = true;
   };
 }

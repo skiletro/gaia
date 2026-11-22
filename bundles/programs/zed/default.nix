@@ -53,5 +53,7 @@
         nil
       ];
     };
+
+    stylix.targets.zed.enable = true;
   };
 }

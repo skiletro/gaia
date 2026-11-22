@@ -8,5 +8,7 @@
         show_boxes = "proc cpu mem net gpu gpu0 gpu1 gpu2";
       };
     };
+
+    stylix.targets.btop.enable = true;
   };
 }

@@ -62,6 +62,8 @@
       };
     };
 
+    stylix.targets.nixcord.enable = true;
+
     xdg.mimeApps.defaultApplications = {
       "x-scheme-handler/discord" = "equibop.desktop";
     };

@@ -5,4 +5,6 @@
 
     environment.systemPackages = [pkgs.bazaar];
   };
+
+  home-manager.stylix.targets.gtk.flatpakSupport.enable = true;
 }

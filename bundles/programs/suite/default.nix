@@ -37,11 +37,26 @@
         NAUTILUS_4_EXTENSION_DIR = lib.mkForce "/run/current-system/sw/lib/nautilus/extensions-4";
       };
     };
+
+    stylix = {
+      overlays.enable = true;
+      targets = {
+        gnome-text-editor.enable = true;
+        gtksourceview.enable = true;
+      };
+    };
   };
 
   home-manager = {
     programs.mpv.enable = true;
     programs.zathura.enable = true;
+
+    stylix.targets = {
+      gnome-text-editor.enable = true;
+      gtksourceview.enable = true;
+      mpv.enable = true;
+      zathura.enable = true;
+    };
 
     xdg.mimeApps = {
       enable = true;

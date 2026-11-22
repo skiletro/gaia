@@ -53,6 +53,8 @@
       };
     };
 
+    stylix.targets.rio.enable = true;
+
     home.packages = with pkgs; [nerd-fonts.symbols-only];
   };
 }

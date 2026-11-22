@@ -80,6 +80,11 @@ in {
     stylix =
       {
         enable = true;
+        autoEnable = false;
+        targets = {
+          gtk.enable = true;
+          qt.enable = true;
+        };
         cursor = {
           package = with config.lib.stylix.colors.withHashtag;
             inputs'.cursors.packages.apple-cursor.override {
@@ -244,16 +249,23 @@ in {
   in {
     imports = [borderRadiusModule];
 
-    stylix.borderRadius = lib.mkDefault osConfig.stylix.borderRadius;
-
-    stylix.icons = {
-      enable = true;
-      package = pkgs.whitesur-icon-theme.override {
-        alternativeIcons = true;
-        boldPanelIcons = true;
+    stylix = {
+      autoEnable = false;
+      targets = {
+        gtk.enable = true;
+        kde.enable = true;
+        qt.enable = true;
       };
-      dark = "WhiteSur-dark";
-      light = "WhiteSur-light";
+      borderRadius = lib.mkDefault osConfig.stylix.borderRadius;
+      icons = {
+        enable = true;
+        package = pkgs.whitesur-icon-theme.override {
+          alternativeIcons = true;
+          boldPanelIcons = true;
+        };
+        dark = "WhiteSur-dark";
+        light = "WhiteSur-light";
+      };
     };
 
     stylix.targets.gtk.extraCss = ''
@@ -313,7 +325,5 @@ in {
 
     xdg.dataFile."color-schemes/${colorschemeSlug}.colors".text =
       formatConfig colorscheme;
-
-    stylix.targets.wayprompt.enable = false;
   };
 }

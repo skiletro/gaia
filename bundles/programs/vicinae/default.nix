@@ -75,6 +75,8 @@
         };
       };
     };
+
+    stylix.targets.vicinae.enable = true;
   };
 
   nixos.hardware.uinput.enable = lib.mkDefault true; # for emoji auto-insert

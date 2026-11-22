@@ -41,5 +41,7 @@
       TTYVHangup = true;
       TTYVTDisallocate = true;
     };
+
+    stylix.targets.console.enable = true;
   };
 }

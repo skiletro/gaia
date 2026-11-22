@@ -30,5 +30,7 @@
           -force-vulkan "$@"
       '')
     ];
+
+    stylix.targets.blender.enable = true;
   };
 }

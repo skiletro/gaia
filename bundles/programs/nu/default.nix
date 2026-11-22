@@ -37,6 +37,8 @@
       enableNushellIntegration = true;
     };
 
+    stylix.targets.nushell.enable = true;
+
     home.shellAliases = {
       vf = "ssh -p 2200 git.warm.vodka";
       n = "nix";

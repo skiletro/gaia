@@ -80,5 +80,7 @@
         };
       };
     };
+
+    stylix.targets.helix.enable = true;
   };
 }

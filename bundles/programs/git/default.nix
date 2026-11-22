@@ -48,6 +48,8 @@
       gh-dash.enable = true;
     };
 
+    stylix.targets.lazygit.enable = true;
+
     home.shellAliases.lg = "lazygit";
   };
 }

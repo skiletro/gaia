@@ -1,5 +1,10 @@
 {self', ...}: {
   nixos = {
+    stylix.targets = {
+      font-packages.enable = true;
+      fontconfig.enable = true;
+    };
+
     fonts = {
       fontDir.enable = true;
       fontconfig = {
@@ -37,6 +42,11 @@
 
   home-manager = {pkgs, ...}: {
     fonts.fontconfig.enable = true;
+
+    stylix.targets = {
+      font-packages.enable = true;
+      fontconfig.enable = true;
+    };
 
     home.packages = with pkgs; [
       corefonts # Microsoft Fonts
