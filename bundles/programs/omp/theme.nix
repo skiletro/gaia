@@ -58,6 +58,7 @@
         thinkingMax = base08;
         bashMode = base0C;
         pythonMode = base0E;
+        btwMode = base0D;
         statusLineSep = base03;
         statusLineModel = base0E;
         statusLinePath = base0D;
