@@ -36,6 +36,7 @@
             links = builtins.mapAttrs (_: v: "https://${v}.${keresDomain}") {
               # keep-sorted start
               broadcast-box = "box";
+              drasl = "drasl";
               forgejo = "git";
               maloja = "maloja";
               miniflux = "miniflux";
