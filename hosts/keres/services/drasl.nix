@@ -23,6 +23,7 @@
         # One Minecraft player per account; no extra players after registration.
         DefaultMaxPlayerCount = 1;
         CreateNewPlayer.Allow = false;
+        RegistrationUsernamePassword.CreateNewPlayer.RequireInvite = true;
       };
     };
 
