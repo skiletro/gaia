@@ -46,10 +46,6 @@ in {
           default = null;
           description = "Position in logical pixels; null uses compositor placement.";
         };
-        vrr = mkOption {
-          type = types.nullOr types.bool;
-          default = null;
-        };
       };
     });
   };

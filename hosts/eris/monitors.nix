@@ -11,7 +11,6 @@
         height = 1440;
         refresh = 175;
       };
-      vrr = true;
     };
   };
 }

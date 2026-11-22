@@ -6,6 +6,9 @@
     ];
 
     window_rule = [
+      # VRR only while a window is fullscreen; monitor rules leave VRR off.
+      "vrr_only_fullscreen:1,app_id:.*"
+
       # Noctalia settings window
       "is_floating:1,width:1080,height:920,app_id:dev.noctalia.Noctalia"
 

@@ -14,13 +14,7 @@
           selector
           // monitor.mode
           // lib.optionalAttrs (monitor.scale != null) {inherit (monitor) scale;}
-          // lib.optionalAttrs (monitor.position != null) monitor.position
-          // lib.optionalAttrs (monitor.vrr != null) {
-            vrr =
-              if monitor.vrr
-              then 1
-              else 0;
-          };
+          // lib.optionalAttrs (monitor.position != null) monitor.position;
       in
         lib.concatStringsSep "," (lib.mapAttrsToList (name: value: "${name}:${toString value}") rule);
     in

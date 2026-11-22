@@ -8,7 +8,6 @@
         refresh = 60;
       };
       scale = 1.5;
-      vrr = true;
     };
     external-ultrawide = {
       identity = "DP-1";
@@ -18,7 +17,6 @@
         refresh = 100;
       };
       scale = 1;
-      vrr = true;
     };
   };
 }
