@@ -9,6 +9,18 @@
           export PROTON_FSR4_UPGRADE=1
           export PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES=1
           unset TZ
+
+          # extest unwraps its compositor connection and panics when none is
+          # available; the panic crosses its extern "C" boundary and aborts
+          # Steam. Gamescope runs Steam as an X11 client with no
+          # WAYLAND_DISPLAY (it only exports one under --expose-wayland) and
+          # provides XTEST natively via libei, so the shim is both unusable and
+          # unnecessary there. Require gamescope's own markers as well, so any
+          # other compositor-less launch keeps the previous extest behaviour.
+          if [ -z "''${WAYLAND_DISPLAY:-}" ] &&
+            { [ "''${XDG_CURRENT_DESKTOP:-}" = gamescope ] || [ -n "''${GAMESCOPE_WAYLAND_DISPLAY:-}" ]; }; then
+            unset LD_PRELOAD
+          fi
         '';
       };
       extraCompatPackages = with pkgs; [
