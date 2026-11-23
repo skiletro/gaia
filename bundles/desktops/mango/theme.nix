@@ -2,6 +2,7 @@
   home-manager = {config, ...}: let
     withAlpha = alpha: color: "0x${color}${alpha}";
     opaque = withAlpha "ff";
+    sansFont = size: "${config.stylix.fonts.sansSerif.name} ${toString size}";
   in
     with config.lib.stylix.colors; {
       # wlr-chooser reads colours and fonts from theme.toml. Screens are
@@ -54,13 +55,36 @@
         jump_label_decorate_fg_color = opaque base05;
         jump_label_decorate_focus_bg_color = opaque base0D;
         jump_label_decorate_focus_fg_color = opaque base00;
+        jump_label_decorate_font_desc = sansFont 13;
 
-        # monocle group bar
+        # Monocle tab headers and group bar
+        tab_bar_decorate_bg_color = opaque base01;
+        tab_bar_decorate_border_color = opaque base0D;
+        tab_bar_decorate_fg_color = opaque base05;
+        tab_bar_decorate_focus_bg_color = opaque base0D;
+        tab_bar_decorate_focus_fg_color = opaque base00;
+        tab_bar_decorate_corner_radius = config.stylix.borderRadius;
+        tab_bar_decorate_font_desc = sansFont 13;
+
         group_bar_decorate_bg_color = opaque base01;
         group_bar_decorate_border_color = opaque base0D;
         group_bar_decorate_fg_color = opaque base05;
         group_bar_decorate_focus_bg_color = opaque base0D;
         group_bar_decorate_focus_fg_color = opaque base00;
+        group_bar_decorate_corner_radius = config.stylix.borderRadius;
+        group_bar_decorate_font_desc = sansFont 13;
+
+        # Switcher title bar (also used by overcircle)
+        title_message_bar_decorate_bg_color = opaque base01;
+        title_message_bar_decorate_border_color = opaque base0D;
+        title_message_bar_decorate_fg_color = opaque base05;
+        title_message_bar_decorate_focus_bg_color = opaque base0D;
+        title_message_bar_decorate_focus_fg_color = opaque base00;
+        title_message_bar_decorate_corner_radius = config.stylix.borderRadius;
+        title_message_bar_decorate_font_desc = sansFont 16;
+
+        # Alt-tab switcher panel
+        switcher_panel_color = withAlpha "eb" base00;
 
         # Blur
         blur = 0;

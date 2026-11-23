@@ -1,0 +1,70 @@
+--- a/include/mango/config/parse.h
++++ b/include/mango/config/parse.h
+@@ -568,6 +568,7 @@
+ 	float scratchpad_height_ratio;
+ 	float special_dim;
+ 	float rootcolor[4];
++	float switcher_panel_color[4];
+ 	float bordercolor[4];
+ 	float dropcolor[4];
+ 	float splitcolor[4];
+--- a/src/config/option_defs.c
++++ b/src/config/option_defs.c
+@@ -1140,6 +1140,17 @@
+ 		} else {
+ 			convert_hex_to_rgba(config->dim_unfocused_color, color);
+ 		}
++	} else if (strcmp(key, "switcher_panel_color") == 0) {
++		int64_t color = parse_color(value);
++		if (color == -1) {
++			mango_error(false, WLR_ERROR,
++						"Invalid switcher_panel_color "
++						"format: \033[1m\033[31m%s\033[0m\n",
++						value);
++			return false;
++		} else {
++			convert_hex_to_rgba(config->switcher_panel_color, color);
++		}
+ 	} else if (strcmp(key, "border_color") == 0) {
+ 		int64_t color = parse_color(value);
+ 		if (color == -1) {
+@@ -2832,6 +2843,10 @@
+ 	config.rootcolor[1] = 0x32 / 255.0f;
+ 	config.rootcolor[2] = 0x32 / 255.0f;
+ 	config.rootcolor[3] = 1.0f;
++	config.switcher_panel_color[0] = 0x17 / 255.0f;
++	config.switcher_panel_color[1] = 0x17 / 255.0f;
++	config.switcher_panel_color[2] = 0x1c / 255.0f;
++	config.switcher_panel_color[3] = 0xeb / 255.0f;
+ 	config.bordercolor[0] = 0x44 / 255.0f;
+ 	config.bordercolor[1] = 0x44 / 255.0f;
+ 	config.bordercolor[2] = 0x44 / 255.0f;
+--- a/include/mango/switcher/switcher.h
++++ b/include/mango/switcher/switcher.h
+@@ -14,8 +14,6 @@
+ #define SW_ASPECT_MIN (9.0f / 16.0f)
+ #define SW_ASPECT_MAX (12.0f / 5.0f)
+ 
+-extern const float switcher_panel_color[4];
+-
+ /* Switcher candidate scope. */
+ enum { SW_CURRENT_TAG, SW_ALL_TAG, SW_ALL_MON };
+ 
+--- a/src/switcher/switcher.c
++++ b/src/switcher/switcher.c
+@@ -453,7 +453,8 @@
+ 	switcher_state.tree =
+ 		wlr_scene_tree_create(server.layers[LyrSpecialOverlay]);
+ 	switcher_state.bg =
+-		wlr_scene_rect_create(switcher_state.tree, 1, 1, switcher_panel_color);
++		wlr_scene_rect_create(switcher_state.tree, 1, 1,
++							  config.switcher_panel_color);
+ 	switcher_state.tiles = ecalloc(n, sizeof(*switcher_state.tiles));
+ 	wl_list_for_each(c, &server.focus_stack, flink) {
+ 		if (!switcher_candidate(c))
+@@ -533,5 +534,3 @@
+ 	*w = c->surface.xdg->geometry.width;
+ 	*h = c->surface.xdg->geometry.height;
+ }
+-
+-const float switcher_panel_color[4] = {0.09f, 0.09f, 0.11f, 0.92f};

@@ -40,7 +40,7 @@
             ''
           )}"
           "SUPER,O,togglejump"
-          ''SUPER,M,spawn,mmsg dispatch setlayout,$(echo -e 'dwindle\ngrid\nscroller' | vicinae dmenu -p 'Pick a layout...')''
+          ''SUPER,M,spawn,mmsg dispatch setlayout,$(echo -e 'dwindle\nscroller\nmonocle\ngrid' | vicinae dmenu -p 'Pick a layout...')''
 
           # Alt-tab style thumbnail switcher
           "SUPER,Tab,switcher,all_tag_next"
