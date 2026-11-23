@@ -48,8 +48,12 @@
           echo "refusing to publish an empty directory" >&2
           exit 1
         fi
+        if [[ -L "$site" || -L "$site/$owner" || -L "$site/$owner/$name" ]]; then
+          echo "refusing to publish $repo: target path is a symlink" >&2
+          exit 1
+        fi
         install -d -m 0755 "$site/$owner"
-        rsync -a --delete --safe-links --exclude=/.git \
+        rsync -a --delete --safe-links --exclude=.git \
           --chmod=Du=rwx,Dgo=rx,Fu=rw,Fgo=r \
           "$src/" "$site/$owner/$name/"
         echo "published https://${subdomain}.${keresDomain}/$owner/$name/"
@@ -63,6 +67,7 @@
         site=${siteRoot}
         forgejo=${forgejoUrl}
         declare -A keep=()
+        total=0
         page=1
         while :; do
           json=$(curl -fsS "$forgejo/api/v1/repos/search?limit=50&page=$page")
@@ -73,21 +78,28 @@
           while IFS= read -r full; do
             keep["$full"]=1
           done < <(jq -r '.data[] | select(.private == false) | .full_name' <<<"$json")
+          total=$((total + count))
           if (( count < 50 )); then
             break
           fi
           page=$((page + 1))
         done
-        for dir in "$site"/*/*; do
-          if [[ ! -d "$dir" ]]; then
-            continue
-          fi
+        # A search that returns no repositories at all is far more likely to be a
+        # broken endpoint or configuration than a truly empty instance; wiping
+        # every site on that signal is not worth the convenience.
+        if (( total == 0 )) && compgen -G "$site/*/*" >/dev/null; then
+          echo "refusing to prune: repository search returned nothing" >&2
+          exit 1
+        fi
+        # find never follows symlinks, so a workflow that plants a link under the
+        # site root cannot steer these root-owned deletions outside of it.
+        while IFS= read -r -d "" dir; do
           rel=''${dir#"$site"/}
           if [[ -z ''${keep[$rel]:-} ]]; then
             echo "pruning $rel"
             rm -rf -- "$dir"
           fi
-        done
+        done < <(find "$site" -mindepth 2 -maxdepth 2 -type d -print0)
       '';
     };
   in {
