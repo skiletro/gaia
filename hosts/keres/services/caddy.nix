@@ -42,6 +42,7 @@
               miniflux = "miniflux";
               mollysocket = "mollysocket";
               navidrome = "navidrome";
+              pages = "pages";
               romm = "romm";
               status = "status";
               wakapi = "wakapi";

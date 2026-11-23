@@ -42,6 +42,7 @@
       stateDir = "/var/lib/forgejo";
       database.type = "sqlite3";
       settings = {
+        actions.ENABLED = true;
         server = {
           DOMAIN = "${subdomain}.${keresDomain}";
           ROOT_URL = "https://${subdomain}.${keresDomain}/";

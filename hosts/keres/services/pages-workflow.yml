@@ -1,0 +1,24 @@
+# Deploy a static site to https://pages.warm.vodka/<owner>/<repo>/
+#
+# Copy this file to .forgejo/workflows/pages.yml in your repository.
+# The "Build site" step publishes the tracked tree as-is; replace it with your
+# generator, for example:
+#   nix run nixpkgs#hugo -- --destination public
+#   nix run nixpkgs#jekyll -- build -d public
+#   npm ci && npm run build
+name: pages
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  pages:
+    runs-on: native
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build site
+        run: |
+          mkdir -p public
+          git archive HEAD | tar -x -C public
+      - name: Deploy
+        run: pages-deploy public
