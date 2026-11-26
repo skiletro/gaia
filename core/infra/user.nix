@@ -72,6 +72,7 @@ in {
       };
       packages = with pkgs; [
         # keep-sorted start ignore_prefixes=self'.packages.
+        aria2 # downloader
         dust # fancy du
         fd # find files
         file # identify files
