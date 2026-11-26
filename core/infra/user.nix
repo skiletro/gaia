@@ -83,7 +83,7 @@ in {
         just # make file but better
         libnotify # notifs through scripts
         nixfmt # nix formatter
-        ouch # cli for compressing and decompressing formats
+        ouch-rar # cli for compressing and decompressing formats
         outfieldr # `tldr` client
         pik # Interactive pkill
         tree
