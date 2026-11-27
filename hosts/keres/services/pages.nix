@@ -1,139 +1,192 @@
 # Service: pages
 # Dependencies: Forgejo (Actions, API), Caddy
 # Data location:
-#   Published site trees: /var/lib/pages
+#   git-pages storage: /var/lib/git-pages
 #   Actions runner state: /var/lib/forgejo-runner/keres
 {
   nixos = {
     config,
+    inputs',
     lib,
     pkgs,
     keresDomain,
     ...
   }: let
-    subdomain = "pages";
-    siteRoot = "/var/lib/pages";
+    subdomain = "p";
+    stateDir = "/var/lib/git-pages";
+    dataDir = "${stateDir}/data";
     forgejoUrl = "http://127.0.0.1:${toString config.services.forgejo.settings.server.HTTP_PORT}";
-    templateDir = pkgs.writeTextDir "_pages-workflow.yml" (builtins.readFile ./pages-workflow.yml);
+    gitPages = inputs'.git-pages.packages.default;
 
     # Offline registration: `forgejo forgejo-cli actions register --name keres --secret <token>`.
     # The uuid is public; the 40-character secret is the runner token and lives in sops.
     runnerUuid = "3e4b5d69-c338-4282-a986-ee86fcc7ef00";
 
-    pagesDeploy = pkgs.writeShellApplication {
-      name = "pages-deploy";
-      runtimeInputs = with pkgs; [coreutils curl jq rsync];
-      text = ''
-        site=${siteRoot}
-        forgejo=${forgejoUrl}
-        src=''${1:?usage: pages-deploy <directory>}
-        repo=''${GITHUB_REPOSITORY:?pages-deploy must run from a Forgejo Actions job}
-        owner=''${repo%%/*}
-        name=''${repo#*/}
-        if [[ ! "$repo" =~ ^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$ ]] || [[ "$owner" == "." || "$owner" == ".." || "$name" == "." || "$name" == ".." ]]; then
-          echo "invalid repository name: $repo" >&2
-          exit 1
-        fi
-        if ! curl -fsS "$forgejo/api/v1/repos/$owner/$name" | jq -e '.private == false' >/dev/null; then
-          echo "refusing to publish $repo: repository is private or missing" >&2
-          exit 1
-        fi
-        workspace=$(realpath "$GITHUB_WORKSPACE")
-        src=$(realpath "$src")
-        if [[ "$src" != "$workspace"/* ]]; then
-          echo "refusing to publish $src: not inside $workspace" >&2
-          exit 1
-        fi
-        if [[ -z "$(ls -A "$src")" ]]; then
-          echo "refusing to publish an empty directory" >&2
-          exit 1
-        fi
-        if [[ -L "$site" || -L "$site/$owner" || -L "$site/$owner/$name" ]]; then
-          echo "refusing to publish $repo: target path is a symlink" >&2
-          exit 1
-        fi
-        install -d -m 0755 "$site/$owner"
-        rsync -a --delete --safe-links --exclude=.git \
-          --chmod=Du=rwx,Dgo=rx,Fu=rw,Fgo=r \
-          "$src/" "$site/$owner/$name/"
-        echo "published https://${subdomain}.${keresDomain}/$owner/$name/"
-      '';
-    };
+    gitPagesConfig = pkgs.writeText "git-pages.toml" ''
+      [server]
+      pages = "tcp/127.0.0.1:3100"
+      proxy = "tcp/127.0.0.1:3101"
+      metrics = "tcp/127.0.0.1:3102"
+      https = "-"
 
+      [storage]
+      type = "fs"
+      [storage.fs]
+      root = "${dataDir}"
+
+      # user.p.<domain>/<repo>/ maps to git.<domain>/user/<repo>, branch pages.
+      # The index site user.p.<domain>/ maps to git.<domain>/user/pages, branch main.
+      [[wildcard]]
+      domain = "${subdomain}.${keresDomain}"
+      clone-url = "https://git.${keresDomain}/<user>/<project>.git"
+      index-repo = "pages"
+      index-repo-branch = "main"
+      authorization = "forgejo"
+
+      [limits]
+      allowed-repository-url-prefixes = ["https://git.${keresDomain}/"]
+      max-site-size = "1G"
+      update-timeout = "5m"
+    '';
+
+    # git-pages stores content independently of the repository, so it does not notice
+    # when a repository becomes private or is deleted. Codeberg Pages leaves those
+    # sites online; GitHub and GitLab tie site access to repository visibility. Keep
+    # the stricter behavior so a visibility change cannot silently leave content public.
     pagesPrune = pkgs.writeShellApplication {
-      name = "pages-prune";
-      runtimeInputs = with pkgs; [coreutils curl jq];
+      name = "git-pages-prune";
+      runtimeInputs = with pkgs; [coreutils curl findutils jq] ++ [gitPages];
       text = ''
-        site=${siteRoot}
+        site=${dataDir}/site
         forgejo=${forgejoUrl}
-        declare -A keep=()
-        total=0
-        page=1
-        while :; do
-          json=$(curl -fsS "$forgejo/api/v1/repos/search?limit=50&page=$page")
-          count=$(jq '.data | length' <<<"$json")
-          if (( count == 0 )); then
-            break
-          fi
-          while IFS= read -r full; do
-            keep["$full"]=1
-          done < <(jq -r '.data[] | select(.private == false) | .full_name' <<<"$json")
-          total=$((total + count))
-          if (( count < 50 )); then
-            break
-          fi
-          page=$((page + 1))
-        done
+        config=${gitPagesConfig}
+
+        if [[ ! -d "$site" ]] || [[ -z "$(find "$site" -mindepth 2 -maxdepth 2 -type f -print -quit)" ]]; then
+          exit 0
+        fi
+
+        if ! repositories=$(curl -fsS --max-time 10 "$forgejo/api/v1/repos/search?limit=1"); then
+          echo "refusing to prune: repository search failed" >&2
+          exit 1
+        fi
         # A search that returns no repositories at all is far more likely to be a
         # broken endpoint or configuration than a truly empty instance; wiping
         # every site on that signal is not worth the convenience.
-        if (( total == 0 )) && compgen -G "$site/*/*" >/dev/null; then
+        if [[ "$(jq '.data | length' <<<"$repositories")" == 0 ]]; then
           echo "refusing to prune: repository search returned nothing" >&2
           exit 1
         fi
-        # find never follows symlinks, so a workflow that plants a link under the
-        # site root cannot steer these root-owned deletions outside of it.
-        while IFS= read -r -d "" dir; do
-          rel=''${dir#"$site"/}
-          if [[ -z ''${keep[$rel]:-} ]]; then
-            echo "pruning $rel"
-            rm -rf -- "$dir"
+
+        tmp=$(mktemp -d)
+        trap 'rm -rf "$tmp"' EXIT
+        pruned=0
+
+        while IFS= read -r -d "" manifest; do
+          rel=''${manifest#"$site"/}
+          domain=''${rel%%/*}
+          project=''${rel#*/}
+
+          if [[ ! "$domain" =~ ^([a-z0-9]([a-z0-9-]*[a-z0-9])?)\.${subdomain}\.${keresDomain}$ ]]; then
+            continue
           fi
-        done < <(find "$site" -mindepth 2 -maxdepth 2 -type d -print0)
+          owner=''${BASH_REMATCH[1]}
+          # .index is the only project name that starts with a dot; .tmp* files are
+          # git-pages staging artifacts, not sites.
+          if [[ "$project" != ".index" && ( "$project" == .* || ! "$project" =~ ^[A-Za-z0-9._-]+$ ) ]]; then
+            continue
+          fi
+          if [[ "$project" == ".index" ]]; then
+            name=pages
+          else
+            name=$project
+          fi
+
+          status=$(curl -sS -o "$tmp/repo.json" -w '%{http_code}' "$forgejo/api/v1/repos/$owner/$name") || status=000
+          case "$status" in
+            200)
+              if jq -e '.private == false' "$tmp/repo.json" >/dev/null; then
+                continue
+              fi
+              ;;
+            404 | 403) ;;
+            *)
+              echo "skipping $domain/$project: repository lookup returned HTTP $status" >&2
+              continue
+              ;;
+          esac
+
+          echo "pruning $domain/$project"
+          if ! git-pages -config "$config" -delete-site "$domain/$project" -reason "repository is no longer public"; then
+            echo "failed to prune $domain/$project" >&2
+            continue
+          fi
+          pruned=$((pruned + 1))
+        done < <(find "$site" -mindepth 2 -maxdepth 2 -type f -print0)
+
+        echo "pruned $pruned site(s)"
       '';
     };
   in {
-    users.groups.gitea-runner = {};
-    users.users.gitea-runner = {
-      isSystemUser = true;
-      group = "gitea-runner";
+    users.groups = {
+      gitea-runner = {};
+      git-pages = {};
+    };
+    users.users = {
+      gitea-runner = {
+        isSystemUser = true;
+        group = "gitea-runner";
+      };
+      git-pages = {
+        isSystemUser = true;
+        group = "git-pages";
+      };
     };
 
-    environment.systemPackages = [pagesDeploy];
+    systemd.services.git-pages = {
+      description = "git-pages static site server";
+      wantedBy = ["multi-user.target"];
+      after = ["network-online.target"];
+      wants = ["network-online.target"];
+      serviceConfig = {
+        User = "git-pages";
+        Group = "git-pages";
+        WorkingDirectory = stateDir;
+        StateDirectory = "git-pages";
+        StateDirectoryMode = "0750";
+        ExecStart = "${lib.getExe gitPages} -config ${gitPagesConfig}";
+        Restart = "on-failure";
+        RestartSec = 5;
+        PrivateTmp = true;
+        NoNewPrivileges = true;
+        ProtectSystem = "strict";
+        ProtectHome = true;
+        ReadWritePaths = [stateDir];
+      };
+    };
 
-    systemd.tmpfiles.rules = [
-      "d ${siteRoot} 0755 gitea-runner gitea-runner -"
-    ];
+    systemd.services.git-pages-prune = {
+      description = "Prune git-pages sites whose Forgejo repository is no longer public";
+      after = ["git-pages.service" "forgejo.service" "network-online.target"];
+      wants = ["network-online.target"];
+      startAt = "daily";
+      serviceConfig = {
+        Type = "oneshot";
+        User = "git-pages";
+        Group = "git-pages";
+        StateDirectory = "git-pages";
+        StateDirectoryMode = "0750";
+        ExecStart = lib.getExe pagesPrune;
+      };
+    };
 
     # Stable uid: the module default DynamicUser changes uid on restart, which
-    # would make previously published files unwritable by the next deploy.
+    # would make the runner's persistent state unwritable by the next start.
     systemd.services."forgejo-runner-keres" = {
       after = ["forgejo.service"];
       serviceConfig = {
         DynamicUser = lib.mkForce false;
         User = "gitea-runner";
         Group = "gitea-runner";
-      };
-    };
-
-    systemd.services.pages-prune = {
-      description = "Prune Forgejo Pages output for repositories that are no longer public";
-      after = ["forgejo.service" "network-online.target"];
-      wants = ["network-online.target"];
-      startAt = "daily";
-      serviceConfig = {
-        Type = "oneshot";
-        ExecStart = lib.getExe pagesPrune;
       };
     };
 
@@ -163,21 +216,36 @@
         pkgs.wget
         config.nix.package
         pkgs.gnutar
-        pagesDeploy
+        pkgs.git-pages-cli
+        pkgs.jq
       ];
     };
 
+    # On-demand TLS lets Caddy issue a certificate for a user subdomain only after
+    # git-pages reports that it serves that domain. The first deploy uses the apex
+    # certificate via `git-pages-cli --server`, so there is no chicken-and-egg.
+    services.caddy.globalConfig = ''
+      on_demand_tls {
+        permission http http://127.0.0.1:3101
+      }
+    '';
+
+    services.caddy.virtualHosts."*.${subdomain}.${keresDomain}".extraConfig = ''
+      tls {
+        on_demand
+      }
+
+      encode zstd gzip
+      reverse_proxy 127.0.0.1:3100
+    '';
+
     services.caddy.virtualHosts."${subdomain}.${keresDomain}".extraConfig = ''
-      handle /_pages-workflow.yml {
-        root * ${templateDir}
-        file_server
+      handle / {
+        respond `Sites are served at https://<user>.${subdomain}.${keresDomain}/<repo>.` 200
       }
 
       handle {
-        root * ${siteRoot}
-        encode zstd gzip
-        try_files {path} {path}/ {path}.html
-        file_server
+        respond "Not Found" 404
       }
     '';
   };

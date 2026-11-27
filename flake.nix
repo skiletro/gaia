@@ -34,6 +34,13 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
+    # Newer than nixpkgs 0.9.1: extensionless URLs on project sites
+    # (200-rewrites) are fixed in this revision.
+    git-pages = {
+      url = "git+https://codeberg.org/git-pages/git-pages?rev=d1284d3c06de18b3859878cba24dfde34641e429";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     helium = {
       url = "github:warm-vodka/heliumix";
       inputs.nixpkgs.follows = "nixpkgs";
